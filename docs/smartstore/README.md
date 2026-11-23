@@ -494,29 +494,66 @@ SFQuerySpec *spec = [SFQuerySpec newMatchQuerySpec:@"notes" withPath:@"body"
 
 ## Transactions
 
-### What the code shows
+### Public API: `performTransaction:error:`
 
-`inTransaction:error:` is **not public**:
+Since the transaction API merged into `dev141` (PR #4209), `SFSmartStore.h` exports a block-scoped transaction for grouping several operations into one atomic unit, together with the `SFSmartStoreTransaction` class (`SmartStore.Transaction` in Swift):
 
-- It is defined once, in `libs/SmartStore/SmartStore/Classes/SFSmartStore.m` (line ~638), as an instance method:
-  ```objc
-  - (BOOL)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block
-                  error:(NSError * __autoreleasing *)error;
-  ```
-- It is **not declared in any header** in the repo: not in `SFSmartStore.h`, not in `SFSmartStore+Internal.h`, not in the umbrella `SmartStore.h`. (The same holds for its sibling `inDatabase:error:`.) It can be called from within `SFSmartStore.m` because the call sites are inside the same `@implementation` (clang resolves methods defined anywhere in the `@implementation`; definition order does not matter); other files (e.g. tests) would need their own category declaration. No file outside `SFSmartStore.m` calls `inTransaction:error:` (other than `store.storeQueue inTransaction:` calls in `SFAlterSoupLongOperation.m`, which use FMDB directly).
-- There is no public `beginTransaction` / `commit` / `rollback` API. Apps cannot group several public SmartStore calls into one atomic unit.
+```objc
+- (BOOL)performTransaction:(void (NS_NOESCAPE ^)(SFSmartStoreTransaction *transaction))block
+                     error:(NSError * _Nullable * _Nullable)error;   // Swift: performTransaction(_:)
+```
 
-### Behavior
+```objc
+NSError *error = nil;
+BOOL committed = [store performTransaction:^(SFSmartStoreTransaction *txn) {
+    NSError *e = nil;
+    NSArray *saved = [txn upsertEntries:entries toSoup:@"accounts" withExternalIdPath:@"Id" error:&e];
+    if (saved == nil) return;           // the failed write already marks the transaction as failed
+    // ... more reads/writes through txn ...
+} error:&error];
+```
 
-`inTransaction:error:` forwards to `FMDatabaseQueue -inTransaction:` and adds exception handling:
+- The block runs on the store's serial queue inside one SQLite transaction (`BEGIN`; the connection is the store's single `FMDatabase`). Use the `SFSmartStoreTransaction` passed to the block for every read and write. Do **not** call methods of the same `SFSmartStore` (or APIs built on it, such as MobileSync) from inside the block.
+- **Commit / rollback**: the transaction commits when the block returns, unless
+  - the block calls `-[SFSmartStoreTransaction rollback]` (requested rollback: the method returns `NO` with `error` left `nil`), or
+  - a write operation of the transaction fails, or the block calls `-failWithError:` (failure: returns `NO` with `error` set; the first failure is kept, and a failure wins over a requested rollback), or
+  - an exception is thrown inside the block (counted as a failure), or
+  - SQLite ends the transaction by itself (for example `ON CONFLICT ROLLBACK`), or `BEGIN` / `COMMIT` fails.
+  Once a failure is recorded, further writes on the transaction are rejected with that error instead of running. If the rollback itself fails and leaves the transaction open, the store's connection is closed and reopened so that the pending writes cannot be committed later.
+- **Return value**: `YES` if and only if the transaction was committed.
+- **Operations on `SFSmartStoreTransaction`** (they run on the transaction's connection, so they see earlier uncommitted writes of the same transaction):
 
-1. `[FMDatabaseQueue inTransaction:]` runs the block synchronously on the queue's serial dispatch queue **(dependency)**: it issues `BEGIN EXCLUSIVE TRANSACTION`, runs the block with a `rollback` flag, then `ROLLBACK` if the flag is set or `COMMIT` otherwise.
-2. The block runs inside an `@try`. If an `NSException` is thrown (this is how `executeUpdateThrows:` / `executeQueryThrows:` / Smart SQL conversion report errors), the wrapper sets `*rollback = YES`, stores an `NSError` (domain `kSFSmartStoreErrorDomain`, code 999, description = the exception description) in `*error` if one was supplied, and returns `NO`. Otherwise it returns `YES`.
-3. Failures that are reported through return values or `NSError` out-params without an exception (e.g. the nil-external-id upsert described in [Records](#records)) do **not** set `rollback`; the transaction commits whatever was already written.
+  | Operation | Same as |
+  |---|---|
+  | `upsertEntries:toSoup:withExternalIdPath:error:` | `SFSmartStore` method of the same name; a failing entry rolls back the whole transaction (including entries of the same call already written) and returns `nil` |
+  | `retrieveEntries:fromSoup:error:` | `retrieveEntries:fromSoup:` |
+  | `lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:` | same name; `nil` with no error means no match (in Swift, failure throws and "no match" returns `nil`) |
+  | `queryWithQuerySpec:pageIndex:whereArgs:error:` | same name; `whereArgs` only for smart queries |
+  | `countWithQuerySpec:error:` | same name |
+  | `removeEntries:fromSoup:error:` | same name; `NO` with error rolls the transaction back |
+  | `removeEntriesByQuery:fromSoup:error:` | same name; `NO` with error rolls the transaction back |
+  | `rollback` / `failWithError:` | explicit rollback, with or without an error |
 
-Public operations that run in a transaction: `registerSoup`, `removeSoup`, `removeAllSoups`, `upsertEntries...`, `removeEntries...`, `removeEntriesByQuery...`, `clearSoup`, `reIndexSoup`. Read operations (`query`, `count`, `retrieve`, `lookup`, `soupExists`, ...) use `inDatabase:error:` (no transaction, still on the serial queue).
+  Write operations (upsert, remove) that fail mark the transaction as failed even if the block catches the exception and carries on. Failing read operations only return the error and do not mark the transaction as failed. SQL failures never surface as exceptions from these methods.
+- **Lifetime and threading**: a transaction object is only valid while the block runs, and only on the thread running it. Using it afterwards, or from another thread (for example a block dispatched while the transaction block waits), fails with an error without touching the database. `rollback` / `failWithError:` called that way have no effect.
+- **Not covered**: soup registration or removal, `clearSoup`, `reIndexSoup` and `alterSoup` have no transaction-object equivalent.
 
-Nesting: SmartStore never nests transactions; internal code calls the `...withDb:` variants with the already-open `FMDatabase`. Calling `inTransaction:error:` (or any public SmartStore method that wraps one) from inside a block that is already running on the store queue would call `dispatch_sync` onto the queue it is running on. That is a deadlock in plain GCD; FMDB does not provide re-entrancy for transactions **(dependency; FMDB 2.7.12 per `SmartStore.podspec` `~> 2.7.12` and the `2.7.12-sqlcipher` pin in `SmartStore.xcodeproj`; `FMDatabaseQueue.m` `inTransaction:` issues `begin exclusive transaction` and, unlike `inDatabase:` which has a debug-only `assert(currentSyncQueue != self ...)` re-entrancy check (`FMDatabaseQueue.m:185`), has no check, so a nested call deadlocks; read from source, not exercised)**. There are no savepoints in SmartStore.
+### Re-entrancy guard
+
+The store's queue is serial and not re-entrant. SmartStore tracks, per thread, which stores are currently inside one of its blocks. A guarded call made on the same store from inside such a block (a database block or a `performTransaction` block) does **not** deadlock any more: it does not run and fails with an `NSError` (domain `kSFSmartStoreErrorDomain`, code 999, description "SmartStore operations cannot be called from inside a SmartStore database or transaction block on the same store...").
+
+- Methods with an `error:` parameter return that error. Methods without one swallow it, so their result is the failure value (for example `NO`, `nil` or an empty result).
+- The guard only tracks the current thread (read from the implementation, not exercised): a store call made from another thread while the block waits for that thread is not detected and would block on the serial queue.
+
+### Private helpers
+
+`inDatabase:error:` and `inTransaction:error:` (in `SFSmartStore.m`) are **not public** and are not declared in any header. They are what every public operation runs through, and both apply the re-entrancy guard:
+
+- `inTransaction:error:` forwards to `FMDatabaseQueue -inTransaction:` (`BEGIN EXCLUSIVE TRANSACTION`, then `ROLLBACK` if the `rollback` flag is set, otherwise `COMMIT`) and adds exception handling. If an `NSException` is thrown (this is how `executeUpdateThrows:` / `executeQueryThrows:` / Smart SQL conversion report errors), it sets `*rollback = YES`, stores an `NSError` (code 999, description = the exception description) in `*error` and returns `NO`.
+- Failures reported through return values or `NSError` out-params without an exception do **not** set `rollback`. This is why the standalone batch upsert below can commit a partial batch.
+- Public operations that run through `inTransaction:error:`: `registerSoup`, `removeSoup`, `removeAllSoups`, `upsertEntries...`, `removeEntries...`, `removeEntriesByQuery...`, `clearSoup`, `reIndexSoup`. Read operations (`query`, `count`, `retrieve`, `lookup`, `soupExists`, ...) use `inDatabase:error:` (no transaction, still on the serial queue).
+- `performTransaction:error:` itself runs through `inDatabase:error:` and drives `BEGIN` / `COMMIT` / `ROLLBACK` directly (FMDB's `inTransaction:` ignores their outcome).
+- SmartStore never nests transactions and has no savepoints; internal code calls the `...withDb:` variants with the already-open `FMDatabase`.
 
 The alter-soup operation opens its own FMDB transactions on `store.storeQueue` (one per step) without the exception wrapper. An exception thrown inside such a step is not caught by SmartStore and propagates out of the FMDB block.
 
@@ -530,22 +567,24 @@ public void setTransactionSuccessful();    // next endTransaction commits
 public void endTransaction();              // commit if marked successful, otherwise rollback
 ```
 
-| | iOS (`SFSmartStore.m`) | Android (`SmartStore.java`) |
+| | iOS (`SFSmartStore`) | Android (`SmartStore.java`) |
 |---|---|---|
-| Public API for app-level transactions | None (`inTransaction:error:` is file-local, undeclared) | `beginTransaction` / `setTransactionSuccessful` / `endTransaction` |
-| Style | Block-scoped; commit by default, rollback via flag or exception | Explicit begin / mark / end; rollback unless marked successful |
-| Rollback trigger | Thrown `NSException` (or `*rollback = YES` in an FMDB block) | Not calling `setTransactionSuccessful` before `endTransaction` |
-| Nesting | Not supported (single serial queue, `BEGIN EXCLUSIVE` per call) | Android `SQLiteDatabase` supports nested transactions (a failed inner one rolls back the outer); the Android code comments say callers should wrap in `synchronized(store.getDatabase())` to avoid deadlock |
+| Public API for app-level transactions | `performTransaction:error:` with `SFSmartStoreTransaction` (`SmartStore.Transaction` in Swift) | `beginTransaction` / `setTransactionSuccessful` / `endTransaction` |
+| Style | Block-scoped; commit by default, rollback via `rollback`, a failure or an exception | Explicit begin / mark / end; rollback unless marked successful |
+| Operations inside the transaction | Only those of `SFSmartStoreTransaction` (upsert, retrieve, lookup, query, count, remove) | Any `SmartStore` call on the same thread |
+| Rollback trigger | `rollback`, `failWithError:`, a failed write, a thrown exception, or SQLite ending the transaction | Not calling `setTransactionSuccessful` before `endTransaction` |
+| Nesting / re-entrancy | Not supported; guarded same-store calls fail with code 999 instead of deadlocking | Android `SQLiteDatabase` supports nested transactions (a failed inner one rolls back the outer); the Android code comments say callers should wrap in `synchronized(store.getDatabase())` to avoid deadlock |
 | Failure reporting | `BOOL` + `NSError` (code 999) for methods with `error:`; swallowed otherwise | Exceptions |
-| Per-call atomicity of public ops | Each write op wraps its own transaction, but rollback only happens on a thrown exception; see the exceptions listed below the table | Each write op wraps its own transaction (when `handleTx` is true); exceptions listed below the table |
+| Per-call atomicity of public ops | Each write op wraps its own transaction, but the standalone ops roll back only on a thrown exception; see the exceptions listed below the table | Each write op wraps its own transaction (when `handleTx` is true); exceptions listed below the table |
 
 Per-call atomicity is **not unconditional** on either platform:
 
-- iOS batch `upsertEntries...`: if a later entry fails (for example external-id validation returning an error without throwing), the result array is emptied but the wrapper does not set `rollback`, so earlier entries of the batch are **committed**. Only a thrown exception rolls the batch back.
+- iOS standalone batch `upsertEntries...` (the `SFSmartStore` method, not the `SFSmartStoreTransaction` one): if a later entry fails (for example external-id validation returning an error without throwing), the result array is emptied but the wrapper does not set `rollback`, so earlier entries of the batch are **committed**. Only a thrown exception rolls the batch back. To get all-or-nothing behavior, use the upsert on `SFSmartStoreTransaction` inside `performTransaction:error:`.
 - iOS alter-soup commits each step in its own FMDB transaction (resumable, not atomic overall).
 - Android `dropSoup` drops the tables before opening the transaction that deletes the metadata rows; `clearSoup` and `reIndexSoup` call `setTransactionSuccessful()` in `finally`, so they commit even when an exception was thrown; alter-soup commits each step.
 
 The Android nesting behavior is standard `SQLiteDatabase` semantics (the `SmartStore.java` code just forwards to `getDatabase().beginTransaction()` / `setTransactionSuccessful()` / `endTransaction()` and documents the `synchronized` requirement at line 255); it was not exercised.
+
 
 ---
 
@@ -621,7 +660,7 @@ The comment states that `PRAGMA cipher_migrate` is no longer run, so a direct ju
 Two layers coexist:
 
 - **Exceptions inside the store**: `executeQueryThrows:` / `executeUpdateThrows:` (and registration validation, Smart SQL conversion, `NSAssert`s) throw `NSException` with the SQLite last error message as reason.
-- **`inDatabase:error:` / `inTransaction:error:` (private)** catch them and convert to `NSError`: domain `com.salesforce.smartstore.error` (`kSFSmartStoreErrorDomain`), code 999, description = `[exception description]`.
+- **`inDatabase:error:` / `inTransaction:error:` (private)** catch them and convert to `NSError`: domain `com.salesforce.smartstore.error` (`kSFSmartStoreErrorDomain`), code 999, description = `[exception description]`. They also return a code 999 error when called from inside a block already running on the same store (see [Transactions](#transactions)).
 
 Other `NSError`s with the same domain are created directly:
 
@@ -631,9 +670,9 @@ Other `NSError`s with the same domain are created directly:
 | 2 | no index defined for the field path | `lookupSoupEntryIdForSoupName:...` |
 | 3 | external id value is empty | upsert with external id path |
 | 5 | `whereArgs` only supported for smart queries | `queryWithQuerySpec:pageIndex:whereArgs:error:` |
-| 999 | exception caught (SQL error, invalid soup/index, invalid Smart SQL, ...) | `inDatabase:` / `inTransaction:` |
+| 999 | exception caught (SQL error, invalid soup/index, invalid Smart SQL, ...), or same-store call made from inside a store or transaction block (re-entrancy guard) | `inDatabase:` / `inTransaction:` |
 
-Methods **with** an `error:` parameter surface failures. Methods **without** one either swallow them or let them propagate, depending on whether they run through SmartStore's exception-catching wrappers (`alterSoup:...` is the exception to the list below, see its section: it has no `NSError` parameter, but its steps run directly inside FMDB transactions, so a SQL failure propagates as an `NSException`). These swallow failures: `clearSoup:`, `removeSoup:`, `removeAllSoups`, `reIndexSoup:...`, `retrieveEntries:fromSoup:`, `upsertEntries:toSoup:`, `soupExists:`, `indicesForSoup:`, `allSoupNames`, `removeEntries:fromSoup:` and `removeEntriesByQuery:fromSoup:` (the void versions). Several of these use `__block` result variables that are not initialized, so after a swallowed exception the return value is undefined (`soupExists:` and `reIndexSoup:...` use `__block BOOL result;`, `SFSmartStore.m:1020,1908`). `countWithQuerySpec:error:` has the same problem with `__block NSInteger result;` (`SFSmartStore.m:1312`): on failure `*error` is set, but it still returns an `NSNumber` wrapping an uninitialized value instead of `nil`. Object-typed `__block` results (`NSArray*`) are zero-initialized by ARC, so those methods return `nil`.
+Methods **with** an `error:` parameter surface failures. Methods **without** one either swallow them or let them propagate, depending on whether they run through SmartStore's exception-catching wrappers (`alterSoup:...` is the exception to the list below, see its section: it has no `NSError` parameter, but its steps run directly inside FMDB transactions, so a SQL failure propagates as an `NSException`). These swallow failures: `clearSoup:`, `removeSoup:`, `removeAllSoups`, `reIndexSoup:...`, `retrieveEntries:fromSoup:`, `upsertEntries:toSoup:`, `soupExists:`, `indicesForSoup:`, `allSoupNames`, `removeEntries:fromSoup:` and `removeEntriesByQuery:fromSoup:` (the void versions). Their `__block` result variables are initialized (`soupExists:` and `reIndexSoup:...` start at `NO`), so a swallowed failure returns `NO` rather than an undefined value. `countWithQuerySpec:error:` sets `*error` and returns `nil` on failure (not an `NSNumber` wrapping an uninitialized value). Object-typed `__block` results (`NSArray*`) are zero-initialized by ARC, so those methods return `nil`.
 
 Notifications and analytics:
 
@@ -646,7 +685,7 @@ Notifications and analytics:
 ## Threading Model and Limits
 
 - Each store owns one `FMDatabaseQueue` = one `FMDatabase` and one **serial** dispatch queue. Every public operation is a synchronous `dispatch_sync` onto that queue: the caller blocks until the work is done, and operations on the same store are fully serialized. Different stores have separate queues and separate files.
-- It is safe to call from any thread; do not call from the main thread for large operations. Do not re-enter the same store from inside a block that is running on its queue (see [Transactions](#transactions)).
+- It is safe to call from any thread; do not call from the main thread for large operations. Do not re-enter the same store from inside a block that is running on its queue: a guarded call fails with an `NSError` (code 999) instead of deadlocking (see [Transactions](#transactions)).
 - The store registries and `removeShared...` methods synchronize on the class; `SFSmartStoreDatabaseManager` registry methods synchronize on the manager class.
 - The `SFSmartStore` instance holds observers for `UIApplicationProtectedDataDidBecomeAvailable` / `WillBecomeUnavailable` (tracked by `isFileDataProtectionActive`; always `NO` on the simulator per the header comment) and removes them in `dealloc`.
 
@@ -767,7 +806,6 @@ Searched `libs/SmartStore` and the rest of the iOS repo:
 - **Soup features / external storage do not exist.** No `registerSoupWithSpec:`, no external-storage feature, no soup file directory. The only references are leftovers: the `kSFSmartStoreErrorLoadExternalSoup` constant (never used), the doc comment on `jsonSerializationCheckEnabled` ("soup entries that use external storage"), and a comment in `createMetaTables`.
 - No `SFSoupSpec`-based equivalent exists on Android in the checked-out repo either (no `SoupSpec` class under `SalesforceMobileSDK-Android/libs/SmartStore/src`).
 - No `_soupCreatedDate` JSON field (only the `created` column / Smart SQL token).
-- No public transaction API (see [Transactions](#transactions)).
 - No key rotation API.
 
 ---
