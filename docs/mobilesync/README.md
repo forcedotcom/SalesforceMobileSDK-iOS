@@ -583,7 +583,7 @@ The sync manager can record local changes in an ordered queue, one entry per cha
 
 ### Queue Soup (`mobilesync_queue`)
 
-`SFSDKSyncQueue` (Swift, `Util/SyncQueue.swift`) registers the soup `mobilesync_queue` in a store when the sync manager of that store is created, next to the syncs soup (`+[SFSDKSyncQueue setupQueueSoupIfNeeded:]`). If the soup exists with a different number of index specs it is altered with re-indexing. The only visible effect for an app that does not use the write API is an empty soup.
+`SFSDKSyncQueue` (Swift, `Util/SyncQueue.swift`) registers the soup `mobilesync_queue` in a store when the sync manager of that store is created, next to the syncs soup (`+[SFSDKSyncQueue setupQueueSoupIfNeeded:]`). If the soup exists with index paths or types that differ from the expected ones it is altered with re-indexing. The only visible effect for an app that does not use the write API is an empty soup.
 
 | Path | Index type | Content |
 |---|---|---|
@@ -629,6 +629,7 @@ Rules:
 - `createLocal` needs the object type in `attributes.type`. It rejects a record with an `Id` that is not a local id, with an `Id` that already exists, with a `_soup*` key, or with values that cannot be serialized to JSON. The dictionary passed in is not modified.
 - `updateLocal` and `deleteLocal` accept a locally created record or a record that came from sync down (server id). They fail if the record does not exist or is already flagged deleted.
 - Internal fields are never part of `changes` and are rejected in the `changes` of `updateLocal`: `Id`, `attributes`, `_soup*` keys, the four dirty flags, `__last_error__`, `__sync_id__`, `__display__`. `changes` must not be empty. To clear a field, pass `NSNull()` (`[NSNull null]`).
+- A record soup must use either the queue or flag-based sync up, never both. The write API sets the same dirty flags that flag-based sync-up targets read, and nothing replays the queue yet, so mixing them on one soup gives inconsistent results (unsupported).
 - `__display__` is neither written nor refreshed.
 - The calls do not check whether the sync manager is stopped (they are local writes, not syncs). They block while holding the store, so do not use them from the main thread for large volumes.
 

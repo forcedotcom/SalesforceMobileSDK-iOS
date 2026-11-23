@@ -119,6 +119,34 @@ class SyncQueueTests: XCTestCase {
         XCTAssertEqual(entries.first?["recordId"] as? String, "local_1")
     }
 
+    func test_givenQueueSoupWithStringSequenceIndex_whenSetup_thenSequenceIsIntegerAndOrderIsNumeric() throws {
+        let specs = SyncQueue.indexSpecs.compactMap { spec -> SoupIndex? in
+            spec.path == "sequence" ? SoupIndex(path: "sequence", indexType: kSoupIndexTypeString, columnName: nil) : spec
+        }
+        XCTAssertEqual(specs.count, 11)
+        try store.registerSoup(withName: SyncQueue.soupName, withIndices: specs)
+        for i in 1...12 {
+            _ = store.upsert(entries: [["sequence": i, "soupName": "accounts", "recordId": "local_\(i)"]], forSoupNamed: SyncQueue.soupName)
+        }
+
+        SyncQueue.setupQueueSoupIfNeeded(store)
+
+        let types = Dictionary(uniqueKeysWithValues: store.indices(forSoupNamed: SyncQueue.soupName).map { ($0.path, $0.indexType) })
+        XCTAssertEqual(types["sequence"], kSoupIndexTypeInteger)
+        XCTAssertEqual(try queueEntries().compactMap { $0["sequence"] as? Int }, Array(1...12))
+    }
+
+    func test_givenQueueSoupWithExpectedIndexesInOtherOrder_whenSetup_thenSoupIsUntouched() throws {
+        try store.registerSoup(withName: SyncQueue.soupName, withIndices: SyncQueue.indexSpecs.reversed())
+        _ = store.upsert(entries: [["sequence": 1, "soupName": "accounts", "recordId": "local_1"]], forSoupNamed: SyncQueue.soupName)
+        let before = store.indices(forSoupNamed: SyncQueue.soupName).map { $0.path }
+
+        SyncQueue.setupQueueSoupIfNeeded(store)
+
+        XCTAssertEqual(store.indices(forSoupNamed: SyncQueue.soupName).map { $0.path }, before, "soup must not be altered")
+        XCTAssertEqual(try queueEntries().count, 1)
+    }
+
     func test_givenSyncsSoup_whenQueueSoupSetup_thenSyncsSoupIsUntouched() {
         SyncState.setupSyncsSoupIfNeeded(store)
         let before = indexPaths(kSFSyncStateSyncsSoupName)

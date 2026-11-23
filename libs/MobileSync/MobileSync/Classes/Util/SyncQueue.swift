@@ -87,14 +87,14 @@ public final class SyncQueue: NSObject {
 
     // MARK: Registration
 
-    /// Registers the queue soup in the given store if it is missing. If it exists with a different number of
-    /// index specs, it is altered (with re-indexing) to match the expected specs.
+    /// Registers the queue soup in the given store if it is missing. If it exists with index paths or index
+    /// types that differ from the expected specs (in any order), it is altered (with re-indexing) to match them.
     /// - Parameter store: the store that holds the queue soup.
     @objc(setupQueueSoupIfNeeded:)
     public static func setupQueueSoupIfNeeded(_ store: SmartStore) {
         let specs = indexSpecs
         let exists = store.soupExists(forName: soupName)
-        if exists && store.indices(forSoupNamed: soupName).count == specs.count {
+        if exists && hasExpectedIndexes(store.indices(forSoupNamed: soupName), expected: specs) {
             return
         }
         if exists {
@@ -102,6 +102,11 @@ public final class SyncQueue: NSObject {
         } else {
             try? store.registerSoup(withName: soupName, withIndices: specs)
         }
+    }
+
+    private static func hasExpectedIndexes(_ actual: [SoupIndex], expected: [SoupIndex]) -> Bool {
+        let actualTypes = Dictionary(actual.map { ($0.path, $0.indexType) }, uniquingKeysWith: { first, _ in first })
+        return actual.count == expected.count && expected.allSatisfy { actualTypes[$0.path] == $0.indexType }
     }
 
     // MARK: Sequence and entries

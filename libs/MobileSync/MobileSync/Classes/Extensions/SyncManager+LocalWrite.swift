@@ -84,6 +84,9 @@ extension SyncManager {
     /// The entry's `changes` hold all the fields of the record except the internal ones (`Id`, `attributes`,
     /// `_soup*` keys, dirty flags, `__last_error__`, `__sync_id__`, `__display__`).
     ///
+    /// A record soup must use either this queue or flag-based sync up, never both: these calls set the dirty
+    /// flags that flag-based sync-up targets read, and nothing replays the queue yet.
+    ///
     /// This call is blocking: do not call it from the main thread for large volumes. The dictionary passed in
     /// is not modified.
     ///
@@ -148,6 +151,9 @@ extension SyncManager {
     /// fields (`Id`, `attributes`, `_soup*` keys, dirty flags, `__last_error__`, `__sync_id__`, `__display__`).
     /// The record can be a locally created record or one that came from sync down (its server id is accepted).
     ///
+    /// A record soup must use either this queue or flag-based sync up, never both: these calls set the dirty
+    /// flags that flag-based sync-up targets read, and nothing replays the queue yet.
+    ///
     /// This call is blocking: do not call it from the main thread for large volumes.
     ///
     /// - Parameters:
@@ -189,6 +195,9 @@ extension SyncManager {
     /// Deletes a record locally: keeps the record in its soup, flagged as locally deleted, and appends a
     /// `DELETE` entry to the sync-up queue (`mobilesync_queue`). Both writes happen in one SmartStore
     /// transaction.
+    ///
+    /// A record soup must use either this queue or flag-based sync up, never both: these calls set the dirty
+    /// flags that flag-based sync-up targets read, and nothing replays the queue yet.
     ///
     /// This call is blocking: do not call it from the main thread for large volumes.
     ///
