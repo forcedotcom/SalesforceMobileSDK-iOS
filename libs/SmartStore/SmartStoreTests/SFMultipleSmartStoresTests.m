@@ -56,6 +56,8 @@
 {
     [super setUp];
     [SFSDKSmartStoreLogger setLogLevel:SFLogLevelDebug];
+    // Global stores are not scoped to the test user: remove any left over by an earlier test class or an aborted run
+    [SFSmartStore removeAllGlobalStores];
     _smartStoreUser = [super setUpSmartStoreUser];
     [self setupGlobalStores];
     [self setupUserStores];
@@ -81,8 +83,8 @@
 }
 
 - (void) testGetGlobalStoreNames {
-    NSArray *array = [SFSmartStore allGlobalStoreNames];
-    XCTAssertTrue(array.count == 3, "GetAllGlobalStoreNames call failed");
+    NSSet *names = [NSSet setWithArray:[SFSmartStore allGlobalStoreNames]];
+    XCTAssertEqualObjects(names, ([NSSet setWithArray:@[@"GLBLDB1", @"GLBLDB2", @"GLBLDB3"]]), "GetAllGlobalStoreNames call failed");
 }
 
 - (void) testGetUserStoreNames {
