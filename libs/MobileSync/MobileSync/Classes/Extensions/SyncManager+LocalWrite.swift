@@ -63,8 +63,14 @@ private func isInternalField(_ field: String) -> Bool {
     return internalFields.contains(field) || field.hasPrefix(soupFieldPrefix)
 }
 
+/// Same interpretation as `-[SFSyncTarget isLocallyDeleted:]` and the other flag checks (`boolValue` in Objective-C):
+/// `true`, 1 and strings such as "1" or "true" are set; null, absent and other types are not.
 private func isFlagSet(_ record: [String: Any], _ flag: String) -> Bool {
-    return (record[flag] as? NSNumber)?.boolValue ?? false
+    switch record[flag] {
+    case let number as NSNumber: return number.boolValue
+    case let string as String: return (string as NSString).boolValue
+    default: return false
+    }
 }
 
 extension SyncManager {

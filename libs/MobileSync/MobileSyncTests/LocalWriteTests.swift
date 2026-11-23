@@ -350,6 +350,25 @@ class LocalWriteTests: XCTestCase {
         try assertFails(code: .recordAlreadyDeleted) { try syncManager.deleteLocal(soupName: LocalWriteTests.accounts, id: id) }
     }
 
+    func test_givenRecordDeletedFlagStoredAsString_whenUpdateLocalOrDeleteLocal_thenFailsWithRecordAlreadyDeleted() throws {
+        for (index, value) in ["1", "true", "TRUE", "yes"].enumerated() {
+            let id = "001_string_\(index)"
+            _ = store.upsert(entries: [["Id": id, "Name": "Server", "attributes": ["type": "Account"], kSyncTargetLocallyDeleted: value]], forSoupNamed: LocalWriteTests.accounts)
+
+            try assertFails(code: .recordAlreadyDeleted) { try syncManager.updateLocal(soupName: LocalWriteTests.accounts, id: id, changes: ["Name": "B"]) }
+            try assertFails(code: .recordAlreadyDeleted) { try syncManager.deleteLocal(soupName: LocalWriteTests.accounts, id: id) }
+        }
+        XCTAssertEqual(try queueEntries().count, 0)
+    }
+
+    func test_givenRecordDeletedFlagStoredAsStringZero_whenUpdateLocal_thenSucceeds() throws {
+        _ = store.upsert(entries: [["Id": "001", "Name": "Server", "attributes": ["type": "Account"], kSyncTargetLocallyDeleted: "0"]], forSoupNamed: LocalWriteTests.accounts)
+
+        let saved = try syncManager.updateLocal(soupName: LocalWriteTests.accounts, id: "001", changes: ["Name": "B"])
+
+        XCTAssertEqual(saved["Name"] as? String, "B")
+    }
+
     func test_givenSeveralRecordsWithSameId_whenUpdateLocal_thenFailsWithMultipleRecordsFound() throws {
         _ = store.upsert(entries: [["Id": "dup", "Name": "a"], ["Id": "dup", "Name": "b"]], forSoupNamed: LocalWriteTests.accounts)
 
