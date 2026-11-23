@@ -50,6 +50,10 @@ static NSString * const kStoresDirectory          = @"stores";
                                 salt:(NSString *)salt
                                error:(NSError **)error;
 
+/**
+ Opens (or reopens) the given database, sets its key and salt and verifies access. Used on a database object that was closed, to recover it in place.
+ */
++ (FMDatabase *)setKeyForDb:(FMDatabase *)db key:(NSString *)key salt:(NSString *)salt error:(NSError **)error;
 + (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key salt:(NSString *)salt error:(NSError **)error;
 + (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
                                 name:(NSString *)storeName
