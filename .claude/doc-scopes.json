@@ -29,6 +29,11 @@
       "doc": "docs/mobilesync/README.md",
       "scope": "libs/MobileSync",
       "description": "MobileSync library — iOS API reference: SFMobileSyncSyncManager, all sync targets, SFSyncState, SFSyncOptions, Swift/Combine extensions, JSON-driven configuration"
+    },
+    {
+      "doc": "docs/smartstore/README.md",
+      "scope": ["libs/SmartStore", "libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security", "libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFDirectoryManager.m", "libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Storage", "libs/SalesforceSDKCore/SalesforceSDKCore/Classes/UserAccount"],
+      "description": "SmartStore library — iOS API reference: SFSmartStore, SFQuerySpec, SFSoupIndex, SFSmartSqlHelper, store scoping, encryption, transactions, full-text search, soup alteration, Swift/Combine extensions"
     }
   ]
 }
