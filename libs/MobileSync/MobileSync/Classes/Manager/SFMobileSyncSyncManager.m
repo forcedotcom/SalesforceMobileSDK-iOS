@@ -34,6 +34,7 @@
 #import "SFSyncDownTask.h"
 #import "SFAdvancedSyncUpTask.h"
 #import "SFCleanSyncGhostsTask.h"
+#import <MobileSync/MobileSync-Swift.h>
 
 
 static NSString * const kSFAppFeatureMobileSync   = @"SY";
@@ -184,6 +185,7 @@ static NSMutableDictionary *syncMgrList = nil;
         self.state = SFSyncManagerStateAcceptingSyncs;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserWillLogout:)  name:kSFNotificationUserWillLogout object:nil];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
+        [SFSDKSyncQueue setupQueueSoupIfNeeded:self.store];
         [SFSyncState cleanupSyncsSoupIfNeeded:self.store];
     }
     return self;
