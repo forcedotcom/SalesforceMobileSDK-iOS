@@ -157,7 +157,9 @@
 		FDCEC0C25636E0D2262599C8 /* MobileSyncSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCECA332FB12607AF78D737 /* MobileSyncSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCEC3CBF6FA262ACF305285 /* MobileSyncSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC1FBF745182967AD6BA9 /* MobileSyncSDKManager.m */; };
 		A1B2C3D4E5F6A7B8C9D0E102 /* SyncQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E101 /* SyncQueue.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E104 /* SyncManager+LocalWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E103 /* SyncManager+LocalWrite.swift */; };
 		A1B2C3D4E5F6A7B8C9D0E106 /* SyncQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E105 /* SyncQueueTests.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E108 /* LocalWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E107 /* LocalWriteTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -455,7 +457,9 @@
 		FDCEC1FBF745182967AD6BA9 /* MobileSyncSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MobileSyncSDKManager.m; path = Manager/MobileSyncSDKManager.m; sourceTree = "<group>"; };
 		FDCECA332FB12607AF78D737 /* MobileSyncSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobileSyncSDKManager.h; path = Manager/MobileSyncSDKManager.h; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E101 /* SyncQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncQueue.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E103 /* SyncManager+LocalWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncManager+LocalWrite.swift"; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E105 /* SyncQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncQueueTests.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E107 /* LocalWriteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalWriteTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -521,6 +525,7 @@
 			isa = PBXGroup;
 			children = (
 				4F5BBBDB235F734F00E6D619 /* MobileSync.swift */,
+				A1B2C3D4E5F6A7B8C9D0E103 /* SyncManager+LocalWrite.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -715,6 +720,7 @@
 			children = (
 				4FB685EC28413EBC00FB76E2 /* CollectionSyncUpTargetTests.m */,
 				6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */,
+				A1B2C3D4E5F6A7B8C9D0E107 /* LocalWriteTests.swift */,
 				A1B2C3D4E5F6A7B8C9D0E105 /* SyncQueueTests.swift */,
 				4FAA9B782255D6320006810D /* SyncUpTargetTests.h */,
 				4F307E401EC273AB0040CFC4 /* SyncManagerTestCase.h */,
@@ -1209,6 +1215,7 @@
 				4FF85989283C517A0069B189 /* CompositeRequestHelper.swift in Sources */,
 				4FAA9B6F225461910006810D /* SFSyncUpTask.m in Sources */,
 				4F5BBBDC235F734F00E6D619 /* MobileSync.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E104 /* SyncManager+LocalWrite.swift in Sources */,
 				CE01BB1020B759D3008E91B6 /* SFMetadataSyncManager.m in Sources */,
 				4FAA9B6D225461910006810D /* SFSyncDownTask.m in Sources */,
 				CE98A682209F698400507927 /* SFLayoutSyncDownTarget.m in Sources */,
@@ -1255,6 +1262,7 @@
 			files = (
 				828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */,
 				6927E21E283BEFB700A16668 /* BriefcaseSyncDownTests.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E108 /* LocalWriteTests.swift in Sources */,
 				A1B2C3D4E5F6A7B8C9D0E106 /* SyncQueueTests.swift in Sources */,
 				4F9732D61A816C2D006E2A86 /* SyncManagerTests.m in Sources */,
 				4FB685ED28413EBC00FB76E2 /* CollectionSyncUpTargetTests.m in Sources */,
