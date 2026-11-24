@@ -61,7 +61,7 @@ public class QueueSyncUpTask: SFSyncTask {
     private var conservativeTypes = Set<String>()
     /// Upserts (object type, external id field, value) of the blocked creates: they have no server id to compare.
     private var blockedUpserts = Set<UpsertKey>()
-    /// Answers of the destination lookups of this run: a value is looked up once.
+    /// Answers of the destination lookups of this run: a value is looked up once, until a write succeeds.
     private var destinations: [UpsertKey: Destination] = [:]
 
     struct UpsertKey: Hashable {
@@ -253,7 +253,8 @@ public class QueueSyncUpTask: SFSyncTask {
     /// A rejected upsert create has no server id, but its destination may be a record that later entries address:
     /// look it up and block that record. Without an answer, the entries of the type for any server id wait.
     private func resolveRejectedUpsert(_ entry: QueueEntry, next: Int) {
-        guard let type = entry.sobjectType, upsertKey(of: entry) != nil else { return replay(from: next) }
+        // Nothing follows: there is no later entry to protect
+        guard next < entryIds.count, let type = entry.sobjectType, upsertKey(of: entry) != nil else { return replay(from: next) }
         lookupDestination(entry, bump: false) { [self] destination in
             blockDestination(destination, type: type)
             replay(from: next)
@@ -263,6 +264,8 @@ public class QueueSyncUpTask: SFSyncTask {
     private func send(_ entry: QueueEntry, next: Int) {
         guard let target = queueTarget else { return }
         target.sendRequest(syncManager, entry: entry, onComplete: { [self] response in
+            // The write changed the server: an earlier answer of a destination lookup may be stale
+            destinations.removeAll()
             if handle(complete(entry, response: response), entry: entry) {
                 replay(from: next)
             }

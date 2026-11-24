@@ -485,7 +485,7 @@ class QueueSyncUpTests: XCTestCase {
         let sync = try runQueueSync(target: upsertTarget())
 
         XCTAssertEqual(sync.status, .done)
-        XCTAssertEqual(labels(), ["UPSERT Account", "LOOKUP Account"], "the rejected upsert's destination is looked up")
+        XCTAssertEqual(labels(), ["UPSERT Account"], "nothing follows the rejected upsert: no lookup")
         XCTAssertEqual(try queueEntries().first?["attempts"] as? Int, 1)
     }
 
@@ -1766,6 +1766,44 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(rows.count, 1)
         XCTAssertEqual(rows.first?["Name"] as? String, "upserted", "the parked edit is older than the upsert")
         XCTAssertEqual(flag(rows.first, kSyncTargetLocallyUpdated), true, "the parked entry still keeps the row dirty")
+    }
+
+    // MARK: round 6: destination cache invalidation, no lookup after the last entry
+
+    func test_givenCachedDestinationAndSuccessfulWriteMovesExternalId_whenLaterUpsertDeferred_thenLookedUpAgainAndNewDestinationBlocked() throws {
+        try seedServerRecord(QueueSyncUpTests.contacts, id: "srvA", type: "Contact", fields: ["LastName": "a", "ExtId__c": "X"])
+        try seedServerRecord(QueueSyncUpTests.contacts, id: "srvB", type: "Contact", fields: ["LastName": "b"])
+        let accountId = try createAccount("parent")
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("u1", extra: ["AccountId": accountId, "ExtId__c": "X"]))
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.contacts, id: "srvB", changes: ["ExtId__c": "X"])
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("u2", extra: ["AccountId": accountId, "ExtId__c": "X"]))
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.contacts, id: "srvB", changes: ["LastName": "newer"])
+        var moved = false
+        RecordingQueueTarget.lookupResponder = { _ in .success(["id": moved ? "srvB" : "srvA"]) }
+        RecordingQueueTarget.responder = { call in
+            if call.method == "POST" { return .failure(self.restError(400)) }
+            if call.method == "PATCH" { moved = true }
+            return .success(nil)
+        }
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["POST Account", "LOOKUP Contact", "PATCH Contact/srvB", "LOOKUP Contact"],
+                       "the write invalidated the cache: X is looked up again, and the newer edit of its new destination waits")
+        XCTAssertEqual(try queueEntries().count, 4)
+    }
+
+    func test_givenSingleUpsertRejected_whenSynced_thenNoLookupAndRecordLevelError() throws {
+        _ = try createAccount("only", extra: ["ExtId__c": "e1"])
+        RecordingQueueTarget.responder = { _ in .failure(self.restError(400)) }
+        RecordingQueueTarget.lookupResponder = { _ in .failure(self.restError(503)) }
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["UPSERT Account"], "nothing follows the rejected entry: no destination to protect")
+        XCTAssertEqual(try queueEntries().first?["attempts"] as? Int, 1)
     }
 }
 
