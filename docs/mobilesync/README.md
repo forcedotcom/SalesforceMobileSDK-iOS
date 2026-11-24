@@ -597,9 +597,9 @@ The sync manager can record local changes in an ordered queue, one entry per cha
 | `changes` | json1 | Changed fields and their new values (all non-internal fields for `CREATE`, absent for `DELETE`) |
 | `base` | json1 | Reserved, not written yet |
 | `status` | string | `PENDING` or `PARKED` (new entries are `PENDING`) |
-| `lastError` | json1 | Reserved, not written yet |
-| `attempts` | integer | Number of replay attempts (starts at 0) |
-| `parentRef` | string | Reserved, not written yet |
+| `lastError` | json1 | Last replay error (record-level or transport), written by the replay; absent until an error happens |
+| `attempts` | integer | Number of failed replay attempts (starts at 0; the replay adds 1 on a record-level or transport error, not when an entry is deferred) |
+| `parentRef` | string | Not written by the write API. If present it names a record the entry depends on: the replay defers the entry while that record is blocked, and rewrites it when the record's temp id is replaced |
 
 `sequence` is allocated inside the write transaction as `MAX(sequence) + 1` (1 for an empty queue), so it is unique and monotonic across record soups, and a rolled-back write does not use a number.
 
@@ -643,7 +643,7 @@ Errors are `NSError`s in `kSFMobileSyncErrorDomain`, with a localized descriptio
 | 906 | Soup has no index on `Id` |
 | 907 | Invalid record (`createLocal`): no object type, `_soup*` key, or not serializable to JSON |
 | 908 | `createLocal`: `Id` is present and is not a local id |
-| 909 | `createLocal`: a record with this `Id` already exists |
+| 909 | `createLocal`: a record with this `Id` already exists, or the `Id` is used by a record or queue entry of another soup (local ids are unique store-wide) |
 | 910 | Record not found |
 | 911 | More than one record with this `Id` |
 | 912 | Record is already flagged deleted |
