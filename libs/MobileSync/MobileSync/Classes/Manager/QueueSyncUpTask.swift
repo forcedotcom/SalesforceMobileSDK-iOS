@@ -61,6 +61,8 @@ public class QueueSyncUpTask: SFSyncTask {
     private var conservativeTypes = Set<String>()
     /// Upserts (object type, external id field, value) of the blocked creates: they have no server id to compare.
     private var blockedUpserts = Set<UpsertKey>()
+    /// Answers of the destination lookups of this run: a value is looked up once.
+    private var destinations: [UpsertKey: Destination] = [:]
 
     struct UpsertKey: Hashable {
         let sobjectType: String
@@ -144,6 +146,7 @@ public class QueueSyncUpTask: SFSyncTask {
 
             // An earlier entry of the record (or of a record it refers to) was rejected: this one waits for the next run
             if isDeferred(entry) {
+                if upsertKey(of: entry) != nil { return deferUpsert(entry, next: index + 1) }
                 block(entry)
                 index += 1
                 continue
@@ -165,8 +168,8 @@ public class QueueSyncUpTask: SFSyncTask {
 
             let next = index + 1
             // An upsert may update the record behind a blocked entry: resolve its destination first
-            if !blockedRecords.isEmpty, let field = target.upsertField(of: entry), let value = target.upsertExternalId(of: entry), let type = entry.sobjectType {
-                resolveUpsertDestination(entry, type: type, field: field, value: value, next: next)
+            if !blockedRecords.isEmpty, upsertKey(of: entry) != nil, let type = entry.sobjectType {
+                resolveUpsertDestination(entry, type: type, next: next)
             } else {
                 send(entry, next: next)
             }
@@ -174,61 +177,87 @@ public class QueueSyncUpTask: SFSyncTask {
         }
     }
 
-    /// Looks up the record that the upsert `entry` would update. Defers the entry if it is a blocked one (or if the
-    /// answer is inconclusive), fails the sync on a transport error, and sends it otherwise.
-    private func resolveUpsertDestination(_ entry: QueueEntry, type: String, field: String, value: String, next: Int) {
-        guard let target = queueTarget else { return }
-        target.lookupIdOnServer(type, externalIdField: field, externalId: value, onComplete: { [self] response in
+    /// What the id lookup of an upsert destination found.
+    private enum Destination {
+        case found(String)
+        case notFound
+        case inconclusive
+    }
+
+    /// Looks up the record that the upsert `entry` would update (once per object type, field and value in a run).
+    /// A transport-class failure, or a 2xx answer without a usable id, fails the sync: `bump` says whether the entry gets
+    /// its attempt (not when it already got one from the rejection that led here); `then` is not called.
+    private func lookupDestination(_ entry: QueueEntry, bump: Bool, then: @escaping (Destination) -> Void) {
+        guard let target = queueTarget, let key = upsertKey(of: entry) else { return then(.notFound) }
+        if let known = destinations[key] { return then(known) }
+        let fail: (NSError) -> Void = { [self] error in
+            if bump { bumpAttempts(entry, error: error) }
+            failSync(queueSync, failureMessage: "Id lookup failed for queue entry \(entry.sequence)", error: error)
+        }
+        target.lookupIdOnServer(key.sobjectType, externalIdField: key.field, externalId: key.value, onComplete: { [self] response in
             if let id = response?[kCreatedId] as? String, QueueSyncUpTarget.isNonBlank(id) {
-                if blockedServerIds[type]?.contains(id) == true {
-                    block(entry)
-                    replay(from: next)
-                } else {
-                    send(entry, next: next)
-                }
+                destinations[key] = .found(id)
+                then(.found(id))
             } else {
-                // A 2xx answer without a usable id is a transport-class failure: nothing is sent, nothing after it is processed
-                let error = QueueSyncUpTarget.recordError("The id lookup of the upsert destination returned no usable id")
-                bumpAttempts(entry, error: error)
-                failSync(queueSync, failureMessage: "Id lookup failed for queue entry \(entry.sequence)", error: error)
+                fail(QueueSyncUpTarget.recordError("The id lookup of the upsert destination returned no usable id"))
             }
         }, onFail: { [self] error in
             if QueueSyncUpTarget.isTransportError(error) {
-                bumpAttempts(entry, error: error)
-                failSync(queueSync, failureMessage: "Id lookup failed for queue entry \(entry.sequence)", error: error)
-            } else if QueueSyncUpTarget.isNotFound(error) {
-                // No existing record: the upsert creates one
-                send(entry, next: next)
-            } else {
+                fail(error)
+                return
+            }
+            let destination: Destination = QueueSyncUpTarget.isNotFound(error) ? .notFound : .inconclusive
+            destinations[key] = destination
+            then(destination)
+        })
+    }
+
+    /// The destination of an upsert that is deferred or rejected: later entries addressing it wait.
+    private func blockDestination(_ destination: Destination, type: String) {
+        switch destination {
+        case .found(let id): blockedServerIds[type, default: []].insert(id)
+        case .inconclusive: conservativeTypes.insert(type)
+        case .notFound: break
+        }
+    }
+
+    /// Defers `entry` for the rest of the run. An upsert create has a destination that a later entry may address:
+    /// it is blocked too, so that a newer edit cannot reach the server before the deferred upsert.
+    private func deferUpsert(_ entry: QueueEntry, next: Int) {
+        block(entry)
+        guard let type = entry.sobjectType else { return replay(from: next) }
+        lookupDestination(entry, bump: true) { [self] destination in
+            blockDestination(destination, type: type)
+            replay(from: next)
+        }
+    }
+
+    /// Resolves the destination of the upsert `entry` before it is sent while a block is active. Defers the entry if
+    /// the destination is a blocked record (or if the answer is inconclusive), sends it otherwise.
+    private func resolveUpsertDestination(_ entry: QueueEntry, type: String, next: Int) {
+        lookupDestination(entry, bump: true) { [self] destination in
+            switch destination {
+            case .found(let id) where blockedServerIds[type]?.contains(id) == true:
                 block(entry)
                 replay(from: next)
+            case .inconclusive:
+                blockDestination(destination, type: type)
+                block(entry)
+                replay(from: next)
+            default:
+                send(entry, next: next)
             }
-        })
+        }
     }
 
     /// A rejected upsert create has no server id, but its destination may be a record that later entries address:
     /// look it up and block that record. Without an answer, the entries of the type for any server id wait.
     private func resolveRejectedUpsert(_ entry: QueueEntry, next: Int) {
-        guard let target = queueTarget, let field = target.upsertField(of: entry), let value = target.upsertExternalId(of: entry), let type = entry.sobjectType else {
-            return replay(from: next)
-        }
-        target.lookupIdOnServer(type, externalIdField: field, externalId: value, onComplete: { [self] response in
-            if let id = response?[kCreatedId] as? String, QueueSyncUpTarget.isNonBlank(id) {
-                blockedServerIds[type, default: []].insert(id)
-                replay(from: next)
-            } else {
-                // the entry already has its attempt and lastError from the rejection
-                failSync(queueSync, failureMessage: "Id lookup of the rejected queue entry \(entry.sequence) returned no usable id", error: QueueSyncUpTarget.recordError("The id lookup of the upsert destination returned no usable id"))
-            }
-        }, onFail: { [self] error in
-            if QueueSyncUpTarget.isTransportError(error) {
-                // the entry already has its attempt and lastError
-                failSync(queueSync, failureMessage: "Id lookup failed after queue entry \(entry.sequence) was rejected", error: error)
-                return
-            }
-            if !QueueSyncUpTarget.isNotFound(error) { conservativeTypes.insert(type) }
+        guard let type = entry.sobjectType, upsertKey(of: entry) != nil else { return replay(from: next) }
+        lookupDestination(entry, bump: false) { [self] destination in
+            blockDestination(destination, type: type)
             replay(from: next)
-        })
+        }
     }
 
     private func send(_ entry: QueueEntry, next: Int) {
@@ -466,9 +495,14 @@ public class QueueSyncUpTask: SFSyncTask {
         if var record = try record(transaction, entry.soupName, localId) {
             var duplicate = false
             // A row with the server id can already exist (sync down, or an upsert that updated an existing record):
-            // it is replaced by the rewritten local row
+            // it is replaced by the rewritten local row, which keeps the fields that the upsert did not touch
             if let localEntryId = try recordEntryId(transaction, entry.soupName, localId),
                let existing = try recordEntryId(transaction, entry.soupName, serverId), existing != localEntryId {
+                if let cached = try self.record(transaction, entry.soupName, serverId) {
+                    for (name, value) in cached where record[name] == nil && !name.hasPrefix("_soup") && name != kSyncTargetLastError {
+                        record[name] = value
+                    }
+                }
                 try transaction.remove(entryIds: [existing], forSoupNamed: entry.soupName)
                 duplicate = true
             }
@@ -476,7 +510,7 @@ public class QueueSyncUpTask: SFSyncTask {
             if duplicate {
                 // The later edits queued for the server record were made on the removed row: apply them, in queue
                 // order, over the surviving one
-                for later in try pendingEntries(transaction, entry.soupName, serverId) where later.kind == .update {
+                for later in try pendingEntries(transaction, entry.soupName, serverId) where later.kind == .update && later.sequence > entry.sequence {
                     record.merge(later.changes) { _, new in new }
                 }
             }
