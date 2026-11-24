@@ -118,7 +118,7 @@ public class QueueSyncUpTask: SFSyncTask {
                 }
             }, onFail: { [self] error in
                 if QueueSyncUpTarget.isTransportError(error) {
-                    bumpAttempts(entry)
+                    bumpAttempts(entry, error: error)
                     failSync(queueSync, failureMessage: "Server call failed for queue entry \(entry.sequence)", error: error)
                 } else if entry.kind == .delete && QueueSyncUpTarget.isNotFound(error) {
                     // Already deleted on the server
@@ -148,6 +148,10 @@ public class QueueSyncUpTask: SFSyncTask {
             return true
         case .recordError(let error):
             return recordFailure(entry, error: error)
+        case .unexpected(let error):
+            bumpAttempts(entry, error: error)
+            failSync(queueSync, failureMessage: "Unexpected answer for queue entry \(entry.sequence)", error: error)
+            return false
         case .storeFailure(let error):
             failSync(queueSync, failureMessage: "Could not update the store after queue entry \(entry.sequence)", error: error)
             return false
@@ -233,6 +237,7 @@ public class QueueSyncUpTask: SFSyncTask {
     enum Outcome {
         case done
         case recordError(NSError)
+        case unexpected(NSError)
         case storeFailure(NSError)
     }
 
@@ -268,7 +273,7 @@ public class QueueSyncUpTask: SFSyncTask {
         if entry.kind == .create {
             serverId = response?[kCreatedId] as? String
             if serverId?.isEmpty ?? true {
-                return .recordError(QueueSyncUpTarget.recordError("The server did not return the id of the created record"))
+                return .unexpected(QueueSyncUpTarget.recordError("The server did not return the id of the created record"))
             }
         }
         do {
@@ -301,6 +306,12 @@ public class QueueSyncUpTask: SFSyncTask {
         try transaction.remove(entryIds: [entry.entryId], forSoupNamed: SyncQueue.soupName)
         try rewritePendingEntries(transaction, from: localId, to: serverId, replayed: entry.entryId)
         if var record = try record(transaction, entry.soupName, localId) {
+            // A row with the server id can already exist (sync down, or an upsert that updated an existing record):
+            // it is replaced by the rewritten local row
+            if let localEntryId = try recordEntryId(transaction, entry.soupName, localId),
+               let existing = try recordEntryId(transaction, entry.soupName, serverId), existing != localEntryId {
+                try transaction.remove(entryIds: [existing], forSoupNamed: entry.soupName)
+            }
             record[idField] = serverId
             // The entries of the record now carry the server id: they decide whether the record stays dirty
             settle(&record, pending: try pendingKinds(transaction, entry.soupName, serverId))
@@ -358,14 +369,24 @@ public class QueueSyncUpTask: SFSyncTask {
     /// Flags of a record whose entry was just replayed: clean if `pending` (the kinds of the entries that remain for the
     /// record) is empty, otherwise dirty as the remaining entries need (a pending delete stays flagged).
     private func settle(_ record: inout [String: Any], pending: Set<String>) {
-        record[kSyncTargetLastError] = nil
         if pending.isEmpty {
             clean(&record)
         } else {
+            // __last_error__ belongs to a failed entry that remains: it is kept
             record[kSyncTargetLocal] = true
             record[kSyncTargetLocallyCreated] = false
             record[kSyncTargetLocallyUpdated] = pending.contains(SyncQueue.Kind.update.rawValue)
         }
+    }
+
+    private func entryIds(_ transaction: SmartStore.Transaction, _ soupName: String, _ recordId: String) throws -> [NSNumber] {
+        let queue = SyncQueue.soupName
+        let smartSql = "SELECT {\(queue):\(SmartStore.soupEntryId)} FROM {\(queue)} WHERE {\(queue):\(SyncQueue.soupNameField)} = ? AND {\(queue):\(SyncQueue.recordIdField)} = ?"
+        guard let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: 1000) else {
+            throw LocalWriteError.storeFailure.error("Could not build the queue query")
+        }
+        let rows = try transaction.query(using: querySpec, startingFromPageIndex: 0, whereArgs: [soupName, recordId])
+        return rows.compactMap { ($0 as? [Any])?.first as? NSNumber }
     }
 
     /// Kinds of the entries (pending or parked) that remain in the queue for a record.
@@ -381,6 +402,10 @@ public class QueueSyncUpTask: SFSyncTask {
 
     private func completeDelete(_ transaction: SmartStore.Transaction, _ entry: QueueEntry) throws {
         try transaction.remove(entryIds: [entry.entryId], forSoupNamed: SyncQueue.soupName)
+        if SyncTarget.isLocalId(entry.recordId) {
+            // The record never reached the server: its earlier entries (failed create or updates) are dropped too
+            try transaction.remove(entryIds: try entryIds(transaction, entry.soupName, entry.recordId), forSoupNamed: SyncQueue.soupName)
+        }
         if soupExists(entry.soupName), let recordId = try recordEntryId(transaction, entry.soupName, entry.recordId) {
             try transaction.remove(entryIds: [recordId], forSoupNamed: entry.soupName)
         }
@@ -411,10 +436,11 @@ public class QueueSyncUpTask: SFSyncTask {
     }
 
     /// Transport error: `attempts` + 1, the entry stays pending at the head of the queue.
-    private func bumpAttempts(_ entry: QueueEntry) {
+    private func bumpAttempts(_ entry: QueueEntry, error: NSError) {
         do {
             try transact { transaction in
                 var raw = entry.raw
+                raw[SyncQueue.lastErrorField] = QueueSyncUpTarget.lastError(error)
                 raw[SyncQueue.attemptsField] = entry.attempts + 1
                 try upsert(transaction, raw, into: SyncQueue.soupName)
             }

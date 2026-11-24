@@ -111,8 +111,7 @@ final class RecordingQueueTarget: QueueSyncUpTarget {
         handle(Call(method: "POST", objectType: objectType, objectId: nil, externalId: nil, fields: fields), completionBlock, failBlock)
     }
 
-    @objc(upsertOnServer:fields:externalId:completionBlock:failBlock:)
-    func recordUpsert(_ objectType: String, fields: NSDictionary, externalId: String, completionBlock: @escaping ([AnyHashable: Any]?) -> Void, failBlock: @escaping (NSError?) -> Void) {
+    override func upsertOnServer(_ objectType: String, fields: NSDictionary, externalId: String, completionBlock: @escaping ([AnyHashable: Any]?) -> Void, failBlock: @escaping (NSError?) -> Void) {
         handle(Call(method: "UPSERT", objectType: objectType, objectId: nil, externalId: externalId, fields: fields), completionBlock, failBlock)
     }
 
@@ -289,16 +288,24 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertTrue(QueueSyncUpTarget().getIdsOfRecords(toSyncUp: syncManager, soupName: QueueSyncUpTests.accounts).isEmpty)
     }
 
-    func test_givenTransportAndRecordErrors_whenClassified_thenOnlyTransportErrorsAreTransport() {
-        XCTAssertTrue(QueueSyncUpTarget.isTransportError(NSError(domain: NSURLErrorDomain, code: Int(CFNetworkErrors.cfurlErrorCannotConnectToHost.rawValue))))
-        XCTAssertTrue(QueueSyncUpTarget.isTransportError(NSError(domain: NSURLErrorDomain, code: Int(CFNetworkErrors.cfurlErrorTimedOut.rawValue))))
+    func test_givenTransportAndRecordErrors_whenClassified_thenOnlyTargetAndClientHttpErrorsAreRecordLevel() {
+        // transport: no response, authentication, cancelled, unparseable, 408, 429, 5xx, request limit
+        XCTAssertTrue(QueueSyncUpTarget.isTransportError(NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotConnectToHost)))
+        XCTAssertTrue(QueueSyncUpTarget.isTransportError(NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut)))
+        XCTAssertTrue(QueueSyncUpTarget.isTransportError(NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled)))
+        XCTAssertTrue(QueueSyncUpTarget.isTransportError(NSError(domain: "com.salesforce.OAuth.ErrorDomain", code: 1)))
+        XCTAssertTrue(QueueSyncUpTarget.isTransportError(NSError(domain: NSCocoaErrorDomain, code: 3840)))
+        XCTAssertTrue(QueueSyncUpTarget.isTransportError(restError(408)))
+        XCTAssertTrue(QueueSyncUpTarget.isTransportError(restError(429)))
         XCTAssertTrue(QueueSyncUpTarget.isTransportError(restError(500)))
         XCTAssertTrue(QueueSyncUpTarget.isTransportError(restError(503)))
         XCTAssertTrue(QueueSyncUpTarget.isTransportError(restError(403, ["error": [["errorCode": "REQUEST_LIMIT_EXCEEDED", "message": "limit"]]])))
+        // record level: HTTP errors below 500, and the errors of the target itself
+        XCTAssertFalse(QueueSyncUpTarget.isTransportError(restError(300)))
         XCTAssertFalse(QueueSyncUpTarget.isTransportError(restError(400)))
         XCTAssertFalse(QueueSyncUpTarget.isTransportError(restError(403, ["error": "INSUFFICIENT_ACCESS"])))
         XCTAssertFalse(QueueSyncUpTarget.isTransportError(restError(404)))
-        XCTAssertFalse(QueueSyncUpTarget.isTransportError(NSError(domain: NSCocoaErrorDomain, code: 3840)))
+        XCTAssertFalse(QueueSyncUpTarget.isTransportError(NSError(domain: kSFMobileSyncErrorDomain, code: 907)))
     }
 
     // MARK: remapping (unit)
@@ -382,13 +389,13 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(RecordingQueueTarget.calls[0].fields, ["Name": "new", "ExtId__c": "ext-1"])
     }
 
-    func test_givenCreateWithoutIdInResponse_whenSynced_thenRecordLevelErrorAndEntryKept() throws {
+    func test_givenCreateWithoutIdInResponse_whenSynced_thenSyncFailsWithAttemptAndErrorOnEntry() throws {
         let localId = try createAccount("new")
         RecordingQueueTarget.responder = { _ in .success([:]) }
 
         let sync = try runQueueSync()
 
-        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(sync.status, .failed)
         let entry = try XCTUnwrap(try queueEntries().first)
         XCTAssertEqual(entry["attempts"] as? Int, 1)
         XCTAssertNotNil(entry["lastError"])
@@ -539,6 +546,99 @@ class QueueSyncUpTests: XCTestCase {
         assertClean(accounts[0])
     }
 
+    func test_givenFailedCreateAndUpdateThenDelete_whenSynced_thenAllEntriesOfTheRecordDropped() throws {
+        let localId = try createAccount("acme")
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: localId, changes: ["Phone": "1"])
+        let other = try createAccount("other")
+        try syncManager.deleteLocal(soupName: QueueSyncUpTests.accounts, id: localId)
+        RecordingQueueTarget.responder = { call in
+            call.fields["Name"] as? String == "acme" ? .failure(self.restError(400)) : .success(nil)
+        }
+
+        let sync = try runQueueSync()
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(try queueEntries().count, 0)
+        XCTAssertNil(try record(QueueSyncUpTests.accounts, localId))
+        XCTAssertNil(try record(QueueSyncUpTests.accounts, other), "the other record was created and got its server id")
+        XCTAssertEqual(try allRecords(QueueSyncUpTests.accounts).count, 1)
+    }
+
+    func test_givenCreateSucceedsAndRowWithServerIdExists_whenSynced_thenNoSecondRow() throws {
+        try seedServerRecord(QueueSyncUpTests.accounts, id: "srv_1", type: "Account", fields: ["Name": "from sync down"])
+        _ = try createAccount("acme")
+
+        let sync = try runQueueSync()
+
+        XCTAssertEqual(sync.status, .done)
+        let accounts = try allRecords(QueueSyncUpTests.accounts)
+        XCTAssertEqual(accounts.count, 1)
+        XCTAssertEqual(accounts[0]["Id"] as? String, "srv_1")
+        XCTAssertEqual(accounts[0]["Name"] as? String, "acme")
+        assertClean(accounts[0])
+    }
+
+    func test_givenTransportError_whenSynced_thenEntryHasLastErrorAndAttempt() throws {
+        try seedServerRecord(QueueSyncUpTests.accounts, id: "acc1", type: "Account", fields: ["Name": "a"])
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "x"])
+        RecordingQueueTarget.responder = { _ in .failure(self.restError(503, ["error": "unavailable"])) }
+
+        let sync = try runQueueSync()
+
+        XCTAssertEqual(sync.status, .failed)
+        let entry = try XCTUnwrap(try queueEntries().first)
+        XCTAssertEqual(entry["attempts"] as? Int, 1)
+        XCTAssertEqual((entry["lastError"] as? [String: Any])?["error"] as? String, "unavailable")
+        XCTAssertEqual(entry["status"] as? String, "PENDING")
+    }
+
+    func test_givenStopRequestedDuringReplay_whenRestarted_thenStoppedThenRemainingEntriesReplayed() throws {
+        for id in ["acc1", "acc2", "acc3"] {
+            try seedServerRecord(QueueSyncUpTests.accounts, id: id, type: "Account", fields: ["Name": "a"])
+            try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: id, changes: ["Name": "x"])
+        }
+        RecordingQueueTarget.onCall = { [self] call in
+            if call.objectId == "acc1" { syncManager.stop() }
+        }
+
+        let stopped = try runQueueSync()
+
+        XCTAssertEqual(stopped.status, .stopped)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1"])
+        XCTAssertEqual(try queueEntries().map { $0["recordId"] as? String }, ["acc2", "acc3"])
+
+        RecordingQueueTarget.onCall = { _ in }
+        let expectation = self.expectation(description: "restarted sync done")
+        var fulfilled = false
+        XCTAssertNoThrow(try syncManager.restart(restartStoppedSyncs: true) { sync in
+            if sync.status == .done && !fulfilled {
+                fulfilled = true
+                expectation.fulfill()
+            }
+        })
+        wait(for: [expectation], timeout: 30)
+
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "PATCH Account/acc2", "PATCH Account/acc3"])
+        XCTAssertEqual(try queueEntries().count, 0)
+    }
+
+    func test_givenLocalIdThatIsPrefixOfAnother_whenCreateReplayed_thenOnlyExactIdRemapped() throws {
+        let short = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("short", extra: ["Id": "local_1"]))
+        let long = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("long", extra: ["Id": "local_10"]))
+        XCTAssertEqual(short["Id"] as? String, "local_1")
+        XCTAssertEqual(long["Id"] as? String, "local_10")
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("c1", extra: ["AccountId": "local_1", "Other": "local_10"]))
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "local_10", changes: ["Phone": "10"])
+
+        let sync = try runQueueSync()
+
+        XCTAssertEqual(sync.status, .done)
+        // creates: short -> srv_1, long -> srv_2, then the contact (srv_3), then the update of the long one
+        XCTAssertEqual(labels(), ["POST Account", "POST Account", "POST Contact", "PATCH Account/srv_2"])
+        XCTAssertEqual(RecordingQueueTarget.calls[2].fields["AccountId"] as? String, "srv_1")
+        XCTAssertEqual(RecordingQueueTarget.calls[2].fields["Other"] as? String, "srv_2")
+    }
+
     // MARK: success handling
 
     func test_givenCreateSucceeds_whenSynced_thenServerIdSetRecordCleanAndNoSecondRow() throws {
@@ -579,6 +679,49 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(flag(account, kSyncTargetLocallyUpdated), true)
         XCTAssertNotNil(account?[kSyncTargetLastError])
         XCTAssertEqual(try queueEntries().count, 1)
+    }
+
+    func test_givenEarlierEntryFailedAndLaterSucceeds_whenSynced_thenRecordStaysDirtyWithErrorUntilEarlierEntrySucceeds() throws {
+        try seedServerRecord(QueueSyncUpTests.accounts, id: "acc1", type: "Account", fields: ["Name": "a"])
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "a1"])
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "a2"])
+        RecordingQueueTarget.responder = { call in
+            call.fields["Name"] as? String == "a1" ? .failure(self.restError(400, ["error": "bad a1"])) : .success(nil)
+        }
+
+        let first = try runQueueSync()
+
+        XCTAssertEqual(first.status, .done)
+        var account = try record(QueueSyncUpTests.accounts, "acc1")
+        XCTAssertEqual(flag(account, kSyncTargetLocal), true)
+        XCTAssertEqual(flag(account, kSyncTargetLocallyUpdated), true)
+        XCTAssertTrue((account?[kSyncTargetLastError] as? String)?.contains("bad a1") ?? false, "the error of the remaining entry is kept")
+        var entries = try queueEntries()
+        XCTAssertEqual(entries.count, 1)
+        XCTAssertNotNil(entries[0]["lastError"])
+
+        RecordingQueueTarget.responder = { _ in .success(nil) }
+        let second = try runQueueSync()
+
+        XCTAssertEqual(second.status, .done)
+        account = try record(QueueSyncUpTests.accounts, "acc1")
+        assertClean(account)
+        entries = try queueEntries()
+        XCTAssertEqual(entries.count, 0)
+    }
+
+    func test_givenParkedEntryOfSameRecord_whenOtherEntrySucceeds_thenRecordStaysDirty() throws {
+        try seedServerRecord(QueueSyncUpTests.accounts, id: "acc1", type: "Account", fields: ["Name": "a"])
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "a1"])
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "a2"])
+        var parked = try XCTUnwrap(try queueEntries().first)
+        parked["status"] = "PARKED"
+        _ = store.upsert(entries: [parked], forSoupNamed: SyncQueue.soupName)
+
+        _ = try runQueueSync()
+
+        XCTAssertEqual(labels(), ["PATCH Account/acc1"])
+        XCTAssertEqual(flag(try record(QueueSyncUpTests.accounts, "acc1"), kSyncTargetLocallyUpdated), true)
     }
 
     func test_givenDeleteReturns404_whenSynced_thenTreatedAsSuccess() throws {
@@ -665,7 +808,7 @@ class QueueSyncUpTests: XCTestCase {
         try seedServerRecord(QueueSyncUpTests.accounts, id: "acc1", type: "Account", fields: ["Name": "a"])
         try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "x"])
         let errors = [
-            NSError(domain: NSURLErrorDomain, code: Int(CFNetworkErrors.cfurlErrorCannotConnectToHost.rawValue)),
+            NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotConnectToHost),
             restError(403, ["error": [["errorCode": "REQUEST_LIMIT_EXCEEDED"]]])
         ]
         for (i, error) in errors.enumerated() {
@@ -864,6 +1007,134 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(sync.status, .done)
         XCTAssertEqual(labels(), ["POST Account"], "a record that never reached the server is not deleted on the server")
         XCTAssertEqual(try allRecords(QueueSyncUpTests.accounts).count, 0)
-        XCTAssertEqual(try queueEntries().map { $0["kind"] as? String }, ["CREATE"])
+        XCTAssertEqual(try queueEntries().count, 0, "the failed create is dropped with the delete")
+    }
+}
+
+
+/// Exercises the real request building of `QueueSyncUpTarget` (no override of the request helpers): the REST client
+/// is replaced by a stub that records the requests and answers them.
+class QueueSyncUpRequestTests: XCTestCase {
+    private typealias FailBlock = @convention(block) (Any?, NSError?, URLResponse?) -> Void
+    private typealias SuccessBlock = @convention(block) (Any?, URLResponse?) -> Void
+    private typealias SendBlock = @convention(block) (AnyObject, AnyObject?, @escaping FailBlock, @escaping SuccessBlock) -> Void
+
+    private static let storeName = "QueueSyncUpRequestTests"
+    private static let accounts = "accounts"
+    private let selector = NSSelectorFromString("send:failureBlock:successBlock:")
+
+    private var store: SmartStore!
+    private var syncManager: SyncManager!
+    private var originalImp: IMP?
+    private var originalUser: UserAccount?
+    private var requests: [(method: RestRequest.Method, path: String, query: [String: Any], body: [String: Any]?)] = []
+    private var answer: (RestRequest) -> (Any?, NSError?) = { _ in (nil, nil) }
+
+    override func setUpWithError() throws {
+        SmartStore.removeSharedGlobal(withName: QueueSyncUpRequestTests.storeName)
+        // the REST client only exists for a logged in user; the requests are never sent over the network
+        originalUser = UserAccountManager.shared.currentUserAccount
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "queue-sync-up-request-tests", clientId: "fakeClientId", encrypted: true))
+        credentials.setValue("queueSyncUpRequestTestsUser", forKey: "userId")
+        credentials.setValue("queueSyncUpRequestTestsOrg", forKey: "organizationId")
+        let user = UserAccount(credentials: credentials)
+        user.setValue(UserAccount.LoginState.loggedIn.rawValue, forKey: "loginState")
+        UserAccountManager.shared.currentUserAccount = user
+        store = try XCTUnwrap(SmartStore.sharedGlobal(withName: QueueSyncUpRequestTests.storeName))
+        let paths = ["Id", kSyncTargetLocal, kSyncTargetLocallyCreated, kSyncTargetLocallyUpdated, kSyncTargetLocallyDeleted]
+        try store.registerSoup(withName: QueueSyncUpRequestTests.accounts, withIndices: paths.compactMap { SoupIndex(path: $0, indexType: kSoupIndexTypeString, columnName: nil) })
+        syncManager = try XCTUnwrap(SyncManager.sharedInstance(store: store))
+        let method = try XCTUnwrap(class_getInstanceMethod(RestClient.self, selector))
+        originalImp = method_getImplementation(method)
+        let block: SendBlock = { [unowned self] _, requestObject, failure, success in
+            guard let request = requestObject as? RestRequest else { return failure(nil, NSError(domain: "test", code: 1), nil) }
+            let body = request.value(forKey: "requestBodyAsDictionary") as? [String: Any]
+            requests.append((request.method, request.path, request.queryParams as? [String: Any] ?? [:], body))
+            let (response, error) = answer(request)
+            if let error = error { failure(response, error, nil) } else { success(response, nil) }
+        }
+        method_setImplementation(method, imp_implementationWithBlock(block))
+    }
+
+    override func tearDown() {
+        if let imp = originalImp, let method = class_getInstanceMethod(RestClient.self, selector) {
+            method_setImplementation(method, imp)
+        }
+        SyncManager.removeSharedInstance(store: store)
+        SmartStore.removeSharedGlobal(withName: QueueSyncUpRequestTests.storeName)
+        UserAccountManager.shared.currentUserAccount = originalUser
+        super.tearDown()
+    }
+
+    private func run(_ target: QueueSyncUpTarget) throws -> SyncState {
+        let expectation = self.expectation(description: "sync finished")
+        var finished = false
+        let started = try syncManager.syncUp(target: target, options: SyncOptions.newSyncOptions(forSyncUp: [], mergeMode: .overwrite), soupName: SyncQueue.soupName, syncName: nil) { sync in
+            if (sync.status == .done || sync.status == .failed) && !finished {
+                finished = true
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 30)
+        return try XCTUnwrap(syncManager.syncStatus(forId: NSNumber(value: try XCTUnwrap(started).syncId)))
+    }
+
+    private func seedServerRecord(_ id: String) throws {
+        let record: [String: Any] = ["Id": id, "attributes": ["type": "Account"], "Name": "a",
+                                     kSyncTargetLocal: false, kSyncTargetLocallyCreated: false, kSyncTargetLocallyUpdated: false, kSyncTargetLocallyDeleted: false]
+        _ = store.upsert(entries: [record], forSoupNamed: QueueSyncUpRequestTests.accounts)
+    }
+
+    func test_givenCreateUpdateDelete_whenSynced_thenPostPatchDeleteRequestsWithChangesOnly() throws {
+        try seedServerRecord("001A")
+        try seedServerRecord("001B")
+        _ = try syncManager.createLocal(soupName: QueueSyncUpRequestTests.accounts, record: ["attributes": ["type": "Account"], "Name": "new"])
+        try syncManager.updateLocal(soupName: QueueSyncUpRequestTests.accounts, id: "001A", changes: ["Name": "changed"])
+        try syncManager.deleteLocal(soupName: QueueSyncUpRequestTests.accounts, id: "001B")
+        answer = { request in request.method == .POST ? (["id": "001N", "success": true], nil) : (nil, nil) }
+
+        let sync = try run(QueueSyncUpTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(requests.map { $0.method }, [.POST, .PATCH, .DELETE])
+        XCTAssertTrue(requests[0].path.hasSuffix("/sobjects/Account"), requests[0].path)
+        XCTAssertEqual(requests[0].body as? [String: String], ["Name": "new"])
+        XCTAssertTrue(requests[1].path.hasSuffix("/sobjects/Account/001A"), requests[1].path)
+        XCTAssertEqual(requests[1].body as? [String: String], ["Name": "changed"])
+        XCTAssertTrue(requests[2].path.hasSuffix("/sobjects/Account/001B"), requests[2].path)
+    }
+
+    func test_givenUpsertAnswers204_whenSynced_thenPathsHaveEncodedExternalIdAndLookupGetsId() throws {
+        let externalId = "a/b?c#d e%f"
+        _ = try syncManager.createLocal(soupName: QueueSyncUpRequestTests.accounts, record: ["attributes": ["type": "Account"], "Name": "new", "ExtId__c": externalId])
+        answer = { request in
+            request.method == .GET ? (["attributes": ["type": "Account"], "Id": "001X"], nil) : (nil, nil)
+        }
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = "ExtId__c"
+
+        let sync = try run(target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(requests.map { $0.method }, [.PATCH, .GET])
+        let encoded = "a%2Fb%3Fc%23d%20e%25f"
+        XCTAssertTrue(requests[0].path.hasSuffix("/sobjects/Account/ExtId__c/\(encoded)"), requests[0].path)
+        XCTAssertEqual(requests[0].body as? [String: String], ["Name": "new", "ExtId__c": externalId])
+        XCTAssertTrue(requests[1].path.hasSuffix("/sobjects/Account/ExtId__c/\(encoded)"), requests[1].path)
+        XCTAssertEqual(requests[1].query as? [String: String], ["fields": "Id"])
+        let accounts = try XCTUnwrap(store.query(using: XCTUnwrap(QuerySpec.buildAllQuerySpec(soupName: QueueSyncUpRequestTests.accounts, orderPath: SmartStore.soupEntryId, order: .ascending, pageSize: 10)), startingFromPageIndex: 0) as? [[String: Any]])
+        XCTAssertEqual(accounts.map { $0["Id"] as? String }, ["001X"])
+    }
+
+    func test_givenUpsertAnswers201_whenSynced_thenIdFromBodyAndNoLookup() throws {
+        _ = try syncManager.createLocal(soupName: QueueSyncUpRequestTests.accounts, record: ["attributes": ["type": "Account"], "Name": "new", "ExtId__c": "e1"])
+        answer = { _ in (["id": "001Y", "success": true], nil) }
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = "ExtId__c"
+
+        let sync = try run(target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(requests.map { $0.method }, [.PATCH])
     }
 }

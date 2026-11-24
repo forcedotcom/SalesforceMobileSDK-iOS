@@ -132,6 +132,29 @@ public class QueueSyncUpTarget: SyncUpTarget {
         }
     }
 
+    /// Same request as the one of `SyncUpTarget` for an upsert, with the external id value encoded in the path.
+    @objc(upsertOnServer:fields:externalId:completionBlock:failBlock:)
+    func upsertOnServer(_ objectType: String,
+                        fields: NSDictionary,
+                        externalId: String,
+                        completionBlock: @escaping ([AnyHashable: Any]?) -> Void,
+                        failBlock: @escaping (NSError?) -> Void) {
+        let request = RestClient.shared.requestForUpsert(withObjectType: objectType,
+                                                         externalIdField: externalIdFieldName,
+                                                         externalId: QueueSyncUpTarget.pathEncoded(externalId),
+                                                         fields: fields as? [String: Any] ?? [:],
+                                                         apiVersion: nil)
+        NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { _, error, _ in
+            failBlock(error as NSError?)
+        } successBlock: { response, _ in
+            completionBlock(response as? [AnyHashable: Any])
+        }
+    }
+
+    private static func pathEncoded(_ value: String) -> String {
+        return value.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed.subtracting(CharacterSet(charactersIn: "/"))) ?? value
+    }
+
     /// `GET /sobjects/<type>/<externalIdField>/<value>?fields=Id`: gets the server id of the record that an upsert updated.
     /// Calls `onComplete` with `["id": <Id>]`, or with the response as it is when it has no `Id`.
     @objc func lookupIdOnServer(_ objectType: String,
@@ -139,7 +162,7 @@ public class QueueSyncUpTarget: SyncUpTarget {
                                 externalId: String,
                                 onComplete: @escaping ([AnyHashable: Any]?) -> Void,
                                 onFail: @escaping (NSError) -> Void) {
-        let encoded = externalId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed.subtracting(CharacterSet(charactersIn: "/"))) ?? externalId
+        let encoded = QueueSyncUpTarget.pathEncoded(externalId)
         let request = RestClient.shared.requestForRetrieve(withObjectType: objectType, objectId: "\(externalIdField)/\(encoded)", fieldList: idFieldName, apiVersion: nil)
         NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, _ in
             onFail((error ?? QueueSyncUpTarget.recordError("The id lookup failed")) as NSError)
@@ -162,16 +185,17 @@ public class QueueSyncUpTarget: SyncUpTarget {
     }
 
     /// Whether a failed request is a transport error, which fails the sync (the entry stays at the head of the queue
-    /// and the next sync retries it): no response (network error), HTTP status 500 and above, or `REQUEST_LIMIT_EXCEEDED`.
-    /// Anything else is a record-level error.
+    /// and the next sync retries it). Record-level errors, which only fail their entry, are the errors of this target
+    /// and the HTTP errors below 500 that are not 408, 429 or `REQUEST_LIMIT_EXCEEDED`. Everything else is transport:
+    /// no response, authentication failure, cancelled request, unparseable response, HTTP 408, 429 and 500 and above.
     static func isTransportError(_ error: NSError) -> Bool {
-        if RestRequest.isNetworkError(error) {
-            return true
-        }
-        guard error.domain == restErrorDomain else {
+        if error.domain == kSFMobileSyncErrorDomain {
             return false
         }
-        return error.code >= 500 || describeJson(error.userInfo).contains("REQUEST_LIMIT_EXCEEDED")
+        guard error.domain == restErrorDomain, !RestRequest.isNetworkError(error) else {
+            return true
+        }
+        return error.code >= 500 || error.code == 408 || error.code == 429 || describeJson(error.userInfo).contains("REQUEST_LIMIT_EXCEEDED")
     }
 
     /// Whether the server answered that the record does not exist.
