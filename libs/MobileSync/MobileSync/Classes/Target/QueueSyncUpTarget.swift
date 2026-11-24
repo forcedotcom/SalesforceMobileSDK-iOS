@@ -118,7 +118,8 @@ public class QueueSyncUpTarget: SyncUpTarget {
         case .create:
             // An upsert on an existing record answers 204 without a body (a 201 has the id in its body): the id is looked up
             let complete: ([AnyHashable: Any]?) -> Void = { [self] response in
-                if let id = response?[kCreatedId] as? String, !id.isEmpty { return onComplete(response) }
+                // a blank id is not an id: the replay treats the answer as unexpected
+                if response?[kCreatedId] is String { return onComplete(response) }
                 // the property is declared non-null but is nil when not set
                 guard let field = value(forKey: "externalIdFieldName") as? String, !field.isEmpty,
                       let value = entry.changes[field] as? String, !value.isEmpty, !SyncTarget.isLocalId(value) else {
@@ -172,7 +173,7 @@ public class QueueSyncUpTarget: SyncUpTarget {
         NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, _ in
             onFail((error ?? QueueSyncUpTarget.recordError("The id lookup failed")) as NSError)
         } successBlock: { response, _ in
-            if let id = (response as? [AnyHashable: Any])?[self.idFieldName] as? String, !id.isEmpty {
+            if let id = (response as? [AnyHashable: Any])?[self.idFieldName] as? String, QueueSyncUpTarget.isNonBlank(id) {
                 onComplete([kCreatedId: id])
             } else {
                 onComplete(response as? [AnyHashable: Any])
@@ -195,6 +196,11 @@ public class QueueSyncUpTarget: SyncUpTarget {
         guard entry.kind == .create,
               let field = value(forKey: "externalIdFieldName") as? String, !field.isEmpty else { return nil }
         return field
+    }
+
+    /// Whether a server id has content (a whitespace-only string is not an id).
+    static func isNonBlank(_ id: String) -> Bool {
+        return !id.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     // MARK: Errors

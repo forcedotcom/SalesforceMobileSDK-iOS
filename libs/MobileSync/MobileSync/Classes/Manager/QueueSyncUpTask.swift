@@ -56,6 +56,9 @@ public class QueueSyncUpTask: SFSyncTask {
     private var blockedIds = Set<String>()
     /// Server ids of the blocked records, by object type: an upsert create that resolves to one of them waits.
     private var blockedServerIds: [String: Set<String>] = [:]
+    /// Object types whose rejected upsert create could not be resolved to a destination: until the end of the run, their
+    /// entries for any server id wait.
+    private var conservativeTypes = Set<String>()
     /// Upserts (object type, external id field, value) of the blocked creates: they have no server id to compare.
     private var blockedUpserts = Set<UpsertKey>()
 
@@ -176,7 +179,7 @@ public class QueueSyncUpTask: SFSyncTask {
     private func resolveUpsertDestination(_ entry: QueueEntry, type: String, field: String, value: String, next: Int) {
         guard let target = queueTarget else { return }
         target.lookupIdOnServer(type, externalIdField: field, externalId: value, onComplete: { [self] response in
-            if let id = response?[kCreatedId] as? String, !id.isEmpty {
+            if let id = response?[kCreatedId] as? String, QueueSyncUpTarget.isNonBlank(id) {
                 if blockedServerIds[type]?.contains(id) == true {
                     block(entry)
                     replay(from: next)
@@ -202,6 +205,30 @@ public class QueueSyncUpTask: SFSyncTask {
         })
     }
 
+    /// A rejected upsert create has no server id, but its destination may be a record that later entries address:
+    /// look it up and block that record. Without an answer, the entries of the type for any server id wait.
+    private func resolveRejectedUpsert(_ entry: QueueEntry, next: Int) {
+        guard let target = queueTarget, let field = target.upsertField(of: entry), let value = target.upsertExternalId(of: entry), let type = entry.sobjectType else {
+            return replay(from: next)
+        }
+        target.lookupIdOnServer(type, externalIdField: field, externalId: value, onComplete: { [self] response in
+            if let id = response?[kCreatedId] as? String, QueueSyncUpTarget.isNonBlank(id) {
+                blockedServerIds[type, default: []].insert(id)
+            } else {
+                conservativeTypes.insert(type)
+            }
+            replay(from: next)
+        }, onFail: { [self] error in
+            if QueueSyncUpTarget.isTransportError(error) {
+                // the entry already has its attempt and lastError
+                failSync(queueSync, failureMessage: "Id lookup failed after queue entry \(entry.sequence) was rejected", error: error)
+                return
+            }
+            if !QueueSyncUpTarget.isNotFound(error) { conservativeTypes.insert(type) }
+            replay(from: next)
+        })
+    }
+
     private func send(_ entry: QueueEntry, next: Int) {
         guard let target = queueTarget else { return }
         target.sendRequest(syncManager, entry: entry, onComplete: { [self] response in
@@ -218,7 +245,7 @@ public class QueueSyncUpTask: SFSyncTask {
                     replay(from: next)
                 }
             } else if recordFailure(entry, error: error) {
-                replay(from: next)
+                resolveRejectedUpsert(entry, next: next)
             }
         })
     }
@@ -228,6 +255,11 @@ public class QueueSyncUpTask: SFSyncTask {
         // A delete of a record that never reached the server sends nothing and drops all its entries: never deferred
         if entry.kind == .delete && SyncTarget.isLocalId(entry.recordId) { return false }
         if blockedRecords.contains(RecordKey(soupName: entry.soupName, id: entry.recordId)) { return true }
+        // A server record is one record, whichever soup holds the row: a rejected entry on it blocks the later ones
+        if !SyncTarget.isLocalId(entry.recordId), let type = entry.sobjectType {
+            if blockedServerIds[type]?.contains(entry.recordId) == true { return true }
+            if conservativeTypes.contains(type) { return true }
+        }
         if let key = upsertKey(of: entry), blockedUpserts.contains(key) { return true }
         if let parent = entry.parentRef, blockedIds.contains(parent) { return true }
         return entry.changes.values.contains { ($0 as? String).map { blockedIds.contains($0) } ?? false }
@@ -396,7 +428,7 @@ public class QueueSyncUpTask: SFSyncTask {
         var serverId: String?
         if entry.kind == .create {
             serverId = response?[kCreatedId] as? String
-            if serverId?.isEmpty ?? true {
+            if !(serverId.map { QueueSyncUpTarget.isNonBlank($0) } ?? false) {
                 return .unexpected(QueueSyncUpTarget.recordError("The server did not return the id of the created record"))
             }
         }
@@ -430,15 +462,26 @@ public class QueueSyncUpTask: SFSyncTask {
         try transaction.remove(entryIds: [entry.entryId], forSoupNamed: SyncQueue.soupName)
         try rewritePendingEntries(transaction, from: localId, to: serverId, replayed: entry)
         if var record = try record(transaction, entry.soupName, localId) {
+            var duplicate = false
             // A row with the server id can already exist (sync down, or an upsert that updated an existing record):
             // it is replaced by the rewritten local row
             if let localEntryId = try recordEntryId(transaction, entry.soupName, localId),
                let existing = try recordEntryId(transaction, entry.soupName, serverId), existing != localEntryId {
                 try transaction.remove(entryIds: [existing], forSoupNamed: entry.soupName)
+                duplicate = true
             }
             record[idField] = serverId
+            if duplicate {
+                // The later edits queued for the server record were made on the removed row: apply them, in queue
+                // order, over the surviving one
+                for later in try pendingEntries(transaction, entry.soupName, serverId) where later.kind == .update {
+                    record.merge(later.changes) { _, new in new }
+                }
+            }
             // The entries of the record now carry the server id: they decide whether the record stays dirty
-            settle(&record, pending: try pendingKinds(transaction, entry.soupName, serverId))
+            let remaining = try pendingKinds(transaction, entry.soupName, serverId)
+            settle(&record, pending: remaining)
+            if duplicate && remaining.contains(SyncQueue.Kind.delete.rawValue) { record[kSyncTargetLocallyDeleted] = true }
             try upsert(transaction, record, into: entry.soupName)
         } else {
             // The app removed the record meanwhile: the create succeeded on the server, only the entries are rewritten
@@ -529,6 +572,24 @@ public class QueueSyncUpTask: SFSyncTask {
             let rows = try transaction.query(using: querySpec, startingFromPageIndex: page, whereArgs: [soupName, recordId])
             ids.append(contentsOf: rows.compactMap { ($0 as? [Any])?.first as? NSNumber })
             if rows.count < pageSize { return ids }
+            page += 1
+        }
+    }
+
+    /// The entries (pending or parked) of a record, in queue order.
+    private func pendingEntries(_ transaction: SmartStore.Transaction, _ soupName: String, _ recordId: String) throws -> [QueueEntry] {
+        let queue = SyncQueue.soupName
+        let smartSql = "SELECT {\(queue):_soup} FROM {\(queue)} WHERE {\(queue):\(SyncQueue.soupNameField)} = ? AND {\(queue):\(SyncQueue.recordIdField)} = ? ORDER BY {\(queue):\(SyncQueue.sequenceField)} ASC"
+        let pageSize: UInt = 1000
+        guard let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: pageSize) else {
+            throw LocalWriteError.storeFailure.error("Could not build the queue query")
+        }
+        var entries: [QueueEntry] = []
+        var page: UInt = 0
+        while true {
+            let rows = try transaction.query(using: querySpec, startingFromPageIndex: page, whereArgs: [soupName, recordId])
+            entries.append(contentsOf: rows.compactMap { (($0 as? [Any])?.first as? [String: Any]).flatMap { QueueEntry($0) } })
+            if rows.count < pageSize { return entries }
             page += 1
         }
     }
