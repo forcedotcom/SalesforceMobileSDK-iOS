@@ -40,6 +40,7 @@ struct QueueEntry {
     let changes: [String: Any]
     let status: String
     let attempts: Int
+    let parentRef: String?
 
     init?(_ raw: [String: Any]) {
         guard let entryId = raw[SmartStore.soupEntryId] as? NSNumber,
@@ -57,6 +58,7 @@ struct QueueEntry {
         self.changes = raw[SyncQueue.changesField] as? [String: Any] ?? [:]
         self.status = raw[SyncQueue.statusField] as? String ?? SyncQueue.Status.pending.rawValue
         self.attempts = (raw[SyncQueue.attemptsField] as? NSNumber)?.intValue ?? 0
+        self.parentRef = raw[SyncQueue.parentRefField] as? String
     }
 }
 
@@ -186,8 +188,8 @@ public class QueueSyncUpTarget: SyncUpTarget {
 
     /// Whether a failed request is a transport error, which fails the sync (the entry stays at the head of the queue
     /// and the next sync retries it). Record-level errors, which only fail their entry, are the errors of this target
-    /// and the HTTP errors below 500 that are not 408, 429 or `REQUEST_LIMIT_EXCEEDED`. Everything else is transport:
-    /// no response, authentication failure, cancelled request, unparseable response, HTTP 408, 429 and 500 and above.
+    /// and the HTTP errors below 500 that are not 401, 408, 429 or `REQUEST_LIMIT_EXCEEDED`. Everything else is transport:
+    /// no response, authentication failure, cancelled request, unparseable response, HTTP 401, 408, 429 and 500 and above.
     static func isTransportError(_ error: NSError) -> Bool {
         if error.domain == kSFMobileSyncErrorDomain {
             return false
@@ -195,7 +197,7 @@ public class QueueSyncUpTarget: SyncUpTarget {
         guard error.domain == restErrorDomain, !RestRequest.isNetworkError(error) else {
             return true
         }
-        return error.code >= 500 || error.code == 408 || error.code == 429 || describeJson(error.userInfo).contains("REQUEST_LIMIT_EXCEEDED")
+        return error.code >= 500 || error.code == 401 || error.code == 408 || error.code == 429 || describeJson(error.userInfo).contains("REQUEST_LIMIT_EXCEEDED")
     }
 
     /// Whether the server answered that the record does not exist.
@@ -239,18 +241,26 @@ public class QueueSyncUpTarget: SyncUpTarget {
     /// `changes` that are exactly a known local id. Unknown local ids are left as they are.
     /// - Returns: the new raw entry, or nil if nothing changes.
     static func remapped(_ raw: [String: Any], using idMap: [String: String]) -> [String: Any]? {
-        guard !idMap.isEmpty else { return nil }
+        return remapped(raw, own: idMap, refs: idMap)
+    }
+
+    /// Same as `remapped(_:using:)` with two maps: `own` applies to the entry's own `recordId` (the replayed create lives
+    /// in the soup of the entry only), `refs` to `parentRef` and `changes` values (local ids are unique store-wide).
+    static func remapped(_ raw: [String: Any], own: [String: String], refs: [String: String]) -> [String: Any]? {
+        guard !own.isEmpty || !refs.isEmpty else { return nil }
         var result = raw
         var changed = false
-        for field in [SyncQueue.recordIdField, SyncQueue.parentRefField] {
-            if let value = raw[field] as? String, SyncTarget.isLocalId(value), let serverId = idMap[value] {
-                result[field] = serverId
-                changed = true
-            }
+        if let value = raw[SyncQueue.recordIdField] as? String, SyncTarget.isLocalId(value), let serverId = own[value] {
+            result[SyncQueue.recordIdField] = serverId
+            changed = true
+        }
+        if let value = raw[SyncQueue.parentRefField] as? String, SyncTarget.isLocalId(value), let serverId = refs[value] {
+            result[SyncQueue.parentRefField] = serverId
+            changed = true
         }
         if var changes = raw[SyncQueue.changesField] as? [String: Any] {
             for (field, value) in changes {
-                if let string = value as? String, SyncTarget.isLocalId(string), let serverId = idMap[string] {
+                if let string = value as? String, SyncTarget.isLocalId(string), let serverId = refs[string] {
                     changes[field] = serverId
                     changed = true
                 }

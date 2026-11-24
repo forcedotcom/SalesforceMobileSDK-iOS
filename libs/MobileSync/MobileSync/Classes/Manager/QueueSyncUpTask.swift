@@ -35,17 +35,30 @@ private let idField = "Id"
 /// Outcomes per entry:
 /// - success: the entry is removed and the record cleaned (a created record gets its server id, which is also
 ///   written in the pending entries that refer to it, see `rewritePendingEntries`);
-/// - record-level error (HTTP 4xx, or a missing record / soup / object type): the error is written in the entry
-///   (`lastError`, `attempts` + 1) and in the record (`__last_error__`), the sync goes on with the next entry;
-/// - transport error (no response, 5xx, `REQUEST_LIMIT_EXCEEDED`): `attempts` + 1, the sync fails and the entry
-///   stays at the head of the queue; the next sync retries it.
+/// - record-level error (HTTP 4xx other than 401, 408 and 429, or a missing record / soup / object type): the error is
+///   written in the entry (`lastError`, `attempts` + 1) and in the record (`__last_error__`). The later entries of the
+///   same record, and those that refer to it (`parentRef`, a `changes` value equal to its id), are deferred for the rest
+///   of the run (kept pending, nothing sent, no attempt counted), so an older edit never lands after a newer one. The
+///   sync goes on with the unrelated records;
+/// - transport error (no response, 401, 408, 429, 5xx, `REQUEST_LIMIT_EXCEEDED`): `attempts` + 1, the sync fails and
+///   the entry stays at the head of the queue; the next sync retries it.
+///
+/// One queue replay runs at a time per store: a second one waits until the first is finished.
 @objc(SFQueueSyncUpTask)
 public class QueueSyncUpTask: SFSyncTask {
     private let queueSync: SyncState
     private var queueTarget: QueueSyncUpTarget?
     private var entryIds: [NSNumber] = []
-    /// `localId -> serverId` of the records created during this run.
-    private(set) var idMap: [String: String] = [:]
+    /// `(soupName, localId) -> serverId` of the records created during this run.
+    private(set) var idMap: [RecordKey: String] = [:]
+    /// Records that have a rejected or deferred entry in this run: their later entries are deferred.
+    private var blockedRecords = Set<RecordKey>()
+    private var blockedIds = Set<String>()
+
+    struct RecordKey: Hashable {
+        let soupName: String
+        let id: String
+    }
 
     private var store: SmartStore { return syncManager.store }
 
@@ -57,6 +70,25 @@ public class QueueSyncUpTask: SFSyncTask {
     // MARK: Loop
 
     public override func run() {
+        if QueueReplayGate.acquire(for: ObjectIdentifier(store), task: self) {
+            start()
+        }
+    }
+
+    /// Terminal status (done, failed, stopped): the next queue replay of the store can start.
+    public override func updateSync(_ sync: SyncState, countSynched: UInt) {
+        super.updateSync(sync, countSynched: countSynched)
+        switch sync.status {
+        case .done, .failed, .stopped:
+            if let next = QueueReplayGate.release(for: ObjectIdentifier(store), task: self) {
+                DispatchQueue.global().async { next.start() }
+            }
+        default:
+            break
+        }
+    }
+
+    fileprivate func start() {
         if shouldStop() {
             return
         }
@@ -97,6 +129,13 @@ public class QueueSyncUpTask: SFSyncTask {
                 continue
             }
 
+            // An earlier entry of the record (or of a record it refers to) was rejected: this one waits for the next run
+            if isDeferred(entry) {
+                block(entry)
+                index += 1
+                continue
+            }
+
             // Entry that cannot be replayed: record-level error
             if let problem = problem(with: entry, recordExists: recordExists) {
                 if !recordFailure(entry, error: QueueSyncUpTarget.recordError(problem)) { return }
@@ -131,6 +170,20 @@ public class QueueSyncUpTask: SFSyncTask {
             })
             return
         }
+    }
+
+    private func isDeferred(_ entry: QueueEntry) -> Bool {
+        if blockedRecords.isEmpty { return false }
+        // A delete of a record that never reached the server sends nothing and drops all its entries: never deferred
+        if entry.kind == .delete && SyncTarget.isLocalId(entry.recordId) { return false }
+        if blockedRecords.contains(RecordKey(soupName: entry.soupName, id: entry.recordId)) { return true }
+        if let parent = entry.parentRef, blockedIds.contains(parent) { return true }
+        return entry.changes.values.contains { ($0 as? String).map { blockedIds.contains($0) } ?? false }
+    }
+
+    private func block(_ entry: QueueEntry) {
+        blockedRecords.insert(RecordKey(soupName: entry.soupName, id: entry.recordId))
+        blockedIds.insert(entry.recordId)
     }
 
     private func problem(with entry: QueueEntry, recordExists: Bool) -> String? {
@@ -189,7 +242,7 @@ public class QueueSyncUpTask: SFSyncTask {
                 return
             }
             // Safety net: map the local ids that this run has already replaced
-            if let mapped = QueueSyncUpTarget.remapped(raw, using: idMap), let mappedEntry = QueueEntry(mapped) {
+            if let mapped = QueueSyncUpTarget.remapped(raw, own: ownMap(inSoup: entry.soupName), refs: refMap), let mappedEntry = QueueEntry(mapped) {
                 entry = mappedEntry
             }
             loaded = entry
@@ -204,6 +257,16 @@ public class QueueSyncUpTask: SFSyncTask {
             }
         }
         return (entry, exists)
+    }
+
+    /// Local ids replaced in this run in `soupName` (for the `recordId` of an entry of that soup).
+    private func ownMap(inSoup soupName: String) -> [String: String] {
+        return Dictionary(uniqueKeysWithValues: idMap.filter { $0.key.soupName == soupName }.map { ($0.key.id, $0.value) })
+    }
+
+    /// Local ids replaced in this run, any soup (local ids used in references are unique store-wide).
+    private var refMap: [String: String] {
+        return Dictionary(idMap.map { ($0.key.id, $0.value) }, uniquingKeysWith: { first, _ in first })
     }
 
     /// Soups known to exist (`SmartStore.soupExists` must not be called from a transaction block).
@@ -294,7 +357,7 @@ public class QueueSyncUpTask: SFSyncTask {
             return .storeFailure(error as NSError)
         }
         if entry.kind == .create, let serverId = serverId, SyncTarget.isLocalId(entry.recordId) {
-            idMap[entry.recordId] = serverId
+            idMap[RecordKey(soupName: entry.soupName, id: entry.recordId)] = serverId
         }
         return .done
     }
@@ -304,7 +367,7 @@ public class QueueSyncUpTask: SFSyncTask {
     private func completeCreate(_ transaction: SmartStore.Transaction, _ entry: QueueEntry, serverId: String) throws {
         let localId = entry.recordId
         try transaction.remove(entryIds: [entry.entryId], forSoupNamed: SyncQueue.soupName)
-        try rewritePendingEntries(transaction, from: localId, to: serverId, replayed: entry.entryId)
+        try rewritePendingEntries(transaction, from: localId, to: serverId, replayed: entry)
         if var record = try record(transaction, entry.soupName, localId) {
             // A row with the server id can already exist (sync down, or an upsert that updated an existing record):
             // it is replaced by the rewritten local row
@@ -322,9 +385,10 @@ public class QueueSyncUpTask: SFSyncTask {
         }
     }
 
-    /// Replaces `localId` by `serverId` in the `recordId` and `parentRef` of the pending entries (any record soup)
+    /// Replaces `localId` by `serverId` in the `recordId` of the entries of the soup of the replayed create, and in the
+    /// `parentRef` and `changes` values of the entries of any soup (local ids are unique store-wide)
     /// and in their `changes` values that are exactly `localId` (top-level strings only).
-    private func rewritePendingEntries(_ transaction: SmartStore.Transaction, from localId: String, to serverId: String, replayed: NSNumber) throws {
+    private func rewritePendingEntries(_ transaction: SmartStore.Transaction, from localId: String, to serverId: String, replayed: QueueEntry) throws {
         let queue = SyncQueue.soupName
         // The LIKE only preselects (local ids contain no JSON escapes); the exact match is checked in `remapped`
         let smartSql = "SELECT {\(queue):_soup} FROM {\(queue)} WHERE {\(queue):\(SyncQueue.recordIdField)} = ? OR {\(queue):\(SyncQueue.parentRefField)} = ? OR {\(queue):\(SyncQueue.changesField)} LIKE ?"
@@ -338,8 +402,10 @@ public class QueueSyncUpTask: SFSyncTask {
         while true {
             let rows = try transaction.query(using: querySpec, startingFromPageIndex: page, whereArgs: args) as? [[Any]] ?? []
             for case let raw as [String: Any] in rows.compactMap({ $0.first }) {
-                if let id = raw[SmartStore.soupEntryId] as? NSNumber, id == replayed { continue }
-                if let mapped = QueueSyncUpTarget.remapped(raw, using: [localId: serverId]) {
+                if let id = raw[SmartStore.soupEntryId] as? NSNumber, id == replayed.entryId { continue }
+                // The record id of an entry is only replaced in the soup of the replayed create
+                let own = (raw[SyncQueue.soupNameField] as? String) == replayed.soupName ? [localId: serverId] : [:]
+                if let mapped = QueueSyncUpTarget.remapped(raw, own: own, refs: [localId: serverId]) {
                     rewritten.append(mapped)
                 }
             }
@@ -379,20 +445,28 @@ public class QueueSyncUpTask: SFSyncTask {
         }
     }
 
+    /// All the entries (pending or parked) of a record, paging through the result.
     private func entryIds(_ transaction: SmartStore.Transaction, _ soupName: String, _ recordId: String) throws -> [NSNumber] {
         let queue = SyncQueue.soupName
-        let smartSql = "SELECT {\(queue):\(SmartStore.soupEntryId)} FROM {\(queue)} WHERE {\(queue):\(SyncQueue.soupNameField)} = ? AND {\(queue):\(SyncQueue.recordIdField)} = ?"
-        guard let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: 1000) else {
+        let smartSql = "SELECT {\(queue):\(SmartStore.soupEntryId)} FROM {\(queue)} WHERE {\(queue):\(SyncQueue.soupNameField)} = ? AND {\(queue):\(SyncQueue.recordIdField)} = ? ORDER BY {\(queue):\(SmartStore.soupEntryId)} ASC"
+        let pageSize: UInt = 1000
+        guard let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: pageSize) else {
             throw LocalWriteError.storeFailure.error("Could not build the queue query")
         }
-        let rows = try transaction.query(using: querySpec, startingFromPageIndex: 0, whereArgs: [soupName, recordId])
-        return rows.compactMap { ($0 as? [Any])?.first as? NSNumber }
+        var ids: [NSNumber] = []
+        var page: UInt = 0
+        while true {
+            let rows = try transaction.query(using: querySpec, startingFromPageIndex: page, whereArgs: [soupName, recordId])
+            ids.append(contentsOf: rows.compactMap { ($0 as? [Any])?.first as? NSNumber })
+            if rows.count < pageSize { return ids }
+            page += 1
+        }
     }
 
     /// Kinds of the entries (pending or parked) that remain in the queue for a record.
     private func pendingKinds(_ transaction: SmartStore.Transaction, _ soupName: String, _ recordId: String) throws -> Set<String> {
         let queue = SyncQueue.soupName
-        let smartSql = "SELECT {\(queue):\(SyncQueue.kindField)} FROM {\(queue)} WHERE {\(queue):\(SyncQueue.soupNameField)} = ? AND {\(queue):\(SyncQueue.recordIdField)} = ?"
+        let smartSql = "SELECT DISTINCT {\(queue):\(SyncQueue.kindField)} FROM {\(queue)} WHERE {\(queue):\(SyncQueue.soupNameField)} = ? AND {\(queue):\(SyncQueue.recordIdField)} = ?"
         guard let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: 1000) else {
             throw LocalWriteError.storeFailure.error("Could not build the queue query")
         }
@@ -401,11 +475,11 @@ public class QueueSyncUpTask: SFSyncTask {
     }
 
     private func completeDelete(_ transaction: SmartStore.Transaction, _ entry: QueueEntry) throws {
-        try transaction.remove(entryIds: [entry.entryId], forSoupNamed: SyncQueue.soupName)
-        if SyncTarget.isLocalId(entry.recordId) {
-            // The record never reached the server: its earlier entries (failed create or updates) are dropped too
-            try transaction.remove(entryIds: try entryIds(transaction, entry.soupName, entry.recordId), forSoupNamed: SyncQueue.soupName)
-        }
+        // The record is gone: every other entry for it goes too (earlier entries of a record that never reached the
+        // server, or leftovers of one that did)
+        var ids = try entryIds(transaction, entry.soupName, entry.recordId)
+        if !ids.contains(entry.entryId) { ids.append(entry.entryId) }
+        try transaction.remove(entryIds: ids, forSoupNamed: SyncQueue.soupName)
         if soupExists(entry.soupName), let recordId = try recordEntryId(transaction, entry.soupName, entry.recordId) {
             try transaction.remove(entryIds: [recordId], forSoupNamed: entry.soupName)
         }
@@ -414,6 +488,8 @@ public class QueueSyncUpTask: SFSyncTask {
     /// Record-level error: written in the entry (`lastError`, `attempts` + 1, still pending) and in the record
     /// (`__last_error__`). The sync goes on. Returns false (and fails the sync) if the store cannot be written.
     private func recordFailure(_ entry: QueueEntry, error: NSError) -> Bool {
+        // The later entries of the record, and those that refer to it, wait for the next run
+        block(entry)
         let lastError = QueueSyncUpTarget.lastError(error)
         do {
             try transact { transaction in
@@ -447,5 +523,41 @@ public class QueueSyncUpTask: SFSyncTask {
         } catch {
             MobileSyncLogger.default.e(QueueSyncUpTask.self, message: "Could not update the attempts of queue entry \(entry.sequence): \(error)")
         }
+    }
+}
+
+/// One queue replay at a time per store. The holder keeps it from its first read of the queue until it is done,
+/// failed or stopped (so through the last request and the local commit); the others wait and then read the queue
+/// as the holder left it.
+private enum QueueReplayGate {
+    private static let lock = NSLock()
+    private static var holders: [ObjectIdentifier: QueueSyncUpTask] = [:]
+    private static var waiting: [ObjectIdentifier: [QueueSyncUpTask]] = [:]
+
+    /// Returns true if `task` now holds the gate; otherwise `task` is queued and started by `release`.
+    static func acquire(for store: ObjectIdentifier, task: QueueSyncUpTask) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        if holders[store] == nil {
+            holders[store] = task
+            return true
+        }
+        waiting[store, default: []].append(task)
+        return false
+    }
+
+    /// Releases the gate if `task` holds it. Returns the task that holds it now, if any: the caller starts it.
+    static func release(for store: ObjectIdentifier, task: QueueSyncUpTask) -> QueueSyncUpTask? {
+        lock.lock()
+        defer { lock.unlock() }
+        guard holders[store] === task else { return nil }
+        if var queue = waiting[store], !queue.isEmpty {
+            let next = queue.removeFirst()
+            waiting[store] = queue.isEmpty ? nil : queue
+            holders[store] = next
+            return next
+        }
+        holders[store] = nil
+        return nil
     }
 }
