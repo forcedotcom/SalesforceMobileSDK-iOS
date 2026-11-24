@@ -25,6 +25,14 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 #import <XCTest/XCTest.h>
 #import "SFSDKSoqlMutator.h"
 #import "SFSDKSoqlTokenizer.h"
+#import "SFSoqlSyncDownTarget.h"
+#import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
+
+@interface SFSoqlSyncDownTarget ()
+
+- (NSString *)getSoqlForRemoteIds;
+
+@end
 
 @interface SFSDKSoqlMutatorTests : XCTestCase
 
@@ -192,6 +200,25 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     [self tryTokenize:@"hello 'oh oh ( ) ( )))'" expectedTokensJoined:@"hello# #'oh oh ( ) ( )))'"];
 }
 
+/**
+ * Test that a field whose name starts with "From" (From_customer__c) is not mistaken for the FROM keyword
+ * when the select fields are replaced. Offline: only checks the generated SOQL, nothing is sent to the server.
+ */
+- (void) testReplaceSelectFieldsWithFieldNamedLikeFromKeyword {
+    NSString* soql = @"select From_customer__c, Id from Account limit 10";
+    XCTAssertEqualObjects(@"select Id from Account limit 10", [[[[SFSDKSoqlMutator withSoql:soql] replaceSelectFields:@"Id"] asBuilder] build]);
+    XCTAssertTrue([[SFSDKSoqlMutator withSoql:soql] isSelectingField:@"From_customer__c"]);
+}
+
+/**
+ * Test the SOQL used by SFSoqlSyncDownTarget to fetch the remote ids when a selected field is named
+ * "From_customer__c". Offline: only checks the generated SOQL, nothing is sent to the server.
+ */
+- (void) testGetSoqlForRemoteIdsWithFromField {
+    NSString* soqlQueryWithFromField = [[[[SFSDKSoqlBuilder withFields:@"From_customer__c, Id"] from:@"Account"] limit:10] build];
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithFromField];
+    XCTAssertEqualObjects(@"select Id from Account limit 10", [target getSoqlForRemoteIds]);
+}
 
 - (void) tryTokenize:(NSString*) soql expectedTokensJoined:(NSString*)expectedTokensJoined {
     SFSDKSoqlTokenizer* tokenizer = [[SFSDKSoqlTokenizer alloc] init:soql];
