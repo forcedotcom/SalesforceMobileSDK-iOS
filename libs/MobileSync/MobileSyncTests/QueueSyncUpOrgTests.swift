@@ -347,6 +347,7 @@ class QueueSyncUpOrgTests: SyncManagerTestCase {
         let target = QueueSyncUpTarget()
         target.externalIdFieldName = field
 
+        try requireUsableExternalId(type, field, nameField: nameField)
         _ = try syncManager.createLocal(soupName: soup, record: record("first"))
         var sync = try runQueueSync(target: target)
         XCTAssertEqual(sync.status, .done)
@@ -368,5 +369,38 @@ class QueueSyncUpOrgTests: SyncManagerTestCase {
         XCTAssertEqual(try queueEntries().count, 0)
         XCTAssertEqual(try allRecords(soup).count, 1, "the local row of the second create was merged onto the existing server id")
         assertClean(try self.record(soup, serverId))
+    }
+
+    /// Skips the test if the REST API does not accept `field` as an external id, although describe lists it.
+    private func requireUsableExternalId(_ type: String, _ field: String, nameField: String) throws {
+        let value = prefix + "probe"
+        _ = try createOnServer(type, [nameField: prefix + "probe", field: value])
+        let lookup = send(RestClient.shared.requestForRetrieve(withObjectType: type, objectId: "\(field)/\(value)", fieldList: "Id", apiVersion: nil))
+        print("LIVE-ORG: GET /sobjects/\(type)/\(field)/<existing value> answers \(lookup.status) \(String(describing: lookup.body))")
+        if lookup.status != 200 {
+            throw XCTSkip("The REST API does not accept \(type).\(field) as an external id (GET answers \(lookup.status)) although describe lists it with externalId, idLookup and createable true")
+        }
+    }
+
+    func test_givenRejectedUpdateOfRecordWithExternalId_whenUpsertCreateReplayed_thenLookupDefersIt() throws {
+        guard let (type, field) = findExternalIdField(), type == ACCOUNT_TYPE else { throw XCTSkip("No external id field on Account") }
+        try requireUsableExternalId(type, field, nameField: NAME)
+        let extValue = prefix + "blocked"
+        let id = try createOnServer(type, [NAME: prefix + "blocked", field: extValue])
+        try seedServerRecord(ACCOUNTS_SOUP, id: id, type: type, fields: [NAME: prefix + "blocked", field: extValue])
+        try syncManager.updateLocal(soupName: ACCOUNTS_SOUP, id: id, changes: [NAME: String(repeating: "x", count: 300)])
+        _ = try syncManager.createLocal(soupName: ACCOUNTS_SOUP, record: account(prefix + "newer", extra: [field: extValue]))
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = field
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .done)
+        let entries = try queueEntries()
+        XCTAssertEqual(entries.map { $0["kind"] as? String }, ["UPDATE", "CREATE"])
+        XCTAssertEqual(entries[0]["attempts"] as? Int, 1)
+        XCTAssertEqual(entries[1]["attempts"] as? Int, 0, "the upsert was deferred, not sent")
+        XCTAssertEqual(idsOnServer(type, field: field, value: extValue), [id])
+        XCTAssertEqual(serverRecord(type, id, fields: "Name").1?[NAME] as? String, prefix + "blocked")
     }
 }
