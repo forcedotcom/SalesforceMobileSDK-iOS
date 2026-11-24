@@ -358,7 +358,9 @@ class QueueSyncUpOrgTests: SyncManagerTestCase {
         // What the server answers to a repeated upsert (same request as the replay sends)
         let direct = send(RestClient.shared.requestForUpsert(withObjectType: type, externalIdField: field, externalId: extValue, fields: [nameField: prefix + "direct"], apiVersion: nil))
         print("LIVE-ORG: repeated upsert answers \(direct.status) \(String(describing: direct.body))")
-        XCTAssertEqual(direct.status, 204)
+        // The live server answers 200 with {created: 0, id, success} (the spec expected 204 without a body)
+        XCTAssertEqual(direct.status, 200)
+        XCTAssertEqual((direct.body as? [String: Any])?["id"] as? String, serverId)
 
         _ = try syncManager.createLocal(soupName: soup, record: record("second"))
         sync = try runQueueSync(target: target)

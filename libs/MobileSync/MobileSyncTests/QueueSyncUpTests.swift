@@ -397,7 +397,7 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(sync.status, .done)
         XCTAssertEqual(labels(), ["UPSERT Account"])
         XCTAssertEqual(RecordingQueueTarget.calls[0].externalId, "ext-1")
-        XCTAssertEqual(RecordingQueueTarget.calls[0].fields, ["Name": "new", "ExtId__c": "ext-1"])
+        XCTAssertEqual(RecordingQueueTarget.calls[0].fields, ["Name": "new"], "the external id is in the path, not in the body (the server refuses it there)")
     }
 
     func test_givenCreateWithoutIdInResponse_whenSynced_thenSyncFailsWithAttemptAndErrorOnEntry() throws {
@@ -1531,7 +1531,7 @@ class QueueSyncUpRequestTests: XCTestCase {
         XCTAssertEqual(requests.map { $0.method }, [.PATCH, .GET])
         let encoded = "a%2Fb%3Fc%23d%20e%25f"
         XCTAssertTrue(requests[0].path.hasSuffix("/sobjects/Account/ExtId__c/\(encoded)"), requests[0].path)
-        XCTAssertEqual(requests[0].body as? [String: String], ["Name": "new", "ExtId__c": externalId])
+        XCTAssertEqual(requests[0].body as? [String: String], ["Name": "new"], "the server refuses the external id field in the upsert body")
         XCTAssertTrue(requests[1].path.hasSuffix("/sobjects/Account/ExtId__c/\(encoded)"), requests[1].path)
         XCTAssertEqual(requests[1].query as? [String: String], ["fields": "Id"])
         let accounts = try XCTUnwrap(store.query(using: XCTUnwrap(QuerySpec.buildAllQuerySpec(soupName: QueueSyncUpRequestTests.accounts, orderPath: SmartStore.soupEntryId, order: .ascending, pageSize: 10)), startingFromPageIndex: 0) as? [[String: Any]])

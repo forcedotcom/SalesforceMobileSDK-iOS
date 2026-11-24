@@ -126,7 +126,10 @@ public class QueueSyncUpTarget: SyncUpTarget {
                 }
                 lookupIdOnServer(sobjectType, externalIdField: field, externalId: value, onComplete: onComplete, onFail: onFail)
             }
-            createOnServer(syncManager: syncManager, record: record, fieldlist: Array(entry.changes.keys), onComplete: complete, onFail: fail)
+            // The server refuses an upsert body that contains the external id field (it is in the path)
+            let upsertField = upsertExternalId(of: entry) != nil ? upsertField(of: entry) : nil
+            let fieldlist = entry.changes.keys.filter { $0 != upsertField }
+            createOnServer(syncManager: syncManager, record: record, fieldlist: fieldlist, onComplete: complete, onFail: fail)
         case .update:
             updateOnServer(syncManager: syncManager, record: record, fieldlist: Array(entry.changes.keys), onComplete: onComplete, onFail: fail)
         case .delete:
