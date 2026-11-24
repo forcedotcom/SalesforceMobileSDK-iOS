@@ -50,7 +50,7 @@
 		4F9079811A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9079801A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m */; };
 		4F9732D61A816C2D006E2A86 /* SyncManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */; };
 		4FA9C0CB22A5D0A70058D179 /* SFMobileSyncSyncManager+SFSyncTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA9C0BC22A5D0720058D179 /* SFMobileSyncSyncManager+SFSyncTask.h */; };
-		4FAA9B4F22545AEF0006810D /* SFSyncTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B4E22545AEF0006810D /* SFSyncTask.h */; };
+		4FAA9B4F22545AEF0006810D /* SFSyncTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B4E22545AEF0006810D /* SFSyncTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FAA9B5F22545B630006810D /* SFSyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA9B5E22545B630006810D /* SFSyncTask.m */; };
 		4FAA9B6222545FE00006810D /* SFSyncDownTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B6122545FE00006810D /* SFSyncDownTask.h */; };
 		4FAA9B64225460180006810D /* SFSyncUpTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FAA9B63225460180006810D /* SFSyncUpTask.h */; };
@@ -160,6 +160,9 @@
 		A1B2C3D4E5F6A7B8C9D0E104 /* SyncManager+LocalWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E103 /* SyncManager+LocalWrite.swift */; };
 		A1B2C3D4E5F6A7B8C9D0E106 /* SyncQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E105 /* SyncQueueTests.swift */; };
 		A1B2C3D4E5F6A7B8C9D0E108 /* LocalWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E107 /* LocalWriteTests.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E202 /* QueueSyncUpTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E201 /* QueueSyncUpTarget.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E204 /* QueueSyncUpTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E203 /* QueueSyncUpTask.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E206 /* QueueSyncUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E205 /* QueueSyncUpTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -457,6 +460,9 @@
 		FDCEC1FBF745182967AD6BA9 /* MobileSyncSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MobileSyncSDKManager.m; path = Manager/MobileSyncSDKManager.m; sourceTree = "<group>"; };
 		FDCECA332FB12607AF78D737 /* MobileSyncSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobileSyncSDKManager.h; path = Manager/MobileSyncSDKManager.h; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E101 /* SyncQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncQueue.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E201 /* QueueSyncUpTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QueueSyncUpTarget.swift; path = Target/QueueSyncUpTarget.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E203 /* QueueSyncUpTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QueueSyncUpTask.swift; path = Manager/QueueSyncUpTask.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E205 /* QueueSyncUpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueSyncUpTests.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E103 /* SyncManager+LocalWrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncManager+LocalWrite.swift"; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E105 /* SyncQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncQueueTests.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E107 /* LocalWriteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalWriteTests.swift; sourceTree = "<group>"; };
@@ -575,6 +581,7 @@
 				4F2E178E1ED4F0A200C62497 /* SFSyncUpTarget+Internal.h */,
 				4FCDFF7428402D510045CD29 /* CollectionSyncUpTarget.swift */,
 				4FB685DF28413A4800FB76E2 /* BatchSyncUpTarget.swift */,
+				A1B2C3D4E5F6A7B8C9D0E201 /* QueueSyncUpTarget.swift */,
 			);
 			name = Target;
 			sourceTree = "<group>";
@@ -722,6 +729,7 @@
 				6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */,
 				A1B2C3D4E5F6A7B8C9D0E107 /* LocalWriteTests.swift */,
 				A1B2C3D4E5F6A7B8C9D0E105 /* SyncQueueTests.swift */,
+				A1B2C3D4E5F6A7B8C9D0E205 /* QueueSyncUpTests.swift */,
 				4FAA9B782255D6320006810D /* SyncUpTargetTests.h */,
 				4F307E401EC273AB0040CFC4 /* SyncManagerTestCase.h */,
 				4F307E3E1EC273780040CFC4 /* SyncManagerTestCase.m */,
@@ -776,6 +784,7 @@
 				4FAA9B6C225461910006810D /* SFAdvancedSyncUpTask.m */,
 				4FAA9B672254609B0006810D /* SFCleanSyncGhostsTask.h */,
 				4FAA9B6A225461910006810D /* SFCleanSyncGhostsTask.m */,
+				A1B2C3D4E5F6A7B8C9D0E203 /* QueueSyncUpTask.swift */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -1253,6 +1262,8 @@
 				FDCEC3CBF6FA262ACF305285 /* MobileSyncSDKManager.m in Sources */,
 				6927E22B283BF17800A16668 /* BriefcaseObjectInfo.swift in Sources */,
 				A1B2C3D4E5F6A7B8C9D0E102 /* SyncQueue.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E202 /* QueueSyncUpTarget.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E204 /* QueueSyncUpTask.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,6 +1275,7 @@
 				6927E21E283BEFB700A16668 /* BriefcaseSyncDownTests.swift in Sources */,
 				A1B2C3D4E5F6A7B8C9D0E108 /* LocalWriteTests.swift in Sources */,
 				A1B2C3D4E5F6A7B8C9D0E106 /* SyncQueueTests.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E206 /* QueueSyncUpTests.swift in Sources */,
 				4F9732D61A816C2D006E2A86 /* SyncManagerTests.m in Sources */,
 				4FB685ED28413EBC00FB76E2 /* CollectionSyncUpTargetTests.m in Sources */,
 				CEFB4B3020B4951100D70F2B /* SFLayoutSyncManagerTests.m in Sources */,

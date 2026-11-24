@@ -358,7 +358,10 @@ static NSMutableDictionary *syncMgrList = nil;
             task = [[SFSyncDownTask alloc] init:self sync:sync updateBlock:updateBlock];
             break;
         case SFSyncStateSyncTypeUp:
-            if ([sync.target conformsToProtocol:@protocol(SFAdvancedSyncUpTarget)]) {
+            if ([sync.target isKindOfClass:[SFQueueSyncUpTarget class]]) {
+                // Queue sync up: replays the sync-up queue in order, with its own task
+                task = [[SFQueueSyncUpTask alloc] init:self sync:sync updateBlock:updateBlock];
+            } else if ([sync.target conformsToProtocol:@protocol(SFAdvancedSyncUpTarget)]) {
                 task = [[SFAdvancedSyncUpTask alloc] init:self sync:sync updateBlock:updateBlock];
             } else {
                 task = [[SFSyncUpTask alloc] init:self sync:sync updateBlock:updateBlock];
