@@ -35,6 +35,8 @@ libs/MobileSync/Classes/
 │                      SyncQueue (Swift)
 ├── BatchSyncUpTarget.swift
 ├── CollectionSyncUpTarget.swift
+├── Target/QueueSyncUpTarget.swift   (replays the sync-up queue)
+├── Manager/QueueSyncUpTask.swift    (task run for QueueSyncUpTarget)
 └── SyncTarget.swift   (Swift helpers on SyncDownTarget)
 Extensions/
 ├── MobileSync.swift   (Swift/Combine extensions on SFMobileSyncSyncManager)
@@ -629,7 +631,7 @@ Rules:
 - `createLocal` needs the object type in `attributes.type`. It rejects a record with an `Id` that is not a local id, with an `Id` that already exists, with a `_soup*` key, or with values that cannot be serialized to JSON. The dictionary passed in is not modified.
 - `updateLocal` and `deleteLocal` accept a locally created record or a record that came from sync down (server id). They fail if the record does not exist or is already flagged deleted.
 - Internal fields are never part of `changes` and are rejected in the `changes` of `updateLocal`: `Id`, `attributes`, `_soup*` keys, the four dirty flags, `__last_error__`, `__sync_id__`, `__display__`. `changes` must not be empty. To clear a field, pass `NSNull()` (`[NSNull null]`).
-- A record soup must use either the queue or flag-based sync up, never both. The write API sets the same dirty flags that flag-based sync-up targets read, and nothing replays the queue yet, so mixing them on one soup gives inconsistent results (unsupported).
+- A record soup must use either the queue or flag-based sync up, never both. The write API sets the same dirty flags that flag-based sync-up targets read, and `QueueSyncUpTarget` (below) replays the queue and ignores the flags, so mixing them on one soup gives inconsistent results (unsupported).
 - `__display__` is neither written nor refreshed.
 - The calls do not check whether the sync manager is stopped (they are local writes, not syncs). They block while holding the store, so do not use them from the main thread for large volumes.
 
@@ -649,6 +651,26 @@ Errors are `NSError`s in `kSFMobileSyncErrorDomain`, with a localized descriptio
 | 914 | Store failure (the write did not produce a record) |
 
 Other failures (for example a SmartStore error that makes the transaction fail) are returned as the underlying `NSError`.
+
+### Replaying the Queue (`QueueSyncUpTarget`)
+
+A queue sync is a normal sync up whose target is `QueueSyncUpTarget` and whose soup name is `SyncQueue.soupName` (`mobilesync_queue`). `SFMobileSyncSyncManager` runs it with `QueueSyncUpTask` (`SFSyncTask.h` is now a public header so that Swift can subclass it).
+
+```swift
+let target = QueueSyncUpTarget()               // optionally: target.externalIdFieldName = "ExtId__c"
+let options = SyncOptions.newSyncOptions(forSyncUp: [], mergeMode: .overwrite)   // fieldlist and merge mode are ignored
+try syncManager.syncUp(target: target, options: options, soupName: SyncQueue.soupName, syncName: "queueSync") { sync in ... }
+```
+
+- Pending entries are replayed one at a time in `sequence` order (strict order, across soups). `PARKED` entries are skipped. `totalSize` is the number of pending entries at the start. The requests are built from the entry (`kind`, `sobjectType`, `changes`): `POST` for `CREATE` (or an upsert on `externalIdFieldName`), `PATCH` with only the changed fields for `UPDATE`, `DELETE` for `DELETE`. The dirty flags are not used: flagged records without an entry are never sent.
+- Success: the entry is removed and `__last_error__` is removed from the record. If no other entry for the record remains in the queue, the record is cleaned (the four flags false). Otherwise it stays dirty for the remaining entries: `__local__` true, `__locally_created__` false, `__locally_updated__` true only if an `UPDATE` remains, `__locally_deleted__` unchanged (a pending `DELETE` stays flagged). The last replayed entry of a record cleans it. A deleted record is removed from its soup. A `DELETE` answered by 404 is a success.
+- Upsert on `externalIdFieldName`: a 201 carries the new `id`. A 204 (a record with that external id existed and was updated) has no body: the id is read with `GET /sobjects/<type>/<externalIdField>/<value>?fields=Id` (value from the entry's `changes`), then the entry is completed like a normal create. A failing lookup is classified like any other request. A 300 (several matches) is a record-level error.
+- Record-level error (HTTP 4xx, an entry with no object type or kind, a missing record or soup): `lastError` and `attempts` + 1 are written on the entry, `__last_error__` on the record, the entry stays `PENDING` at its place and the sync goes on with the next entry. The sync ends `DONE`.
+- Transport error (no network, HTTP 5xx, `REQUEST_LIMIT_EXCEEDED`): `attempts` + 1, the sync ends `FAILED` and the entry stays at the head of the queue. Running `reSync` (by id or name) resumes from the head.
+
+#### Temp-id remapping
+
+A `createLocal` record has a local id. When its `CREATE` succeeds, the server id replaces the local id in one transaction: the record is rewritten in place (`Id` = server id, `__last_error__` removed, flags as described under Success: clean unless entries for the record remain); every pending entry gets `recordId` and `parentRef` rewritten, and top-level string values of `changes` that are exactly the local id (a lookup such as `AccountId`) are replaced; the replayed entry is removed. Only exact top-level values are rewritten (not substrings and not nested values). If a `CREATE` fails, later entries keep the local id and are sent as they are (the server rejects them: record-level error). A `DELETE` of a record whose `CREATE` failed is not sent: the record is removed locally and the entry dropped.
 
 ---
 
@@ -795,6 +817,6 @@ xcodebuild test -workspace SalesforceMobileSDK-iOS.xcworkspace \
 
 Key test files: `SyncManagerTestCase.m`, `SyncDownTests.m`, `SyncUpTests.m`, `ParentChildrenSyncTests.m`, `BriefcaseSyncDownTests.swift`, `SyncQueueTests.swift`, `LocalWriteTests.swift`.
 
-`SyncQueueTests` and `LocalWriteTests` need no network or org login: plain `XCTestCase`s on a global store.
+`SyncQueueTests`, `LocalWriteTests` and `QueueSyncUpTests` need no network or org login: plain `XCTestCase`s on a global store. `QueueSyncUpTests` intercepts the REST helper methods with a `QueueSyncUpTarget` subclass (`RecordingQueueTarget`).
 
 Tests use `MockRestClient` / `MockRestResponse` to intercept REST calls without hitting a live org.
