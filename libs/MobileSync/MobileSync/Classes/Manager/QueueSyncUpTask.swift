@@ -187,9 +187,10 @@ public class QueueSyncUpTask: SFSyncTask {
                     send(entry, next: next)
                 }
             } else {
-                // No usable id: inconclusive
-                block(entry)
-                replay(from: next)
+                // A 2xx answer without a usable id is a transport-class failure: nothing is sent, nothing after it is processed
+                let error = QueueSyncUpTarget.recordError("The id lookup of the upsert destination returned no usable id")
+                bumpAttempts(entry, error: error)
+                failSync(queueSync, failureMessage: "Id lookup failed for queue entry \(entry.sequence)", error: error)
             }
         }, onFail: { [self] error in
             if QueueSyncUpTarget.isTransportError(error) {
@@ -214,10 +215,11 @@ public class QueueSyncUpTask: SFSyncTask {
         target.lookupIdOnServer(type, externalIdField: field, externalId: value, onComplete: { [self] response in
             if let id = response?[kCreatedId] as? String, QueueSyncUpTarget.isNonBlank(id) {
                 blockedServerIds[type, default: []].insert(id)
+                replay(from: next)
             } else {
-                conservativeTypes.insert(type)
+                // the entry already has its attempt and lastError from the rejection
+                failSync(queueSync, failureMessage: "Id lookup of the rejected queue entry \(entry.sequence) returned no usable id", error: QueueSyncUpTarget.recordError("The id lookup of the upsert destination returned no usable id"))
             }
-            replay(from: next)
         }, onFail: { [self] error in
             if QueueSyncUpTarget.isTransportError(error) {
                 // the entry already has its attempt and lastError

@@ -1367,14 +1367,16 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(create["status"] as? String, "PENDING")
     }
 
-    func test_givenLookupWithoutId_whenSynced_thenCreateDeferred() throws {
+    func test_givenLookupWithoutId_whenSynced_thenSyncFailsAndUpsertNotSent() throws {
         let target = try upsertBehindRejectedUpdate(extId: "e1") { _ in .success([:]) }
 
         let sync = try runQueueSync(target: target)
 
-        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(sync.status, .failed)
         XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account"])
-        XCTAssertEqual(try queueEntries().count, 2)
+        let create = try XCTUnwrap(try queueEntries().first { $0["kind"] as? String == "CREATE" })
+        XCTAssertEqual(create["attempts"] as? Int, 1)
+        XCTAssertNotNil(create["lastError"])
     }
 
     func test_givenRejectedUpsertCreate_whenLaterUpsertCreates_thenOnlySameExternalIdDeferred() throws {
@@ -1539,14 +1541,26 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(try queueEntries().count, 2)
     }
 
-    func test_givenRejectedUpsertAndDestinationLookupBlankId_whenSynced_thenLaterSameTypeServerIdsDeferred() throws {
-        let target = try rejectedUpsertThenUpdates { _ in .success(["id": "   "]) }
+    private func assertRejectedUpsertLookupFails(answer: [AnyHashable: Any], file: StaticString = #filePath, line: UInt = #line) throws {
+        let target = try rejectedUpsertThenUpdates { _ in .success(answer) }
 
         let sync = try runQueueSync(target: target)
 
-        XCTAssertEqual(sync.status, .done)
-        XCTAssertEqual(labels(), ["UPSERT Account", "LOOKUP Account", "PATCH Contact/con1"])
-        XCTAssertEqual(try queueEntries().count, 2)
+        XCTAssertEqual(sync.status, .failed, file: file, line: line)
+        XCTAssertEqual(labels(), ["UPSERT Account", "LOOKUP Account"], file: file, line: line)
+        let entries = try queueEntries()
+        XCTAssertEqual(entries.count, 3, file: file, line: line)
+        let create = try XCTUnwrap(entries.first { $0["kind"] as? String == "CREATE" }, file: file, line: line)
+        XCTAssertEqual(create["attempts"] as? Int, 1, "the rejection counts once", file: file, line: line)
+        XCTAssertNotNil(create["lastError"], file: file, line: line)
+    }
+
+    func test_givenRejectedUpsertAndDestinationLookupBlankId_whenSynced_thenSyncFailsAndNoLaterEntryProcessed() throws {
+        try assertRejectedUpsertLookupFails(answer: ["id": "   "])
+    }
+
+    func test_givenRejectedUpsertAndDestinationLookupWithoutId_whenSynced_thenSyncFailsAndNoLaterEntryProcessed() throws {
+        try assertRejectedUpsertLookupFails(answer: [:])
     }
 
     // MARK: round 4: a successful upsert must not discard a newer edit of its destination
@@ -1607,15 +1621,16 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertNotNil(try record(QueueSyncUpTests.accounts, try XCTUnwrap(localId)))
     }
 
-    func test_givenBlockActiveAndDestinationLookupBlankId_whenUpsertCreateReached_thenDeferred() throws {
+    func test_givenBlockActiveAndDestinationLookupBlankId_whenUpsertCreateReached_thenSyncFailsAndAttemptBumpedOnce() throws {
         let target = try upsertBehindRejectedUpdate(extId: "e1") { _ in .success(["id": " \n"]) }
 
         let sync = try runQueueSync(target: target)
 
-        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(sync.status, .failed)
         XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account"])
         let create = try XCTUnwrap(try queueEntries().first { $0["kind"] as? String == "CREATE" })
-        XCTAssertEqual(create["attempts"] as? Int, 0)
+        XCTAssertEqual(create["attempts"] as? Int, 1)
+        XCTAssertNotNil(create["lastError"])
     }
 }
 
