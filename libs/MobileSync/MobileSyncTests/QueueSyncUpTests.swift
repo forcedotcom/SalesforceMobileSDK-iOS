@@ -1272,13 +1272,13 @@ class QueueSyncUpTests: XCTestCase {
         let first = try runQueueSync(target: target, name: "q")
 
         XCTAssertEqual(first.status, .done)
-        XCTAssertEqual(labels(), ["PATCH Account/acc1"], "the upsert create may update acc1: it waits")
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account"], "the lookup finds acc1, which is blocked: the upsert create waits")
         XCTAssertEqual(serverName, "a")
 
         let second = try reSync(name: "q")
 
         XCTAssertEqual(second.status, .done)
-        XCTAssertEqual(labels(), ["PATCH Account/acc1", "PATCH Account/acc1", "UPSERT Account", "LOOKUP Account"])
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account", "PATCH Account/acc1", "UPSERT Account", "LOOKUP Account"])
         XCTAssertEqual(serverName, "newer")
         let accounts = try allRecords(QueueSyncUpTests.accounts)
         XCTAssertEqual(accounts.count, 1)
@@ -1297,7 +1297,101 @@ class QueueSyncUpTests: XCTestCase {
         let sync = try runQueueSync()
 
         XCTAssertEqual(sync.status, .done)
-        XCTAssertEqual(labels(), ["PATCH Account/acc1", "POST Account"], "a create without external id cannot hit an existing record")
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "POST Account"], "a create without external id has no destination to resolve")
+    }
+
+    /// acc1 has a queued UPDATE that the server rejects; then an upsert create with `extId` is queued.
+    private func upsertBehindRejectedUpdate(extId: String, lookup: @escaping (RecordingQueueTarget.Call) -> RecordingQueueTarget.Response) throws -> RecordingQueueTarget {
+        try seedServerRecord(QueueSyncUpTests.accounts, id: "acc1", type: "Account", fields: ["Name": "a", "ExtId__c": "e1"])
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "older"])
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("newer", extra: ["ExtId__c": extId]))
+        let target = RecordingQueueTarget()
+        target.externalIdFieldName = "ExtId__c"
+        RecordingQueueTarget.lookupResponder = lookup
+        RecordingQueueTarget.responder = { call in call.method == "PATCH" ? .failure(self.restError(400)) : .success(nil) }
+        return target
+    }
+
+    func test_givenUpsertCreateOfOtherExternalIdAndLookupFindsUnblockedId_whenSynced_thenUpsertSent() throws {
+        let target = try upsertBehindRejectedUpdate(extId: "e2") { _ in .success(["id": "acc2"]) }
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account", "UPSERT Account"])
+    }
+
+    func test_givenUpsertCreateAndLookupAnswers404_whenSynced_thenUpsertSent() throws {
+        let target = try upsertBehindRejectedUpdate(extId: "e2") { _ in .failure(self.restError(404)) }
+        RecordingQueueTarget.upsertCreates = true
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account", "UPSERT Account"])
+    }
+
+    func test_givenNoBlockedEntry_whenUpsertCreateSynced_thenNoLookupBeforeIt() throws {
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("n", extra: ["ExtId__c": "e1"]))
+        let target = RecordingQueueTarget()
+        target.externalIdFieldName = "ExtId__c"
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["UPSERT Account"])
+    }
+
+    func test_givenLookupTransportFailure_whenSynced_thenSyncFailsAndUpsertNotSent() throws {
+        let target = try upsertBehindRejectedUpdate(extId: "e1") { _ in .failure(self.restError(503)) }
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .failed)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account"])
+        let entries = try queueEntries()
+        let create = try XCTUnwrap(entries.first { $0["kind"] as? String == "CREATE" })
+        XCTAssertEqual(create["attempts"] as? Int, 1)
+        XCTAssertNotNil(create["lastError"])
+    }
+
+    func test_givenLookupInconclusive4xx_whenSynced_thenCreateDeferred() throws {
+        let target = try upsertBehindRejectedUpdate(extId: "e1") { _ in .failure(self.restError(400)) }
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account"])
+        let create = try XCTUnwrap(try queueEntries().first { $0["kind"] as? String == "CREATE" })
+        XCTAssertEqual(create["attempts"] as? Int, 0)
+        XCTAssertEqual(create["status"] as? String, "PENDING")
+    }
+
+    func test_givenLookupWithoutId_whenSynced_thenCreateDeferred() throws {
+        let target = try upsertBehindRejectedUpdate(extId: "e1") { _ in .success([:]) }
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "LOOKUP Account"])
+        XCTAssertEqual(try queueEntries().count, 2)
+    }
+
+    func test_givenRejectedUpsertCreate_whenLaterUpsertCreates_thenOnlySameExternalIdDeferred() throws {
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("first", extra: ["ExtId__c": "e1"]))
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("second", extra: ["ExtId__c": "e1"]))
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("third", extra: ["ExtId__c": "e2"]))
+        let target = RecordingQueueTarget()
+        target.externalIdFieldName = "ExtId__c"
+        RecordingQueueTarget.lookupResponder = { _ in .failure(self.restError(404)) }
+        RecordingQueueTarget.responder = { call in call.fields["Name"] as? String == "first" ? .failure(self.restError(400)) : .success(nil) }
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(RecordingQueueTarget.calls.map { $0.label + ":" + ($0.fields["Name"] as? String ?? $0.externalId ?? "") },
+                       ["UPSERT Account:first", "LOOKUP Account:e2", "UPSERT Account:third"])
+        XCTAssertEqual(try queueEntries().count, 2, "first (rejected) and second (deferred) remain")
     }
 
     func test_givenTempIdWithQuoteAndSlash_whenRunStoppedAfterCreateAndResumed_thenReferenceSentWithServerId() throws {

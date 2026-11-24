@@ -54,8 +54,16 @@ public class QueueSyncUpTask: SFSyncTask {
     /// Records that have a rejected or deferred entry in this run: their later entries are deferred.
     private var blockedRecords = Set<RecordKey>()
     private var blockedIds = Set<String>()
-    /// Object types of the rejected or deferred entries: an upsert create of such a type may update any record of it.
-    private var blockedTypes = Set<String>()
+    /// Server ids of the blocked records, by object type: an upsert create that resolves to one of them waits.
+    private var blockedServerIds: [String: Set<String>] = [:]
+    /// Upserts (object type, external id field, value) of the blocked creates: they have no server id to compare.
+    private var blockedUpserts = Set<UpsertKey>()
+
+    struct UpsertKey: Hashable {
+        let sobjectType: String
+        let field: String
+        let value: String
+    }
 
     struct RecordKey: Hashable {
         let soupName: String
@@ -153,25 +161,66 @@ public class QueueSyncUpTask: SFSyncTask {
             }
 
             let next = index + 1
-            target.sendRequest(syncManager, entry: entry, onComplete: { [self] response in
-                if handle(complete(entry, response: response), entry: entry) {
-                    replay(from: next)
-                }
-            }, onFail: { [self] error in
-                if QueueSyncUpTarget.isTransportError(error) {
-                    bumpAttempts(entry, error: error)
-                    failSync(queueSync, failureMessage: "Server call failed for queue entry \(entry.sequence)", error: error)
-                } else if entry.kind == .delete && QueueSyncUpTarget.isNotFound(error) {
-                    // Already deleted on the server
-                    if handle(complete(entry, response: nil), entry: entry) {
-                        replay(from: next)
-                    }
-                } else if recordFailure(entry, error: error) {
-                    replay(from: next)
-                }
-            })
+            // An upsert may update the record behind a blocked entry: resolve its destination first
+            if !blockedRecords.isEmpty, let field = target.upsertField(of: entry), let value = target.upsertExternalId(of: entry), let type = entry.sobjectType {
+                resolveUpsertDestination(entry, type: type, field: field, value: value, next: next)
+            } else {
+                send(entry, next: next)
+            }
             return
         }
+    }
+
+    /// Looks up the record that the upsert `entry` would update. Defers the entry if it is a blocked one (or if the
+    /// answer is inconclusive), fails the sync on a transport error, and sends it otherwise.
+    private func resolveUpsertDestination(_ entry: QueueEntry, type: String, field: String, value: String, next: Int) {
+        guard let target = queueTarget else { return }
+        target.lookupIdOnServer(type, externalIdField: field, externalId: value, onComplete: { [self] response in
+            if let id = response?[kCreatedId] as? String, !id.isEmpty {
+                if blockedServerIds[type]?.contains(id) == true {
+                    block(entry)
+                    replay(from: next)
+                } else {
+                    send(entry, next: next)
+                }
+            } else {
+                // No usable id: inconclusive
+                block(entry)
+                replay(from: next)
+            }
+        }, onFail: { [self] error in
+            if QueueSyncUpTarget.isTransportError(error) {
+                bumpAttempts(entry, error: error)
+                failSync(queueSync, failureMessage: "Id lookup failed for queue entry \(entry.sequence)", error: error)
+            } else if QueueSyncUpTarget.isNotFound(error) {
+                // No existing record: the upsert creates one
+                send(entry, next: next)
+            } else {
+                block(entry)
+                replay(from: next)
+            }
+        })
+    }
+
+    private func send(_ entry: QueueEntry, next: Int) {
+        guard let target = queueTarget else { return }
+        target.sendRequest(syncManager, entry: entry, onComplete: { [self] response in
+            if handle(complete(entry, response: response), entry: entry) {
+                replay(from: next)
+            }
+        }, onFail: { [self] error in
+            if QueueSyncUpTarget.isTransportError(error) {
+                bumpAttempts(entry, error: error)
+                failSync(queueSync, failureMessage: "Server call failed for queue entry \(entry.sequence)", error: error)
+            } else if entry.kind == .delete && QueueSyncUpTarget.isNotFound(error) {
+                // Already deleted on the server
+                if handle(complete(entry, response: nil), entry: entry) {
+                    replay(from: next)
+                }
+            } else if recordFailure(entry, error: error) {
+                replay(from: next)
+            }
+        })
     }
 
     private func isDeferred(_ entry: QueueEntry) -> Bool {
@@ -179,7 +228,7 @@ public class QueueSyncUpTask: SFSyncTask {
         // A delete of a record that never reached the server sends nothing and drops all its entries: never deferred
         if entry.kind == .delete && SyncTarget.isLocalId(entry.recordId) { return false }
         if blockedRecords.contains(RecordKey(soupName: entry.soupName, id: entry.recordId)) { return true }
-        if let type = entry.sobjectType, blockedTypes.contains(type), queueTarget?.upsertExternalId(of: entry) != nil { return true }
+        if let key = upsertKey(of: entry), blockedUpserts.contains(key) { return true }
         if let parent = entry.parentRef, blockedIds.contains(parent) { return true }
         return entry.changes.values.contains { ($0 as? String).map { blockedIds.contains($0) } ?? false }
     }
@@ -187,7 +236,15 @@ public class QueueSyncUpTask: SFSyncTask {
     private func block(_ entry: QueueEntry) {
         blockedRecords.insert(RecordKey(soupName: entry.soupName, id: entry.recordId))
         blockedIds.insert(entry.recordId)
-        if let type = entry.sobjectType { blockedTypes.insert(type) }
+        if let type = entry.sobjectType {
+            if !SyncTarget.isLocalId(entry.recordId) { blockedServerIds[type, default: []].insert(entry.recordId) }
+            if let key = upsertKey(of: entry) { blockedUpserts.insert(key) }
+        }
+    }
+
+    private func upsertKey(of entry: QueueEntry) -> UpsertKey? {
+        guard let type = entry.sobjectType, let field = queueTarget?.upsertField(of: entry), let value = queueTarget?.upsertExternalId(of: entry) else { return nil }
+        return UpsertKey(sobjectType: type, field: field, value: value)
     }
 
     private func problem(with entry: QueueEntry, recordExists: Bool) -> String? {

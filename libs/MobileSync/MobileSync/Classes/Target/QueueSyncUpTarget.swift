@@ -180,12 +180,18 @@ public class QueueSyncUpTarget: SyncUpTarget {
     /// The external id value if `entry` is a create that this target sends as an upsert (an upsert can update any
     /// existing record of the object type).
     func upsertExternalId(of entry: QueueEntry) -> String? {
-        guard entry.kind == .create,
-              let field = value(forKey: "externalIdFieldName") as? String, !field.isEmpty,
+        guard let field = upsertField(of: entry),
               let value = entry.changes[field] as? String, !value.isEmpty, !SyncTarget.isLocalId(value) else {
             return nil
         }
         return value
+    }
+
+    /// The external id field if `entry` is a create sent as an upsert.
+    func upsertField(of entry: QueueEntry) -> String? {
+        guard entry.kind == .create,
+              let field = value(forKey: "externalIdFieldName") as? String, !field.isEmpty else { return nil }
+        return field
     }
 
     // MARK: Errors
