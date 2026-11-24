@@ -14,10 +14,11 @@ For cross-platform concepts (architecture, data flows, conflict resolution) see 
 4. [SFSyncOptions](#sfsyncoptions)
 5. [Sync-Down Targets](#sync-down-targets)
 6. [Sync-Up Targets](#sync-up-targets)
-7. [Layout and Metadata Sync](#layout-and-metadata-sync)
-8. [Swift Extensions and Combine Support](#swift-extensions-and-combine-support)
-9. [JSON-Driven Configuration](#json-driven-configuration)
-10. [Testing](#testing)
+7. [Sync-Up Queue and Local Write API](#sync-up-queue-and-local-write-api)
+8. [Layout and Metadata Sync](#layout-and-metadata-sync)
+9. [Swift Extensions and Combine Support](#swift-extensions-and-combine-support)
+10. [JSON-Driven Configuration](#json-driven-configuration)
+11. [Testing](#testing)
 
 ---
 
@@ -30,12 +31,14 @@ libs/MobileSync/Classes/
 ├── Model/             SFLayout, SFMetadata, SFObject, SFMobileSyncPersistableObject
 ├── Config/            SFSDKSyncsConfig
 ├── Util/              SFSyncState, SFSyncOptions, SFParentInfo, SFChildrenInfo,
-│                      BriefcaseObjectInfo, SFSDKSoqlMutator, SFMobileSyncConstants
+│                      BriefcaseObjectInfo, SFSDKSoqlMutator, SFMobileSyncConstants,
+│                      SyncQueue (Swift)
 ├── BatchSyncUpTarget.swift
 ├── CollectionSyncUpTarget.swift
 └── SyncTarget.swift   (Swift helpers on SyncDownTarget)
 Extensions/
-└── MobileSync.swift   (Swift/Combine extensions on SFMobileSyncSyncManager)
+├── MobileSync.swift   (Swift/Combine extensions on SFMobileSyncSyncManager)
+└── SyncManager+LocalWrite.swift   (createLocal / updateLocal / deleteLocal)
 ```
 
 ---
@@ -574,6 +577,81 @@ SFParentChildrenSyncUpTarget *target =
 
 ---
 
+## Sync-Up Queue and Local Write API
+
+The sync manager can record local changes in an ordered queue, one entry per change, for any number of record soups. The queue is the foundation for replaying changes in the order they were made and with only the fields that changed. Nothing in the existing sync-up path reads the queue yet (the queue-backed sync-up target is a separate piece of work), and apps that never call the write API are unaffected.
+
+### Queue Soup (`mobilesync_queue`)
+
+`SFSDKSyncQueue` (Swift, `Util/SyncQueue.swift`) registers the soup `mobilesync_queue` in a store when the sync manager of that store is created, next to the syncs soup (`+[SFSDKSyncQueue setupQueueSoupIfNeeded:]`). If the soup exists with index paths or types that differ from the expected ones it is altered with re-indexing. The only visible effect for an app that does not use the write API is an empty soup.
+
+| Path | Index type | Content |
+|---|---|---|
+| `sequence` | integer | Global order of the entries, across all record soups |
+| `soupName` | string | Soup that holds the record |
+| `recordId` | string | `Id` of the record (local id or server id) |
+| `sobjectType` | string | `attributes.type` of the record |
+| `kind` | string | `CREATE`, `UPDATE` or `DELETE` |
+| `changes` | json1 | Changed fields and their new values (all non-internal fields for `CREATE`, absent for `DELETE`) |
+| `base` | json1 | Reserved, not written yet |
+| `status` | string | `PENDING` or `PARKED` (new entries are `PENDING`) |
+| `lastError` | json1 | Reserved, not written yet |
+| `attempts` | integer | Number of replay attempts (starts at 0) |
+| `parentRef` | string | Reserved, not written yet |
+
+`sequence` is allocated inside the write transaction as `MAX(sequence) + 1` (1 for an empty queue), so it is unique and monotonic across record soups, and a rolled-back write does not use a number.
+
+### Local Write API
+
+Extension of `SyncManager` (`SFMobileSyncSyncManager`) in `Extensions/SyncManager+LocalWrite.swift`. All three calls are synchronous and run in one SmartStore transaction (`performTransaction`): the record write and the queue entry both happen or neither does.
+
+```swift
+func createLocal(soupName: String, record: [String: Any]) throws -> [String: Any]
+func updateLocal(soupName: String, id: String, changes: [String: Any]) throws -> [String: Any]
+func deleteLocal(soupName: String, id: String) throws -> [String: Any]
+```
+
+```objc
+// Objective-C selectors
+- (NSDictionary *)createLocalInSoup:(NSString *)soupName record:(NSDictionary *)record error:(NSError **)error;
+- (NSDictionary *)updateLocalInSoup:(NSString *)soupName id:(NSString *)id changes:(NSDictionary *)changes error:(NSError **)error;
+- (NSDictionary *)deleteLocalInSoup:(NSString *)soupName id:(NSString *)id error:(NSError **)error;
+```
+
+| Call | Record | Flags | Queue entry |
+|---|---|---|---|
+| `createLocal` | Inserted (never overwrites). `Id` is the given local id, or a new local id | `__local__` and `__locally_created__` true; `__locally_updated__` and `__locally_deleted__` false; `__last_error__` removed | `CREATE`, `changes` = all fields except the internal ones |
+| `updateLocal` | `changes` merged into the stored record | `__local__` and `__locally_updated__` true; `__locally_created__` is kept | `UPDATE`, `changes` = the given fields only |
+| `deleteLocal` | Kept in its soup (soft delete) | `__local__` and `__locally_deleted__` true | `DELETE`, no `changes` |
+
+Rules:
+- The soup must exist and have an index on `Id`. The flags (`__local__`, `__locally_created__`, `__locally_updated__`, `__locally_deleted__`) should be **string** indexes in the record soup, as in all MobileSync soups, for sync-down skip logic and the flag-based sync up to work. The write API stores the flags as booleans and does not check their indexes.
+- `createLocal` needs the object type in `attributes.type`. It rejects a record with an `Id` that is not a local id, with an `Id` that already exists, with a `_soup*` key, or with values that cannot be serialized to JSON. The dictionary passed in is not modified.
+- `updateLocal` and `deleteLocal` accept a locally created record or a record that came from sync down (server id). They fail if the record does not exist or is already flagged deleted.
+- Internal fields are never part of `changes` and are rejected in the `changes` of `updateLocal`: `Id`, `attributes`, `_soup*` keys, the four dirty flags, `__last_error__`, `__sync_id__`, `__display__`. `changes` must not be empty. To clear a field, pass `NSNull()` (`[NSNull null]`).
+- A record soup must use either the queue or flag-based sync up, never both. The write API sets the same dirty flags that flag-based sync-up targets read, and nothing replays the queue yet, so mixing them on one soup gives inconsistent results (unsupported).
+- `__display__` is neither written nor refreshed.
+- The calls do not check whether the sync manager is stopped (they are local writes, not syncs). They block while holding the store, so do not use them from the main thread for large volumes.
+
+Errors are `NSError`s in `kSFMobileSyncErrorDomain`, with a localized description. Nothing is written when a call fails.
+
+| Code | Meaning |
+|---|---|
+| 905 | Soup does not exist |
+| 906 | Soup has no index on `Id` |
+| 907 | Invalid record (`createLocal`): no object type, `_soup*` key, or not serializable to JSON |
+| 908 | `createLocal`: `Id` is present and is not a local id |
+| 909 | `createLocal`: a record with this `Id` already exists |
+| 910 | Record not found |
+| 911 | More than one record with this `Id` |
+| 912 | Record is already flagged deleted |
+| 913 | Invalid `changes`: empty, internal field, or not serializable to JSON |
+| 914 | Store failure (the write did not produce a record) |
+
+Other failures (for example a SmartStore error that makes the transaction fail) are returned as the underlying `NSError`.
+
+---
+
 ## Layout and Metadata Sync
 
 ### SFLayoutSyncManager
@@ -715,6 +793,8 @@ xcodebuild test -workspace SalesforceMobileSDK-iOS.xcworkspace \
     -scheme MobileSyncTests -destination 'platform=iOS Simulator,...'
 ```
 
-Key test files: `SyncManagerTestCase.m`, `SyncDownTests.m`, `SyncUpTests.m`, `ParentChildrenSyncTests.m`, `BriefcaseSyncDownTests.swift`.
+Key test files: `SyncManagerTestCase.m`, `SyncDownTests.m`, `SyncUpTests.m`, `ParentChildrenSyncTests.m`, `BriefcaseSyncDownTests.swift`, `SyncQueueTests.swift`, `LocalWriteTests.swift`.
+
+`SyncQueueTests` and `LocalWriteTests` need no network or org login: plain `XCTestCase`s on a global store.
 
 Tests use `MockRestClient` / `MockRestResponse` to intercept REST calls without hitting a live org.
