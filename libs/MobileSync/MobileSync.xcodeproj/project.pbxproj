@@ -91,6 +91,7 @@
 		4FF9331722165CD30058807A /* BatchSyncUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9331622165CD30058807A /* BatchSyncUpTests.m */; };
 		4FF9331922167E420058807A /* SFCompositeRequestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF9331822167E420058807A /* SFCompositeRequestHelper.h */; };
 		6927E20A283BEEE200A16668 /* BriefcaseSyncDownTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E1FE283BEEE200A16668 /* BriefcaseSyncDownTarget.swift */; };
+		E678DEA68AE2463781C56E5B /* QueueSyncUpOrgTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1575119BECB345208028621F /* QueueSyncUpOrgTests.swift */; };
 		6927E21E283BEFB700A16668 /* BriefcaseSyncDownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */; };
 		6927E22B283BF17800A16668 /* BriefcaseObjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E22A283BF17800A16668 /* BriefcaseObjectInfo.swift */; };
 		6927E23F283C3E1400A16668 /* SyncTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E23E283C3E1400A16668 /* SyncTarget.swift */; };
@@ -392,6 +393,7 @@
 		4FFEE5B31BFE8F8800B7AA8A /* SmartStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartStore.xcodeproj; path = ../SmartStore/SmartStore.xcodeproj; sourceTree = "<group>"; };
 		6927E1FE283BEEE200A16668 /* BriefcaseSyncDownTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BriefcaseSyncDownTarget.swift; path = Target/BriefcaseSyncDownTarget.swift; sourceTree = "<group>"; };
 		6927E211283BEFB600A16668 /* MobileSyncTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileSyncTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		1575119BECB345208028621F /* QueueSyncUpOrgTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueSyncUpOrgTests.swift; sourceTree = "<group>"; };
 		6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BriefcaseSyncDownTests.swift; sourceTree = "<group>"; };
 		6927E22A283BF17800A16668 /* BriefcaseObjectInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BriefcaseObjectInfo.swift; sourceTree = "<group>"; };
 		6927E23E283C3E1400A16668 /* SyncTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTarget.swift; sourceTree = "<group>"; };
@@ -727,6 +729,7 @@
 			children = (
 				4FB685EC28413EBC00FB76E2 /* CollectionSyncUpTargetTests.m */,
 				6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */,
+				1575119BECB345208028621F /* QueueSyncUpOrgTests.swift */,
 				A1B2C3D4E5F6A7B8C9D0E107 /* LocalWriteTests.swift */,
 				A1B2C3D4E5F6A7B8C9D0E105 /* SyncQueueTests.swift */,
 				A1B2C3D4E5F6A7B8C9D0E205 /* QueueSyncUpTests.swift */,
@@ -1273,6 +1276,7 @@
 			files = (
 				828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */,
 				6927E21E283BEFB700A16668 /* BriefcaseSyncDownTests.swift in Sources */,
+				E678DEA68AE2463781C56E5B /* QueueSyncUpOrgTests.swift in Sources */,
 				A1B2C3D4E5F6A7B8C9D0E108 /* LocalWriteTests.swift in Sources */,
 				A1B2C3D4E5F6A7B8C9D0E106 /* SyncQueueTests.swift in Sources */,
 				A1B2C3D4E5F6A7B8C9D0E206 /* QueueSyncUpTests.swift in Sources */,
