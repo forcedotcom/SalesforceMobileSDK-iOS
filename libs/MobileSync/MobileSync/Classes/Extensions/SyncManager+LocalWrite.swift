@@ -47,6 +47,11 @@ enum LocalWriteError: Int {
 }
 
 private let idField = "Id"
+
+/// Source of the generated local ids (replaceable by tests, to force collisions).
+enum LocalIdGenerator {
+    static var generate: () -> String = { SyncTarget.createLocalId() }
+}
 private let attributesField = "attributes"
 private let typeField = "type"
 private let displayField = "__display__"
@@ -103,11 +108,8 @@ extension SyncManager {
     public func createLocal(soupName: String, record: [String: Any]) throws -> [String: Any] {
         // The soups that have an Id index: a caller-supplied local id must be unused in all of them.
         // Read here, the store cannot be called from the transaction block.
-        var otherSoups: [String] = []
-        if record[idField] is String {
-            otherSoups = store.allSoupNames().filter { name in
-                name != soupName && name != SyncQueue.soupName && store.indices(forSoupNamed: name).contains(where: { $0.path == idField })
-            }
+        let otherSoups = store.allSoupNames().filter { name in
+            name != soupName && name != SyncQueue.soupName && store.indices(forSoupNamed: name).contains(where: { $0.path == idField })
         }
         return try performLocalWrite(soupName: soupName) { transaction in
             guard let sobjectType = Self.sobjectType(of: record), !sobjectType.isEmpty else {
@@ -124,10 +126,20 @@ extension SyncManager {
             var recordId: String
             let givenId = record[idField]
             if givenId == nil || givenId is NSNull {
-                recordId = SyncTarget.createLocalId()
-                while try Self.lookupEntryId(transaction, soupName, recordId) != nil {
-                    recordId = SyncTarget.createLocalId()
+                // Generated ids get the same store-wide check as the given ones; a collision generates another id
+                var generated: String?
+                for _ in 0..<100 {
+                    let candidate = LocalIdGenerator.generate()
+                    if try Self.lookupEntryId(transaction, soupName, candidate) == nil,
+                       !(try Self.isUsedInOtherSoups(transaction, candidate, soupName: soupName, otherSoups: otherSoups)) {
+                        generated = candidate
+                        break
+                    }
                 }
+                guard let unused = generated else {
+                    throw LocalWriteError.storeFailure.error("Could not generate an unused local id")
+                }
+                recordId = unused
             } else {
                 guard let id = givenId as? String, SyncTarget.isLocalId(id) else {
                     throw LocalWriteError.invalidId.error("\(idField) must be absent or a local id")
@@ -275,9 +287,20 @@ extension SyncManager {
     /// Local ids used as references between records (a `parentRef`, a lookup in `changes`) are replaced store-wide when the
     /// create is replayed, so a local id must be unique in the whole store, not only in its soup.
     private static func checkUnusedInOtherSoups(_ transaction: SmartStore.Transaction, _ id: String, soupName: String, otherSoups: [String]) throws {
+        if let other = try usedInOtherSoups(transaction, id, soupName: soupName, otherSoups: otherSoups) {
+            throw LocalWriteError.recordAlreadyExists.error("The local id \(id) is already used \(other): local ids must be unique in the store")
+        }
+    }
+
+    private static func isUsedInOtherSoups(_ transaction: SmartStore.Transaction, _ id: String, soupName: String, otherSoups: [String]) throws -> Bool {
+        return try usedInOtherSoups(transaction, id, soupName: soupName, otherSoups: otherSoups) != nil
+    }
+
+    /// Where the id is used, if it is: by a record of another soup, or by a queue entry of another soup.
+    private static func usedInOtherSoups(_ transaction: SmartStore.Transaction, _ id: String, soupName: String, otherSoups: [String]) throws -> String? {
         for other in otherSoups {
             if (try? transaction.lookupSoupEntryId(soupNamed: other, fieldPath: idField, fieldValue: id)) != nil {
-                throw LocalWriteError.recordAlreadyExists.error("The local id \(id) is already used in \(other): local ids must be unique in the store")
+                return "in \(other)"
             }
         }
         let queue = SyncQueue.soupName
@@ -285,8 +308,9 @@ extension SyncManager {
         if let spec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: 1),
            let rows = try? transaction.query(using: spec, startingFromPageIndex: 0, whereArgs: [id, soupName]) as? [[Any]],
            let count = (rows.first?.first as? NSNumber)?.intValue, count > 0 {
-            throw LocalWriteError.recordAlreadyExists.error("The local id \(id) is already used by a queue entry of another soup: local ids must be unique in the store")
+            return "by a queue entry of another soup"
         }
+        return nil
     }
 
     private static func existingRecord(_ transaction: SmartStore.Transaction, _ soupName: String, _ id: String) throws -> [String: Any] {

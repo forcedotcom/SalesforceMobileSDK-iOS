@@ -1245,6 +1245,88 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(flag(try record(QueueSyncUpTests.accounts, "acc1"), kSyncTargetLocallyUpdated), true, "a parked UPDATE remains, past the first page")
         XCTAssertEqual(flag(try record(QueueSyncUpTests.accounts, "acc1"), kSyncTargetLocal), true)
     }
+
+    // MARK: upsert creates and quoted ids
+
+    func test_givenOlderUpdateRejectedAndNewerUpsertCreateOfSameRecord_whenSyncedAndRetried_thenNewerWins() throws {
+        try seedServerRecord(QueueSyncUpTests.accounts, id: "acc1", type: "Account", fields: ["Name": "a", "ExtId__c": "e1"])
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "older"])
+        // the upsert updates the existing acc1 on the server (204: no body, then the id lookup)
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("newer", extra: ["ExtId__c": "e1"]))
+        let target = RecordingQueueTarget()
+        target.externalIdFieldName = "ExtId__c"
+        RecordingQueueTarget.upsertCreates = false
+        RecordingQueueTarget.lookupResponder = { _ in .success(["id": "acc1"]) }
+        var rejectOlder = true
+        var serverName = "a"
+        RecordingQueueTarget.responder = { call in
+            let name = call.fields["Name"] as? String ?? ""
+            if name == "older" && rejectOlder {
+                rejectOlder = false
+                return .failure(self.restError(400))
+            }
+            serverName = name
+            return .success(nil)
+        }
+
+        let first = try runQueueSync(target: target, name: "q")
+
+        XCTAssertEqual(first.status, .done)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1"], "the upsert create may update acc1: it waits")
+        XCTAssertEqual(serverName, "a")
+
+        let second = try reSync(name: "q")
+
+        XCTAssertEqual(second.status, .done)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "PATCH Account/acc1", "UPSERT Account", "LOOKUP Account"])
+        XCTAssertEqual(serverName, "newer")
+        let accounts = try allRecords(QueueSyncUpTests.accounts)
+        XCTAssertEqual(accounts.count, 1)
+        XCTAssertEqual(accounts[0]["Id"] as? String, "acc1")
+        XCTAssertEqual(accounts[0]["Name"] as? String, "newer")
+        assertClean(accounts[0])
+        XCTAssertEqual(try queueEntries().count, 0)
+    }
+
+    func test_givenRejectedEntryOfAType_whenSynced_thenPlainCreateOfSameTypeStillSent() throws {
+        try seedServerRecord(QueueSyncUpTests.accounts, id: "acc1", type: "Account", fields: ["Name": "a"])
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: "acc1", changes: ["Name": "older"])
+        _ = try createAccount("plain")
+        RecordingQueueTarget.responder = { call in call.method == "PATCH" ? .failure(self.restError(400)) : .success(nil) }
+
+        let sync = try runQueueSync()
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["PATCH Account/acc1", "POST Account"], "a create without external id cannot hit an existing record")
+    }
+
+    func test_givenTempIdWithQuoteAndSlash_whenRunStoppedAfterCreateAndResumed_thenReferenceSentWithServerId() throws {
+        let tempId = "local_q\"1/x\\y"
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("acme", extra: ["Id": tempId]))
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("smith", extra: ["AccountId": tempId]))
+        var contactAttempts = 0
+        RecordingQueueTarget.responder = { call in
+            if call.objectType == "Contact" {
+                contactAttempts += 1
+                if contactAttempts == 1 { return .failure(self.restError(503)) }
+            }
+            return .success(nil)
+        }
+
+        let first = try runQueueSync(name: "q")
+
+        XCTAssertEqual(first.status, .failed)
+        XCTAssertEqual(labels(), ["POST Account", "POST Contact"])
+        XCTAssertEqual(try queueEntries().count, 1)
+        XCTAssertEqual(try queueEntries()[0]["changes"] as? [String: String], ["AccountId": "srv_1", "LastName": "smith"], "the queue was rewritten before the run stopped")
+
+        let second = try reSync(name: "q")
+
+        XCTAssertEqual(second.status, .done)
+        XCTAssertEqual(labels(), ["POST Account", "POST Contact", "POST Contact"])
+        XCTAssertEqual(RecordingQueueTarget.calls[2].fields["AccountId"] as? String, "srv_1")
+        XCTAssertEqual(try queueEntries().count, 0)
+    }
 }
 
 

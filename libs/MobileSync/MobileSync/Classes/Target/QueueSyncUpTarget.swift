@@ -177,6 +177,17 @@ public class QueueSyncUpTarget: SyncUpTarget {
         }
     }
 
+    /// The external id value if `entry` is a create that this target sends as an upsert (an upsert can update any
+    /// existing record of the object type).
+    func upsertExternalId(of entry: QueueEntry) -> String? {
+        guard entry.kind == .create,
+              let field = value(forKey: "externalIdFieldName") as? String, !field.isEmpty,
+              let value = entry.changes[field] as? String, !value.isEmpty, !SyncTarget.isLocalId(value) else {
+            return nil
+        }
+        return value
+    }
+
     // MARK: Errors
 
     /// Domain of the HTTP errors of the REST client; `code` is the HTTP status.

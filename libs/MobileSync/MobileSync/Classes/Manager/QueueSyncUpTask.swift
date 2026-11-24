@@ -54,6 +54,8 @@ public class QueueSyncUpTask: SFSyncTask {
     /// Records that have a rejected or deferred entry in this run: their later entries are deferred.
     private var blockedRecords = Set<RecordKey>()
     private var blockedIds = Set<String>()
+    /// Object types of the rejected or deferred entries: an upsert create of such a type may update any record of it.
+    private var blockedTypes = Set<String>()
 
     struct RecordKey: Hashable {
         let soupName: String
@@ -177,6 +179,7 @@ public class QueueSyncUpTask: SFSyncTask {
         // A delete of a record that never reached the server sends nothing and drops all its entries: never deferred
         if entry.kind == .delete && SyncTarget.isLocalId(entry.recordId) { return false }
         if blockedRecords.contains(RecordKey(soupName: entry.soupName, id: entry.recordId)) { return true }
+        if let type = entry.sobjectType, blockedTypes.contains(type), queueTarget?.upsertExternalId(of: entry) != nil { return true }
         if let parent = entry.parentRef, blockedIds.contains(parent) { return true }
         return entry.changes.values.contains { ($0 as? String).map { blockedIds.contains($0) } ?? false }
     }
@@ -184,6 +187,7 @@ public class QueueSyncUpTask: SFSyncTask {
     private func block(_ entry: QueueEntry) {
         blockedRecords.insert(RecordKey(soupName: entry.soupName, id: entry.recordId))
         blockedIds.insert(entry.recordId)
+        if let type = entry.sobjectType { blockedTypes.insert(type) }
     }
 
     private func problem(with entry: QueueEntry, recordExists: Bool) -> String? {
@@ -390,13 +394,14 @@ public class QueueSyncUpTask: SFSyncTask {
     /// and in their `changes` values that are exactly `localId` (top-level strings only).
     private func rewritePendingEntries(_ transaction: SmartStore.Transaction, from localId: String, to serverId: String, replayed: QueueEntry) throws {
         let queue = SyncQueue.soupName
-        // The LIKE only preselects (local ids contain no JSON escapes); the exact match is checked in `remapped`
+        // The LIKE only preselects; the exact match is checked in `remapped`
         let smartSql = "SELECT {\(queue):_soup} FROM {\(queue)} WHERE {\(queue):\(SyncQueue.recordIdField)} = ? OR {\(queue):\(SyncQueue.parentRefField)} = ? OR {\(queue):\(SyncQueue.changesField)} LIKE ?"
         let pageSize: UInt = 1000
         guard let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: pageSize) else {
             throw LocalWriteError.storeFailure.error("Could not build the queue query")
         }
-        let args: [Any] = [localId, localId, "%\"\(localId)\"%"]
+        // The changes are stored as JSON: the id is searched as it is serialized (quotes, backslashes and slashes escaped)
+        let args: [Any] = [localId, localId, "%\(QueueSyncUpTask.jsonString(localId))%"]
         var rewritten: [[String: Any]] = []
         var page: UInt = 0
         while true {
@@ -415,6 +420,14 @@ public class QueueSyncUpTask: SFSyncTask {
         if !rewritten.isEmpty {
             try upsert(transaction, rewritten, into: queue)
         }
+    }
+
+    /// `value` as a JSON string literal, with its quotes.
+    private static func jsonString(_ value: String) -> String {
+        guard let data = try? JSONSerialization.data(withJSONObject: [value]), let array = String(data: data, encoding: .utf8) else {
+            return "\"\(value)\""
+        }
+        return String(array.dropFirst().dropLast())
     }
 
     private func upsert(_ transaction: SmartStore.Transaction, _ records: [[String: Any]], into soupName: String) throws {
