@@ -112,6 +112,21 @@ public class QueueSyncUpTarget: SyncUpTarget {
 
         // Record-shaped map for the request helpers: the object type, the id and the changed fields
         var record = entry.changes
+        // One validated external id value decides the request, the body and the lookup
+        let externalId = upsertExternalId(of: entry)
+        let externalField = upsertField(of: entry)
+        var fieldlist = Array(entry.changes.keys)
+        if let field = externalField {
+            if externalId != nil {
+                // The server refuses an upsert body that contains the external id field (it is in the path)
+                fieldlist.removeAll { $0 == field }
+            } else if !(entry.changes[field] as? String).map({ SyncTarget.isLocalId($0) && QueueSyncUpTarget.isNonBlank($0) }).orFalse {
+                // null, blank or not a string: no upsert key. The value is left out of the plain POST, and the
+                // request code must not see it (it takes any non-nil value for an external id)
+                record.removeValue(forKey: field)
+                fieldlist.removeAll { $0 == field }
+            }
+        }
         record["attributes"] = ["type": sobjectType]
         record[idFieldName] = entry.recordId
         switch kind {
@@ -120,16 +135,11 @@ public class QueueSyncUpTarget: SyncUpTarget {
             let complete: ([AnyHashable: Any]?) -> Void = { [self] response in
                 // a blank id is not an id: the replay treats the answer as unexpected
                 if response?[kCreatedId] is String { return onComplete(response) }
-                // the property is declared non-null but is nil when not set
-                guard let field = value(forKey: "externalIdFieldName") as? String, !field.isEmpty,
-                      let value = entry.changes[field] as? String, !value.isEmpty, !SyncTarget.isLocalId(value) else {
+                guard let field = externalField, let value = externalId else {
                     return onComplete(response)
                 }
                 lookupIdOnServer(sobjectType, externalIdField: field, externalId: value, onComplete: onComplete, onFail: onFail)
             }
-            // The server refuses an upsert body that contains the external id field (it is in the path)
-            let upsertField = upsertExternalId(of: entry) != nil ? upsertField(of: entry) : nil
-            let fieldlist = entry.changes.keys.filter { $0 != upsertField }
             createOnServer(syncManager: syncManager, record: record, fieldlist: fieldlist, onComplete: complete, onFail: fail)
         case .update:
             updateOnServer(syncManager: syncManager, record: record, fieldlist: Array(entry.changes.keys), onComplete: onComplete, onFail: fail)
@@ -185,7 +195,7 @@ public class QueueSyncUpTarget: SyncUpTarget {
     /// existing record of the object type).
     func upsertExternalId(of entry: QueueEntry) -> String? {
         guard let field = upsertField(of: entry),
-              let value = entry.changes[field] as? String, !value.isEmpty, !SyncTarget.isLocalId(value) else {
+              let value = entry.changes[field] as? String, QueueSyncUpTarget.isNonBlank(value), !SyncTarget.isLocalId(value) else {
             return nil
         }
         return value
@@ -295,4 +305,8 @@ public class QueueSyncUpTarget: SyncUpTarget {
         }
         return changed ? result : nil
     }
+}
+
+private extension Optional where Wrapped == Bool {
+    var orFalse: Bool { return self ?? false }
 }

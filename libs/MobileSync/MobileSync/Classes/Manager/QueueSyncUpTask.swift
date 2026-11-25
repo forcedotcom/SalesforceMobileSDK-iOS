@@ -225,7 +225,8 @@ public class QueueSyncUpTask: SFSyncTask {
     /// it is blocked too, so that a newer edit cannot reach the server before the deferred upsert.
     private func deferUpsert(_ entry: QueueEntry, next: Int) {
         block(entry)
-        guard let type = entry.sobjectType else { return replay(from: next) }
+        // Nothing follows: there is no later entry to protect
+        guard next < entryIds.count, let type = entry.sobjectType else { return replay(from: next) }
         lookupDestination(entry, bump: true) { [self] destination in
             blockDestination(destination, type: type)
             replay(from: next)

@@ -1805,6 +1805,64 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(labels(), ["UPSERT Account"], "nothing follows the rejected entry: no destination to protect")
         XCTAssertEqual(try queueEntries().first?["attempts"] as? Int, 1)
     }
+
+    // MARK: round 7: null external id, deferred upsert as last entry, unique external id order
+
+    func test_givenNullOrBlankOrNonStringExternalId_whenCreateReplayed_thenPlainPostWithoutTheField() throws {
+        for value in [NSNull(), "", "  ", 5] as [Any] {
+            RecordingQueueTarget.reset()
+            try store.clearSoup(SyncQueue.soupName)
+            try store.clearSoup(QueueSyncUpTests.accounts)
+            _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("n", extra: ["ExtId__c": value]))
+
+            let sync = try runQueueSync(target: accountsUpsertTarget())
+
+            XCTAssertEqual(sync.status, .done, "\(value)")
+            XCTAssertEqual(labels(), ["POST Account"], "\(value)")
+            XCTAssertNil(RecordingQueueTarget.calls.first?.fields["ExtId__c"], "\(value)")
+            XCTAssertEqual(try queueEntries().count, 0)
+        }
+    }
+
+    func test_givenDeferredUpsertIsLastEntry_whenLookupWouldFail_thenNoLookupAndEntryPendingWithSameAttempts() throws {
+        let accountId = try createAccount("parent")
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("u", extra: ["AccountId": accountId, "ExtId__c": "e1"]))
+        RecordingQueueTarget.responder = { call in call.method == "POST" ? .failure(self.restError(400)) : .success(nil) }
+        RecordingQueueTarget.lookupResponder = { _ in .failure(self.restError(503)) }
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["POST Account"])
+        let upsert = try XCTUnwrap(try queueEntries().first { $0["kind"] as? String == "CREATE" && $0["sobjectType"] as? String == "Contact" })
+        XCTAssertEqual(upsert["status"] as? String, "PENDING")
+        XCTAssertEqual(upsert["attempts"] as? Int, 0)
+        XCTAssertNil(upsert["lastError"] as? String)
+    }
+
+    /// Unique external id: nobody owns X when the first deferred upsert looks it up (404, cached); B then takes X; the
+    /// second deferred upsert must look X up again and find B.
+    func test_givenUniqueExternalId_whenOwnerAcquiredBetweenTwoDeferredUpserts_thenSecondLookupFindsNewOwnerAndBlocksIt() throws {
+        try seedServerRecord(QueueSyncUpTests.contacts, id: "srvB", type: "Contact", fields: ["LastName": "b"])
+        let accountId = try createAccount("parent")
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("u1", extra: ["AccountId": accountId, "ExtId__c": "X"]))
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.contacts, id: "srvB", changes: ["ExtId__c": "X"])
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("u2", extra: ["AccountId": accountId, "ExtId__c": "X"]))
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.contacts, id: "srvB", changes: ["LastName": "newer"])
+        var acquired = false
+        RecordingQueueTarget.lookupResponder = { _ in acquired ? .success(["id": "srvB"]) : .failure(self.restError(404)) }
+        RecordingQueueTarget.responder = { call in
+            if call.method == "POST" { return .failure(self.restError(400)) }
+            if call.method == "PATCH" { acquired = true }
+            return .success(nil)
+        }
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["POST Account", "LOOKUP Contact", "PATCH Contact/srvB", "LOOKUP Contact"])
+        XCTAssertEqual(try queueEntries().count, 4)
+    }
 }
 
 

@@ -409,4 +409,35 @@ class QueueSyncUpOrgTests: SyncManagerTestCase {
         XCTAssertEqual(idsOnServer(type, field: field, value: extValue), [id])
         XCTAssertEqual(serverRecord(type, id, fields: "Name").1?[NAME] as? String, prefix + "blocked")
     }
+
+    /// Spec case 19 with a UNIQUE external id: X is owned by nobody when the first deferred upsert looks it up (404),
+    /// then B acquires X, then the second deferred upsert must find B and keep the newer edit of B from going first.
+    func test_givenUniqueExternalId_whenOwnerAcquiredBetweenTwoDeferredUpserts_thenNewerEditOfNewOwnerDeferred() throws {
+        guard let (type, field) = findExternalIdField(), type == ACCOUNT_TYPE else { throw XCTSkip("No external id field on Account") }
+        try requireUsableExternalId(type, field, nameField: NAME)
+        let extValue = prefix + "x"
+        let idB = try createOnServer(type, [NAME: prefix + "b"])
+        try seedServerRecord(ACCOUNTS_SOUP, id: idB, type: type, fields: [NAME: prefix + "b"])
+        // 1. a create that the server rejects (name too long): every entry that refers to it waits
+        let parent = try XCTUnwrap(try syncManager.createLocal(soupName: ACCOUNTS_SOUP, record: account(String(repeating: "x", count: 300)))["Id"] as? String)
+        // 2. upsert on X (older), deferred: X is looked up, nobody owns it (404)
+        _ = try syncManager.createLocal(soupName: ACCOUNTS_SOUP, record: account(prefix + "older1", extra: [field: extValue, "ParentId": parent]))
+        // 3. B takes X: succeeds
+        try syncManager.updateLocal(soupName: ACCOUNTS_SOUP, id: idB, changes: [field: extValue])
+        // 4. second upsert on X, deferred: X is looked up again (the write cleared the cache) and found on B
+        _ = try syncManager.createLocal(soupName: ACCOUNTS_SOUP, record: account(prefix + "older2", extra: [field: extValue, "ParentId": parent]))
+        // 5. newer edit of B: B is blocked, so it waits
+        try syncManager.updateLocal(soupName: ACCOUNTS_SOUP, id: idB, changes: [NAME: prefix + "newer"])
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = field
+
+        let sync = try runQueueSync(target: target)
+
+        XCTAssertEqual(sync.status, .done)
+        let entries = try queueEntries()
+        XCTAssertEqual(entries.map { $0["kind"] as? String }, ["CREATE", "CREATE", "CREATE", "UPDATE"])
+        XCTAssertEqual(entries.map { $0["attempts"] as? Int }, [1, 0, 0, 0])
+        XCTAssertEqual(idsOnServer(type, field: field, value: extValue), [idB], "B owns X")
+        XCTAssertEqual(serverRecord(type, idB, fields: "Name").1?[NAME] as? String, prefix + "b", "the newer edit of B was not sent")
+    }
 }
