@@ -45,6 +45,7 @@ class LocalWriteTests: XCTestCase {
     }
 
     override func tearDown() {
+        LocalIdGenerator.generate = { SyncTarget.createLocalId() }
         SyncManager.removeSharedInstance(store: store)
         SmartStore.removeSharedGlobal(withName: LocalWriteTests.storeName)
         super.tearDown()
@@ -494,5 +495,42 @@ class LocalWriteTests: XCTestCase {
         XCTAssertTrue(syncManager.responds(to: NSSelectorFromString("createLocalInSoup:record:error:")))
         XCTAssertTrue(syncManager.responds(to: NSSelectorFromString("updateLocalInSoup:id:changes:error:")))
         XCTAssertTrue(syncManager.responds(to: NSSelectorFromString("deleteLocalInSoup:id:error:")))
+    }
+
+    // MARK: generated local ids are unique store-wide
+
+    /// Makes the generator answer `ids` in order (then fresh ids).
+    private func generate(_ ids: [String]) {
+        var remaining = ids
+        LocalIdGenerator.generate = { remaining.isEmpty ? SyncTarget.createLocalId() : remaining.removeFirst() }
+    }
+
+    func test_givenGeneratedIdUsedByRecordOfAnotherSoup_whenCreateLocal_thenAnotherIdGenerated() throws {
+        _ = try XCTUnwrap(store.upsert(entries: [["Id": "local_taken", "attributes": ["type": "Contact"], "Name": "c"]], forSoupNamed: LocalWriteTests.contacts))
+        generate(["local_taken", "local_free"])
+
+        let saved = try syncManager.createLocal(soupName: LocalWriteTests.accounts, record: account("acme"))
+
+        XCTAssertEqual(saved["Id"] as? String, "local_free")
+        XCTAssertEqual(try queueEntries().map { $0["recordId"] as? String }, ["local_free"])
+    }
+
+    func test_givenGeneratedIdUsedByQueueEntryOfAnotherSoup_whenCreateLocal_thenAnotherIdGenerated() throws {
+        let foreign = SyncQueue.buildEntry(sequence: 1, soupName: LocalWriteTests.contacts, recordId: "local_taken", sobjectType: "Contact", kind: .update, changes: ["Name": "x"])
+        _ = try XCTUnwrap(store.upsert(entries: [foreign], forSoupNamed: SyncQueue.soupName))
+        generate(["local_taken", "local_taken", "local_free"])
+
+        let saved = try syncManager.createLocal(soupName: LocalWriteTests.accounts, record: account("acme"))
+
+        XCTAssertEqual(saved["Id"] as? String, "local_free")
+    }
+
+    func test_givenGeneratedIdUsedInSameSoup_whenCreateLocal_thenAnotherIdGenerated() throws {
+        try syncManager.createLocal(soupName: LocalWriteTests.accounts, record: account("first", extra: ["Id": "local_taken"]))
+        generate(["local_taken", "local_free"])
+
+        let saved = try syncManager.createLocal(soupName: LocalWriteTests.accounts, record: account("second"))
+
+        XCTAssertEqual(saved["Id"] as? String, "local_free")
     }
 }

@@ -119,7 +119,14 @@ static NSException *authException = nil;
 }
 
 - (NSString*)createRecordName:(NSString*)objectType {
-    return [NSString stringWithFormat:@"SyncTest_%@_%lu%03d", objectType, (NSUInteger)([[NSDate date] timeIntervalSince1970]*1000), arc4random_uniform(1000)];
+    // Names created in the same millisecond must differ (a random suffix alone collides about once in a thousand pairs,
+    // and the tests look records up by name)
+    static NSUInteger counter = 0;
+    NSUInteger unique;
+    @synchronized ([SyncManagerTestCase class]) {
+        unique = counter++;
+    }
+    return [NSString stringWithFormat:@"SyncTest_%@_%lu%03d%03lu", objectType, (NSUInteger)([[NSDate date] timeIntervalSince1970]*1000), arc4random_uniform(1000), (unsigned long)(unique % 1000)];
 }
 
 - (NSString*) createAccountName {
