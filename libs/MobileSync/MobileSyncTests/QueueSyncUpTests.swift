@@ -1809,7 +1809,7 @@ class QueueSyncUpTests: XCTestCase {
     // MARK: round 7: null external id, deferred upsert as last entry, unique external id order
 
     func test_givenNullOrBlankOrNonStringExternalId_whenCreateReplayed_thenPlainPostWithoutTheField() throws {
-        for value in [NSNull(), "", "  ", 5] as [Any] {
+        for value in [NSNull(), "", "  "] as [Any] {
             RecordingQueueTarget.reset()
             try store.clearSoup(SyncQueue.soupName)
             try store.clearSoup(QueueSyncUpTests.accounts)
@@ -1862,6 +1862,103 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertEqual(sync.status, .done)
         XCTAssertEqual(labels(), ["POST Account", "LOOKUP Contact", "PATCH Contact/srvB", "LOOKUP Contact"])
         XCTAssertEqual(try queueEntries().count, 4)
+    }
+
+    // MARK: round 8: external id value rules
+
+    func test_givenNumericExternalId_whenCreateReplayed_thenUpsertWithCanonicalKeyAndFieldOmittedFromBody() throws {
+        let cases: [(value: Any, key: String)] = [(12345, "12345"), (12345.5, "12345.5"), (1e3, "1000"), (12345.0, "12345"),
+                                                  (1.2345e4, "12345"), (0.00001, "0.00001"), (-7, "-7"), (1e20, "100000000000000000000")]
+        for (value, key) in cases {
+            RecordingQueueTarget.reset()
+            try store.clearSoup(SyncQueue.soupName)
+            try store.clearSoup(QueueSyncUpTests.accounts)
+            _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("n", extra: ["ExtId__c": value]))
+            RecordingQueueTarget.responder = { _ in .success(["id": "001N", "success": true]) }
+
+            let sync = try runQueueSync(target: accountsUpsertTarget())
+
+            XCTAssertEqual(sync.status, .done, "\(value)")
+            XCTAssertEqual(labels(), ["UPSERT Account"], "\(value)")
+            XCTAssertEqual(RecordingQueueTarget.calls.first?.externalId, key, "\(value)")
+            XCTAssertNil(RecordingQueueTarget.calls.first?.fields["ExtId__c"], "\(value)")
+        }
+    }
+
+    func test_givenNumericExternalIdAnswering204_whenCreateReplayed_thenLookupUsesTheSameCanonicalKey() throws {
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("n", extra: ["ExtId__c": 12345.0]))
+        RecordingQueueTarget.upsertCreates = false
+        RecordingQueueTarget.responder = { _ in .success(nil) }
+        RecordingQueueTarget.lookupResponder = { _ in .success(["id": "001F"]) }
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["UPSERT Account", "LOOKUP Account"])
+        XCTAssertEqual(RecordingQueueTarget.calls.map { $0.externalId }, ["12345", "12345"])
+        XCTAssertEqual(try allRecords(QueueSyncUpTests.accounts).first?["Id"] as? String, "001F")
+    }
+
+    func test_givenNumberAndStringOfTheSameValue_whenOneUpsertRejected_thenOtherSameKeyUpsertDeferred() throws {
+        let accountId = try createAccount("parent")
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("u1", extra: ["AccountId": accountId, "ExtId__c": 12345]))
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("u2", extra: ["AccountId": accountId, "ExtId__c": "12345"]))
+        RecordingQueueTarget.responder = { call in call.method == "POST" ? .failure(self.restError(400)) : .success(nil) }
+        RecordingQueueTarget.lookupResponder = { _ in .failure(self.restError(404)) }
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["POST Account", "LOOKUP Contact"], "one lookup for both: 12345 and \"12345\" are the same key")
+        XCTAssertEqual(RecordingQueueTarget.calls.last?.externalId, "12345")
+        XCTAssertEqual(try queueEntries().count, 3)
+    }
+
+    func test_givenUnsupportedExternalIdType_whenCreateReplayed_thenRejectedWithoutRequestAndSyncDone() throws {
+        let unsupported: [Any] = [true, ["a": 1], [1, 2]]
+        for value in unsupported {
+            RecordingQueueTarget.reset()
+            try store.clearSoup(SyncQueue.soupName)
+            try store.clearSoup(QueueSyncUpTests.accounts)
+            _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("n", extra: ["ExtId__c": value]))
+
+            let sync = try runQueueSync(target: accountsUpsertTarget())
+
+            XCTAssertEqual(sync.status, .done, "\(value)")
+            XCTAssertEqual(labels(), [], "\(value): no request")
+            let entries = try queueEntries()
+            XCTAssertEqual(entries.count, 1, "\(value)")
+            XCTAssertEqual(entries.first?["attempts"] as? Int, 1, "\(value)")
+            XCTAssertTrue(String(describing: entries.first?["lastError"] ?? "").contains("external id"), "\(value)")
+            XCTAssertNotNil(try allRecords(QueueSyncUpTests.accounts).first?["__last_error__"], "\(value)")
+        }
+    }
+
+    func test_givenUnsupportedExternalIdOnParent_whenSynced_thenDependantWaitsAndUnrelatedRecordSynced() throws {
+        let parent = try createAccount("parent", extra: ["ExtId__c": true])
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.contacts, record: newContact("child", extra: ["AccountId": parent]))
+        _ = try createAccount("other")
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["POST Account"], "only the unrelated account is sent")
+        let entries = try queueEntries()
+        XCTAssertEqual(entries.count, 2)
+        let child = try XCTUnwrap(entries.first { $0["sobjectType"] as? String == "Contact" })
+        XCTAssertEqual(child["attempts"] as? Int, 0)
+        XCTAssertNil(child["lastError"] as? [String: Any])
+    }
+
+    func test_givenLocalIdStringExternalId_whenCreateReplayed_thenPlainPostWithoutTheField() throws {
+        _ = try syncManager.createLocal(soupName: QueueSyncUpTests.accounts, record: newAccount("n", extra: ["ExtId__c": "local_key"]))
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["POST Account"])
+        XCTAssertNil(RecordingQueueTarget.calls.first?.fields["ExtId__c"])
+        XCTAssertEqual(RecordingQueueTarget.calls.first?.fields["Name"] as? String, "n")
     }
 }
 
@@ -2005,5 +2102,44 @@ class QueueSyncUpRequestTests: XCTestCase {
         let accounts = try XCTUnwrap(store.query(using: XCTUnwrap(QuerySpec.buildAllQuerySpec(soupName: QueueSyncUpRequestTests.accounts, orderPath: SmartStore.soupEntryId, order: .ascending, pageSize: 10)), startingFromPageIndex: 0) as? [[String: Any]])
         XCTAssertEqual(accounts.count, 1)
         XCTAssertEqual(accounts.first?[kSyncTargetLocallyCreated] as? Bool, true)
+    }
+
+    func test_givenNumericExternalId_whenSynced_thenPatchPathHasCanonicalKeyAndBodyHasNoField() throws {
+        _ = try syncManager.createLocal(soupName: QueueSyncUpRequestTests.accounts, record: ["attributes": ["type": "Account"], "Name": "new", "ExtId__c": 12345])
+        answer = { request in request.method == .GET ? (["attributes": ["type": "Account"], "Id": "001X"], nil) : (nil, nil) }
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = "ExtId__c"
+
+        let sync = try run(target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(requests.map { $0.method }, [.PATCH, .GET])
+        XCTAssertTrue(requests[0].path.hasSuffix("/sobjects/Account/ExtId__c/12345"), requests[0].path)
+        XCTAssertEqual(requests[0].body as? [String: String], ["Name": "new"])
+        XCTAssertTrue(requests[1].path.hasSuffix("/sobjects/Account/ExtId__c/12345"), requests[1].path)
+    }
+
+    func test_givenLocalIdStringExternalId_whenSynced_thenPlainPostWithoutTheFieldInBody() throws {
+        _ = try syncManager.createLocal(soupName: QueueSyncUpRequestTests.accounts, record: ["attributes": ["type": "Account"], "Name": "new", "ExtId__c": "local_key"])
+        answer = { _ in (["id": "001N", "success": true], nil) }
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = "ExtId__c"
+
+        let sync = try run(target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(requests.map { $0.method }, [.POST])
+        XCTAssertEqual(requests[0].body as? [String: String], ["Name": "new"])
+    }
+
+    func test_givenBooleanExternalId_whenSynced_thenNoRequestIsSent() throws {
+        _ = try syncManager.createLocal(soupName: QueueSyncUpRequestTests.accounts, record: ["attributes": ["type": "Account"], "Name": "new", "ExtId__c": true])
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = "ExtId__c"
+
+        let sync = try run(target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertTrue(requests.isEmpty)
     }
 }

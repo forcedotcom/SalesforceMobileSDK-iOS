@@ -319,7 +319,7 @@ public class QueueSyncUpTask: SFSyncTask {
         if entry.sobjectType?.isEmpty ?? true { return "The entry has no object type" }
         if !soupExists(entry.soupName) { return "Soup \(entry.soupName) does not exist" }
         if !recordExists { return "No record with \(idField) \(entry.recordId) in \(entry.soupName)" }
-        return nil
+        return queueTarget?.externalIdProblem(of: entry)
     }
 
     /// Fails the sync if the outcome is a store failure. Returns true if the sync can go on.

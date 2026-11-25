@@ -117,11 +117,13 @@ public class QueueSyncUpTarget: SyncUpTarget {
         let externalField = upsertField(of: entry)
         var fieldlist = Array(entry.changes.keys)
         if let field = externalField {
-            if externalId != nil {
-                // The server refuses an upsert body that contains the external id field (it is in the path)
+            if let key = externalId {
+                // The server refuses an upsert body that contains the external id field (it is in the path).
+                // The request code takes the value of the field as the key, so a number reaches it as its canonical string
                 fieldlist.removeAll { $0 == field }
-            } else if !(entry.changes[field] as? String).map({ SyncTarget.isLocalId($0) && QueueSyncUpTarget.isNonBlank($0) }).orFalse {
-                // null, blank or not a string: no upsert key. The value is left out of the plain POST, and the
+                record[field] = key
+            } else {
+                // null, blank or local id: no upsert key. The field is left out of the plain POST, and the
                 // request code must not see it (it takes any non-nil value for an external id)
                 record.removeValue(forKey: field)
                 fieldlist.removeAll { $0 == field }
@@ -191,14 +193,51 @@ public class QueueSyncUpTarget: SyncUpTarget {
         }
     }
 
+    /// What the external id field of a create holds.
+    enum ExternalIdValue {
+        /// The upsert key (a number is in its canonical string form)
+        case key(String)
+        /// No key: absent, null, blank or a local id. The create is a plain POST without the field.
+        case none
+        /// A boolean, object or array: the create is rejected
+        case unsupported
+    }
+
+    /// The one validation of the external id value of a create. It decides the request, the body, the id lookup,
+    /// the destination lookup, the cache key and the deferral.
+    func externalIdValue(of entry: QueueEntry) -> ExternalIdValue {
+        guard let field = upsertField(of: entry), let value = entry.changes[field], !(value is NSNull) else { return .none }
+        if let string = value as? String {
+            return QueueSyncUpTarget.isNonBlank(string) && !SyncTarget.isLocalId(string) ? .key(string) : .none
+        }
+        if let number = value as? NSNumber, CFGetTypeID(number) != CFBooleanGetTypeID() {
+            return QueueSyncUpTarget.canonicalString(of: number).map { .key($0) } ?? .unsupported
+        }
+        return .unsupported
+    }
+
     /// The external id value if `entry` is a create that this target sends as an upsert (an upsert can update any
     /// existing record of the object type).
     func upsertExternalId(of entry: QueueEntry) -> String? {
-        guard let field = upsertField(of: entry),
-              let value = entry.changes[field] as? String, QueueSyncUpTarget.isNonBlank(value), !SyncTarget.isLocalId(value) else {
-            return nil
+        if case .key(let key) = externalIdValue(of: entry) { return key }
+        return nil
+    }
+
+    /// The reason why the external id value of `entry` cannot be sent, if it cannot.
+    func externalIdProblem(of entry: QueueEntry) -> String? {
+        if case .unsupported = externalIdValue(of: entry) {
+            return "Unsupported external id value type for \(upsertField(of: entry) ?? "the external id field"): it must be a string or a number"
         }
-        return value
+        return nil
+    }
+
+    /// Integers as plain digits, other numbers as the shortest decimal that reads back the same, never with an exponent.
+    /// Nil for NaN and infinity.
+    static func canonicalString(of number: NSNumber) -> String? {
+        if !CFNumberIsFloatType(number) { return number.stringValue }
+        let double = number.doubleValue
+        guard double.isFinite, let decimal = Decimal(string: "\(double)", locale: Locale(identifier: "en_US_POSIX")) else { return nil }
+        return NSDecimalNumber(decimal: decimal).description(withLocale: Locale(identifier: "en_US_POSIX"))
     }
 
     /// The external id field if `entry` is a create sent as an upsert.
@@ -305,8 +344,4 @@ public class QueueSyncUpTarget: SyncUpTarget {
         }
         return changed ? result : nil
     }
-}
-
-private extension Optional where Wrapped == Bool {
-    var orFalse: Bool { return self ?? false }
 }
