@@ -231,12 +231,16 @@ public class QueueSyncUpTarget: SyncUpTarget {
 
     /// The reason why the external id value of `entry` cannot be sent, if it cannot.
     func externalIdProblem(of entry: QueueEntry) -> String? {
+        // An UPDATE sends its changes as they are: a rounded decimal in the external id field must not reach the body
+        if entry.kind == .update, let field = externalIdFieldName(), entry.impreciseFields.contains(field), entry.changes[field] != nil {
+            return QueueSyncUpTarget.imprecisionMessage(field)
+        }
         let field = upsertField(of: entry) ?? "the external id field"
         switch externalIdValue(of: entry) {
         case .unsupported:
             return "Unsupported external id value type for \(field): it must be a string or a number"
         case .imprecise:
-            return "External id \(field) is a number whose precision cannot be preserved; store it as a string"
+            return QueueSyncUpTarget.imprecisionMessage(field)
         default:
             return nil
         }
@@ -270,6 +274,16 @@ public class QueueSyncUpTarget: SyncUpTarget {
         let mantissa = description.split(whereSeparator: { $0 == "e" || $0 == "E" }).first.map(String.init) ?? description
         let digits = mantissa.filter { $0.isNumber }
         return String(digits.drop { $0 == "0" }.reversed().drop { $0 == "0" }).count
+    }
+
+    private static func imprecisionMessage(_ field: String) -> String {
+        return "External id \(field) is a number whose precision cannot be preserved; store it as a string"
+    }
+
+    /// The external id field name of the target, if it has one.
+    private func externalIdFieldName() -> String? {
+        guard let field = value(forKey: "externalIdFieldName") as? String, !field.isEmpty else { return nil }
+        return field
     }
 
     /// The external id field if `entry` is a create sent as an upsert.

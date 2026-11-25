@@ -1960,6 +1960,21 @@ class QueueSyncUpTests: XCTestCase {
         XCTAssertNil(RecordingQueueTarget.calls.first?.fields["ExtId__c"])
         XCTAssertEqual(RecordingQueueTarget.calls.first?.fields["Name"] as? String, "n")
     }
+
+    func test_givenUpdateOfJustCreatedRecordChangesExternalIdToRoundedDecimal_whenSynced_thenCreateSentAndRemappedUpdateRejected() throws {
+        let local = try createAccount("a")
+        try syncManager.updateLocal(soupName: QueueSyncUpTests.accounts, id: local, changes: ["ExtId__c": NSDecimalNumber(string: "1.0000000000000001")])
+
+        let sync = try runQueueSync(target: accountsUpsertTarget())
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(labels(), ["POST Account"], "the remapped update is not sent")
+        let entries = try queueEntries()
+        XCTAssertEqual(entries.count, 1)
+        XCTAssertEqual(entries.first?["kind"] as? String, "UPDATE")
+        XCTAssertEqual(entries.first?["attempts"] as? Int, 1)
+        XCTAssertTrue(String(describing: entries.first?["lastError"] ?? "").contains("precision cannot be preserved"))
+    }
 }
 
 
@@ -2225,5 +2240,45 @@ class QueueSyncUpRequestTests: XCTestCase {
         XCTAssertEqual(sync.status, .done)
         XCTAssertEqual(requests.map { $0.method }, [.PATCH])
         XCTAssertNotNil(requests.first?.body?["AnnualRevenue"])
+    }
+
+    // MARK: round 11: UPDATE changing the external id field
+
+    /// Queues an UPDATE of a server record through `updateLocal` (the real write path) and replays it.
+    private func replayedUpdate(_ changes: [String: Any]) throws -> (requests: [(method: RestRequest.Method, path: String, query: [String: Any], body: [String: Any]?)], sync: SyncState) {
+        requests = []
+        try store.clearSoup(SyncQueue.soupName)
+        try store.clearSoup(QueueSyncUpRequestTests.accounts)
+        try seedServerRecord("001A")
+        try syncManager.updateLocal(soupName: QueueSyncUpRequestTests.accounts, id: "001A", changes: changes)
+        answer = { _ in (nil, nil) }
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = "ExtId__c"
+        let sync = try run(target)
+        return (requests, sync)
+    }
+
+    func test_givenUpdateChangesExternalIdToDecimalThatPersistenceRounds_whenReplayed_thenRejectedWithoutRequest() throws {
+        for text in ["1.0000000000000001", "123456789012345.001", "123456789012345.678"] {
+            let result = try replayedUpdate(["ExtId__c": NSDecimalNumber(string: text)])
+
+            XCTAssertEqual(result.sync.status, .done, text)
+            XCTAssertTrue(result.requests.isEmpty, "\(text): no request")
+            let entry = try XCTUnwrap(store.query(using: XCTUnwrap(QuerySpec.buildAllQuerySpec(soupName: SyncQueue.soupName, orderPath: SmartStore.soupEntryId, order: .ascending, pageSize: 10)), startingFromPageIndex: 0).first as? [String: Any])
+            XCTAssertEqual(entry["attempts"] as? Int, 1, text)
+            XCTAssertTrue(String(describing: entry["lastError"] ?? "").contains("precision cannot be preserved"), text)
+        }
+    }
+
+    func test_givenUpdateWithExactOrUnrelatedValues_whenReplayed_thenStillSent() throws {
+        let cases: [[String: Any]] = [["ExtId__c": NSDecimalNumber(string: "12345.5")], ["ExtId__c": "text"],
+                                      ["AnnualRevenue": NSDecimalNumber(string: "1.0000000000000001")], ["Name": "changed"]]
+        for changes in cases {
+            let result = try replayedUpdate(changes)
+
+            XCTAssertEqual(result.sync.status, .done, "\(changes)")
+            XCTAssertEqual(result.requests.map { $0.method }, [.PATCH], "\(changes)")
+            XCTAssertEqual(result.requests.first?.body?.keys.sorted(), changes.keys.sorted(), "\(changes)")
+        }
     }
 }
