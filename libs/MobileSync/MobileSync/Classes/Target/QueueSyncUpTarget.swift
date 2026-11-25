@@ -41,6 +41,8 @@ struct QueueEntry {
     let status: String
     let attempts: Int
     let parentRef: String?
+    /// `changes` fields whose decimal value was not exact after persistence (see `SyncQueue.impreciseFieldsField`)
+    let impreciseFields: [String]
 
     init?(_ raw: [String: Any]) {
         guard let entryId = raw[SmartStore.soupEntryId] as? NSNumber,
@@ -59,6 +61,7 @@ struct QueueEntry {
         self.status = raw[SyncQueue.statusField] as? String ?? SyncQueue.Status.pending.rawValue
         self.attempts = (raw[SyncQueue.attemptsField] as? NSNumber)?.intValue ?? 0
         self.parentRef = raw[SyncQueue.parentRefField] as? String
+        self.impreciseFields = raw[SyncQueue.impreciseFieldsField] as? [String] ?? []
     }
 }
 
@@ -213,6 +216,7 @@ public class QueueSyncUpTarget: SyncUpTarget {
             return QueueSyncUpTarget.isNonBlank(string) && !SyncTarget.isLocalId(string) ? .key(string) : .none
         }
         if let number = value as? NSNumber, CFGetTypeID(number) != CFBooleanGetTypeID() {
+            if entry.impreciseFields.contains(field) { return .imprecise }
             return QueueSyncUpTarget.canonicalString(of: number).map { .key($0) } ?? .imprecise
         }
         return .unsupported

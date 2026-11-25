@@ -2191,4 +2191,39 @@ class QueueSyncUpRequestTests: XCTestCase {
         let result = try replayedUpsertPath(NSDecimalNumber(string: "123456789012345678"))
         XCTAssertTrue(result.path?.hasSuffix("/sobjects/Account/ExtId__c/123456789012345678") ?? false, result.path ?? "no request")
     }
+
+    // MARK: round 10: decimals that the persistence round trip changes silently
+
+    func test_givenDecimalNumberChangedByPersistence_whenWrittenAndReplayed_thenRejectedWithPrecisionMessage() throws {
+        for text in ["123456789012345.001", "123456789012345.678", "1.00000000000000000001", "0.10000000000000000001", "12345678901234.001", "100000000000000.0000001", "1.0000000000000001", "0.1000000000000000055511151231257827", "123456789012345.00000000001"] {
+            let rejected = try replayedUpsertPath(NSDecimalNumber(string: text))
+            XCTAssertEqual(rejected.sync.status, .done, text)
+            XCTAssertNil(rejected.path, "\(text): no request")
+            XCTAssertTrue(requests.isEmpty, text)
+            let entry = try XCTUnwrap(store.query(using: XCTUnwrap(QuerySpec.buildAllQuerySpec(soupName: SyncQueue.soupName, orderPath: SmartStore.soupEntryId, order: .ascending, pageSize: 10)), startingFromPageIndex: 0).first as? [String: Any])
+            XCTAssertEqual(entry["attempts"] as? Int, 1, text)
+            XCTAssertTrue(String(describing: entry["lastError"] ?? "").contains("precision cannot be preserved"), text)
+        }
+    }
+
+    func test_givenExactDecimalNumbers_whenWrittenAndReplayed_thenStillKeys() throws {
+        for (value, key) in [(NSDecimalNumber(string: "12345.5"), "12345.5"), (NSDecimalNumber(string: "0.1"), "0.1")] {
+            let result = try replayedUpsertPath(value)
+            XCTAssertTrue(result.path?.hasSuffix("/sobjects/Account/ExtId__c/\(key)") ?? false, result.path ?? "no request")
+        }
+    }
+
+    func test_givenInexactDecimalInAnotherField_whenWrittenAndReplayed_thenCreateStillSentWithTheKey() throws {
+        requests = []
+        _ = try syncManager.createLocal(soupName: QueueSyncUpRequestTests.accounts, record: ["attributes": ["type": "Account"], "Name": "new", "ExtId__c": "e1", "AnnualRevenue": NSDecimalNumber(string: "123456789012345.001")])
+        answer = { _ in (["id": "001N", "success": true], nil) }
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = "ExtId__c"
+
+        let sync = try run(target)
+
+        XCTAssertEqual(sync.status, .done)
+        XCTAssertEqual(requests.map { $0.method }, [.PATCH])
+        XCTAssertNotNil(requests.first?.body?["AnnualRevenue"])
+    }
 }

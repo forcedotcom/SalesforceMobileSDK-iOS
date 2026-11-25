@@ -53,6 +53,10 @@ public final class SyncQueue: NSObject {
     static let attemptsField = "attempts"
     /// Reserved for parent / child records, never written yet.
     static let parentRefField = "parentRef"
+    /// Names of the `changes` fields whose `NSDecimalNumber` value is not what the soup holds (persistence goes through
+    /// JSON and doubles). Written at write time, when the exact value is still known; the replay consults it only for the
+    /// external id field. The values in `changes` are left untouched.
+    static let impreciseFieldsField = "impreciseFields"
 
     /// Kind of change recorded by an entry.
     enum Kind: String {
@@ -139,7 +143,21 @@ public final class SyncQueue: NSObject {
         }
         if let changes = changes {
             entry[changesField] = changes
+            let imprecise = changes.filter { ($0.value as? NSDecimalNumber).map { !isExactAfterPersistence($0) } ?? false }.keys.sorted()
+            if !imprecise.isEmpty {
+                entry[impreciseFieldsField] = imprecise
+            }
         }
         return entry
+    }
+
+    /// Whether the soup keeps this decimal exactly: an integral value that fits a long long, or a decimal that is the
+    /// shortest decimal form of its double.
+    static func isExactAfterPersistence(_ number: NSDecimalNumber) -> Bool {
+        let integer = number.int64Value
+        if NSDecimalNumber(value: integer).compare(number) == .orderedSame { return true }
+        let double = number.doubleValue
+        guard double.isFinite, let decimal = Decimal(string: "\(double)", locale: Locale(identifier: "en_US_POSIX")) else { return false }
+        return NSDecimalNumber(decimal: decimal).compare(number) == .orderedSame
     }
 }
