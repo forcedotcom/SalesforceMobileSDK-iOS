@@ -2142,4 +2142,53 @@ class QueueSyncUpRequestTests: XCTestCase {
         XCTAssertEqual(sync.status, .done)
         XCTAssertTrue(requests.isEmpty)
     }
+
+    // MARK: round 9: numbers that persistence cannot hold exactly
+
+    /// Queues a create through the real write path (soup persistence), replays it and returns the first request path (nil if none was sent).
+    private func replayedUpsertPath(_ value: Any) throws -> (path: String?, sync: SyncState) {
+        requests = []
+        try store.clearSoup(SyncQueue.soupName)
+        try store.clearSoup(QueueSyncUpRequestTests.accounts)
+        _ = try syncManager.createLocal(soupName: QueueSyncUpRequestTests.accounts, record: ["attributes": ["type": "Account"], "Name": "new", "ExtId__c": value])
+        answer = { request in request.method == .GET ? (["attributes": ["type": "Account"], "Id": "001X"], nil) : (nil, nil) }
+        let target = QueueSyncUpTarget()
+        target.externalIdFieldName = "ExtId__c"
+        let sync = try run(target)
+        return (requests.first?.path, sync)
+    }
+
+    func test_givenLongDecimalAsStringOrNumber_whenQueuedAndReplayed_thenStringIsExactAndNumberRejected() throws {
+        let exact = try replayedUpsertPath("123456789012345.678")
+        XCTAssertEqual(exact.sync.status, .done)
+        XCTAssertTrue(exact.path?.hasSuffix("/sobjects/Account/ExtId__c/123456789012345.678") ?? false, exact.path ?? "no request")
+
+        let decimal = try XCTUnwrap(NSDecimalNumber(string: "123456789012345.678") as NSNumber?)
+        for value in [decimal, NSNumber(value: 123456789012345.678)] {
+            let rejected = try replayedUpsertPath(value)
+            XCTAssertEqual(rejected.sync.status, .done)
+            XCTAssertTrue(requests.isEmpty, "\(value): no request")
+            XCTAssertNil(rejected.path)
+        }
+        let entry = try XCTUnwrap(store.query(using: XCTUnwrap(QuerySpec.buildAllQuerySpec(soupName: SyncQueue.soupName, orderPath: SmartStore.soupEntryId, order: .ascending, pageSize: 10)), startingFromPageIndex: 0).first as? [String: Any])
+        XCTAssertEqual(entry["attempts"] as? Int, 1)
+        XCTAssertTrue(String(describing: entry["lastError"] ?? "").contains("precision cannot be preserved"))
+    }
+
+    func test_givenNumberWithAtMost15SignificantDigits_whenQueuedAndReplayed_thenSameKeyAsTheEquivalentString() throws {
+        let pairs: [(Any, String)] = [(12345.5, "12345.5"), (0.1, "0.1"), (12345678.1234567, "12345678.1234567"),
+                                      (NSDecimalNumber(string: "0.1"), "0.1"), (123456789012345678, "123456789012345678")]
+        for (number, string) in pairs {
+            let fromNumber = try replayedUpsertPath(number)
+            let fromString = try replayedUpsertPath(string)
+            XCTAssertEqual(fromNumber.sync.status, .done, "\(number)")
+            XCTAssertTrue(fromString.path?.hasSuffix("/sobjects/Account/ExtId__c/\(string)") ?? false, fromString.path ?? "no request")
+            XCTAssertEqual(fromNumber.path, fromString.path, "\(number)")
+        }
+    }
+
+    func test_givenIntegralDecimalNumber_whenQueuedAndReplayed_thenPlainDigits() throws {
+        let result = try replayedUpsertPath(NSDecimalNumber(string: "123456789012345678"))
+        XCTAssertTrue(result.path?.hasSuffix("/sobjects/Account/ExtId__c/123456789012345678") ?? false, result.path ?? "no request")
+    }
 }

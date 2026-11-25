@@ -201,6 +201,8 @@ public class QueueSyncUpTarget: SyncUpTarget {
         case none
         /// A boolean, object or array: the create is rejected
         case unsupported
+        /// A number that persistence cannot hold exactly: the create is rejected
+        case imprecise
     }
 
     /// The one validation of the external id value of a create. It decides the request, the body, the id lookup,
@@ -211,7 +213,7 @@ public class QueueSyncUpTarget: SyncUpTarget {
             return QueueSyncUpTarget.isNonBlank(string) && !SyncTarget.isLocalId(string) ? .key(string) : .none
         }
         if let number = value as? NSNumber, CFGetTypeID(number) != CFBooleanGetTypeID() {
-            return QueueSyncUpTarget.canonicalString(of: number).map { .key($0) } ?? .unsupported
+            return QueueSyncUpTarget.canonicalString(of: number).map { .key($0) } ?? .imprecise
         }
         return .unsupported
     }
@@ -225,19 +227,45 @@ public class QueueSyncUpTarget: SyncUpTarget {
 
     /// The reason why the external id value of `entry` cannot be sent, if it cannot.
     func externalIdProblem(of entry: QueueEntry) -> String? {
-        if case .unsupported = externalIdValue(of: entry) {
-            return "Unsupported external id value type for \(upsertField(of: entry) ?? "the external id field"): it must be a string or a number"
+        let field = upsertField(of: entry) ?? "the external id field"
+        switch externalIdValue(of: entry) {
+        case .unsupported:
+            return "Unsupported external id value type for \(field): it must be a string or a number"
+        case .imprecise:
+            return "External id \(field) is a number whose precision cannot be preserved; store it as a string"
+        default:
+            return nil
         }
-        return nil
     }
 
-    /// Integers as plain digits, other numbers as the shortest decimal that reads back the same, never with an exponent.
-    /// Nil for NaN and infinity.
+    /// Integer-typed numbers as plain digits (an integral `NSDecimalNumber` only if it fits a long long exactly). Floating-point
+    /// numbers as the shortest decimal that reads back the same, without an exponent, only if it has at most 15 significant
+    /// digits (what a double carries exactly): persistence goes through JSON and doubles, so more digits cannot be preserved.
+    /// Nil for what cannot be preserved (more digits, NaN, infinity, a decimal that is not exactly its double).
     static func canonicalString(of number: NSNumber) -> String? {
-        if !CFNumberIsFloatType(number) { return number.stringValue }
+        let isDecimal = number is NSDecimalNumber
+        if isDecimal {
+            let integer = number.int64Value
+            if NSDecimalNumber(value: integer).compare(number) == .orderedSame { return String(integer) }
+        } else if !CFNumberIsFloatType(number) {
+            return number.stringValue
+        }
         let double = number.doubleValue
-        guard double.isFinite, let decimal = Decimal(string: "\(double)", locale: Locale(identifier: "en_US_POSIX")) else { return nil }
-        return NSDecimalNumber(decimal: decimal).description(withLocale: Locale(identifier: "en_US_POSIX"))
+        guard double.isFinite else { return nil }
+        let shortest = "\(double)"
+        guard significantDigits(of: shortest) <= 15,
+              let decimal = Decimal(string: shortest, locale: Locale(identifier: "en_US_POSIX")) else { return nil }
+        let plain = NSDecimalNumber(decimal: decimal)
+        // a decimal that its double does not hold exactly is not preserved
+        if isDecimal && plain.compare(number) != .orderedSame { return nil }
+        return plain.description(withLocale: Locale(identifier: "en_US_POSIX"))
+    }
+
+    /// The number of significant digits in the mantissa of a double description (`1.2345e+20`, `0.00001`, `1000.0`).
+    private static func significantDigits(of description: String) -> Int {
+        let mantissa = description.split(whereSeparator: { $0 == "e" || $0 == "E" }).first.map(String.init) ?? description
+        let digits = mantissa.filter { $0.isNumber }
+        return String(digits.drop { $0 == "0" }.reversed().drop { $0 == "0" }).count
     }
 
     /// The external id field if `entry` is a create sent as an upsert.
