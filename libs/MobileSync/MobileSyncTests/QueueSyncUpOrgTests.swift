@@ -376,11 +376,15 @@ class QueueSyncUpOrgTests: SyncManagerTestCase {
     /// Skips the test if the REST API does not accept `field` as an external id, although describe lists it.
     private func requireUsableExternalId(_ type: String, _ field: String, nameField: String) throws {
         let value = prefix + "probe"
-        _ = try createOnServer(type, [nameField: prefix + "probe", field: value])
+        let probe = send(RestClient.shared.requestForCreate(withObjectType: type, fields: [nameField: prefix + "probe", field: value], apiVersion: nil))
+        if probe.status == 400 || probe.status == 404 {
+            throw XCTSkip("The test org does not accept \(type).\(field) as an external id (creating a record with it answers \(probe.status)). Add Account.External_Id__c as described in docs/mobilesync/TEST_ORG_SETUP.md of the SalesforceMobileSDK-Workspace repo to run this test")
+        }
+        XCTAssertEqual(probe.status, 201)
         let lookup = send(RestClient.shared.requestForRetrieve(withObjectType: type, objectId: "\(field)/\(value)", fieldList: "Id", apiVersion: nil))
         print("LIVE-ORG: GET /sobjects/\(type)/\(field)/<existing value> answers \(lookup.status) \(String(describing: lookup.body))")
         if lookup.status != 200 {
-            throw XCTSkip("The REST API does not accept \(type).\(field) as an external id (GET answers \(lookup.status)) although describe lists it with externalId, idLookup and createable true")
+            throw XCTSkip("The REST API does not accept \(type).\(field) as an external id (GET answers \(lookup.status)) although describe lists it with externalId, idLookup and createable true. See docs/mobilesync/TEST_ORG_SETUP.md of the SalesforceMobileSDK-Workspace repo")
         }
     }
 
